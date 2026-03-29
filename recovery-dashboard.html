@@ -573,42 +573,108 @@ const DAYS_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','
 var currentDate = todayKey();
 var rangeWeeks = 4;
 var cache = {};
-var syncTimer = null;
-var noteTimer = null;
-var pendingKey = null;
-var pendingData = null;
-var retryCount = 0;
-var retryDelays = [0,3000,8000,20000,45000];
+var saveQueue = {}; // tracks pending saves per key
 
-function pad(n){ return String(n).padStart(2,'0'); }
-function todayKey(){ var n=new Date(); return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate()); }
-function keyFromDate(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
-function dateFromKey(k){ return new Date(k+'T12:00:00'); }
-function emptyDay(){ return {checks:{},calls:0,meetings:0,note:''}; }
-
-function setSyncStatus(state,msg){ document.getElementById('syncDot').className='sync-dot '+state; document.getElementById('syncLabel').textContent=msg; }
+function setSyncStatus(state,msg){
+  document.getElementById('syncDot').className='sync-dot '+state;
+  document.getElementById('syncLabel').textContent=msg;
+}
 function lSave(k,d){ try{ localStorage.setItem('r_'+k,JSON.stringify(d)); }catch(e){} }
 function lLoad(k){ try{ return JSON.parse(localStorage.getItem('r_'+k)||'null'); }catch(e){ return null; } }
-function normalizeDay(d){ if(!d) d={}; if(!d.checks) d.checks={}; if(d.calls===undefined) d.calls=0; if(d.meetings===undefined) d.meetings=0; if(!d.note) d.note=''; return d; }
 
+function normalizeDay(d){
+  if(!d) d={};
+  if(!d.checks) d.checks={};
+  if(d.calls===undefined) d.calls=0;
+  if(d.meetings===undefined) d.meetings=0;
+  if(!d.note) d.note='';
+  return d;
+}
+function emptyDay(){ return {checks:{},calls:0,meetings:0,note:''}; }
+function getCache(k){ return cache[k]||emptyDay(); }
+
+// ── LOAD: always fetch from Supabase, use localStorage only if offline ──
 async function loadDay(key){
-  if(!cache[key]){ var local=lLoad(key); if(local) cache[key]=local; }
-  try { var rows=await dbGet(key); var d=normalizeDay(rows&&rows.length ? rows[0].data : null); cache[key]=d; lSave(key,d); return d; }
-  catch(e){ setSyncStatus('error','Offline — data saved locally'); return normalizeDay(cache[key]||lLoad(key)); }
+  // Return cache if already loaded this session
+  if(cache[key]) return cache[key];
+  // Try localStorage while Supabase loads
+  var local = lLoad(key);
+  if(local) cache[key] = local;
+  try{
+    var rows = await dbGet(key);
+    if(rows && rows.length && rows[0].data){
+      var d = normalizeDay(rows[0].data);
+      cache[key] = d;
+      lSave(key, d); // keep local in sync
+      return d;
+    } else {
+      var d = normalizeDay(cache[key] || null);
+      cache[key] = d;
+      return d;
+    }
+  } catch(e){
+    setSyncStatus('error','Offline — saved locally');
+    return normalizeDay(cache[key] || lLoad(key));
+  }
 }
 
-function saveDay(key,data){
-  cache[key]=data; lSave(key,data); pendingKey=key; pendingData=data; retryCount=0;
-  setSyncStatus('syncing','Saving...'); clearTimeout(syncTimer); attemptSave(key,data);
-}
-async function attemptSave(key,data){
-  if(pendingKey!==key) return;
-  try { await dbUpsert(key,data); pendingKey=null; pendingData=null; retryCount=0; setSyncStatus('synced','All changes saved'); }
-  catch(e){ retryCount++; if(retryCount<retryDelays.length){ setSyncStatus('syncing','Retrying... ('+retryCount+')'); syncTimer=setTimeout(function(){ attemptSave(key,data); },retryDelays[retryCount]); } else { setSyncStatus('error','Could not reach cloud — saved locally'); } }
+// ── SAVE: write to Supabase immediately, no delay ──
+async function saveDay(key, data){
+  cache[key] = data;
+  lSave(key, data); // always save locally as backup
+  setSyncStatus('syncing','Saving...');
+  try{
+    await dbUpsert(key, data);
+    setSyncStatus('synced','All changes saved');
+  } catch(e){
+    setSyncStatus('error','Offline — saved locally');
+    // Queue for retry
+    saveQueue[key] = data;
+    setTimeout(function(){ retrySave(key); }, 5000);
+  }
 }
 
-window.addEventListener('beforeunload',function(){
-  if(pendingKey&&pendingData){ var xhr=new XMLHttpRequest(); xhr.open('POST',SB_URL+'/rest/v1/recovery_days',false); xhr.setRequestHeader('apikey',SB_KEY); xhr.setRequestHeader('Authorization','Bearer '+SB_KEY); xhr.setRequestHeader('Content-Type','application/json'); xhr.setRequestHeader('Prefer','resolution=merge-duplicates,return=minimal'); try{ xhr.send(JSON.stringify({id:pendingKey,data:pendingData,updated_at:new Date().toISOString()})); }catch(err){} }
+// ── RETRY failed saves ──
+async function retrySave(key){
+  if(!saveQueue[key]) return;
+  try{
+    await dbUpsert(key, saveQueue[key]);
+    delete saveQueue[key];
+    setSyncStatus('synced','All changes saved');
+  } catch(e){
+    setTimeout(function(){ retrySave(key); }, 15000);
+  }
+}
+
+// ── BULK LOAD for progress tab ──
+async function loadBulk(keys){
+  var missing = keys.filter(function(k){ return !cache[k]; });
+  missing.forEach(function(k){ var l=lLoad(k); if(l) cache[k]=l; });
+  var still = missing.filter(function(k){ return !cache[k]; });
+  if(!still.length) return;
+  try{
+    var rows = await dbGetMany(still);
+    if(rows) rows.forEach(function(row){
+      cache[row.id] = normalizeDay(row.data);
+      lSave(row.id, cache[row.id]);
+    });
+    still.forEach(function(k){ if(!cache[k]) cache[k]=emptyDay(); });
+  } catch(e){
+    still.forEach(function(k){ if(!cache[k]) cache[k]=emptyDay(); });
+  }
+}
+
+// ── Flush any queued saves on page close ──
+window.addEventListener('beforeunload', function(){
+  Object.keys(saveQueue).forEach(function(key){
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', SB_URL+'/rest/v1/recovery_days', false); // synchronous
+    xhr.setRequestHeader('apikey', SB_KEY);
+    xhr.setRequestHeader('Authorization', 'Bearer '+SB_KEY);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Prefer', 'resolution=merge-duplicates,return=minimal');
+    try{ xhr.send(JSON.stringify({id:key, data:saveQueue[key], updated_at:new Date().toISOString()})); }catch(err){}
+  });
 });
 
 async function loadBulk(keys){
