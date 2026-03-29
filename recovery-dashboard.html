@@ -162,6 +162,24 @@ body { font-family: Georgia, 'Times New Roman', serif; background: var(--bg); co
 .pill-green{background:var(--green-light);color:var(--green-dark)}.pill-amber{background:#fdf3e0;color:#9a6200}.pill-red{background:#fdecea;color:#b02020}
 
 
+
+/* ── PIN DIALOG ── */
+.pin-dialog{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;}
+.pin-dialog.open{display:flex;}
+.pin-box{background:white;border-radius:16px;padding:28px 24px 20px;max-width:290px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.3);}
+.pin-title{font-size:15px;font-weight:700;margin-bottom:4px;color:#1a1916;font-family:Georgia,serif;}
+.pin-sub{font-size:12px;color:#a09c95;margin-bottom:16px;font-style:italic;}
+.pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:18px;}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #d4cfc5;transition:all .15s;}
+.pin-dot.filled{background:#1a5fa0;border-color:#1a5fa0;}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.pin-btn{background:#f5f0e8;border:1px solid #e8e4dc;border-radius:10px;padding:13px;font-size:20px;font-weight:700;font-family:Georgia,serif;color:#1a1916;cursor:pointer;transition:all .12s;}
+.pin-btn:hover{background:#ede5d4;border-color:#c8b890;}
+.pin-btn:active{transform:scale(.95);}
+.pin-del{font-size:14px;}
+.pin-error{font-size:12px;color:#b02020;height:16px;margin-top:4px;}
+.pin-cancel{font-size:12px;color:#a09c95;cursor:pointer;text-decoration:underline;margin-top:8px;display:inline-block;}
+
 /* ── ACCOUNTABILITY PILLAR ── */
 .acct-pillar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;}
 .acct-head{padding:9px 14px 8px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;transition:background .12s;}
@@ -262,7 +280,7 @@ footer { margin:32px 44px 0; padding-top:14px; border-top:1px solid var(--border
       </div>
       <div class="progress-meta">
         <div class="progress-title" id="progressTitle">Start your day</div>
-        <div class="progress-sub" id="progressSub">0 of 15 habits complete</div>
+        <div class="progress-sub" id="progressSub">0 of 16 habits complete</div>
         <div class="bar-bg"><div class="bar-fill" id="progressBarFill" style="width:0%"></div></div>
       </div>
     </div>
@@ -334,6 +352,36 @@ footer { margin:32px 44px 0; padding-top:14px; border-top:1px solid var(--border
     </div>
   </div>
 
+
+  <!-- PIN Dialog -->
+  <div class="pin-dialog" id="pinDialog">
+    <div class="pin-box">
+      <div class="pin-title">Protected Section</div>
+      <div class="pin-sub" id="pinSub">Enter your 4-digit PIN</div>
+      <div class="pin-dots">
+        <div class="pin-dot" id="pd0"></div>
+        <div class="pin-dot" id="pd1"></div>
+        <div class="pin-dot" id="pd2"></div>
+        <div class="pin-dot" id="pd3"></div>
+      </div>
+      <div class="pin-pad">
+        <button class="pin-btn" onclick="pinKey('1')">1</button>
+        <button class="pin-btn" onclick="pinKey('2')">2</button>
+        <button class="pin-btn" onclick="pinKey('3')">3</button>
+        <button class="pin-btn" onclick="pinKey('4')">4</button>
+        <button class="pin-btn" onclick="pinKey('5')">5</button>
+        <button class="pin-btn" onclick="pinKey('6')">6</button>
+        <button class="pin-btn" onclick="pinKey('7')">7</button>
+        <button class="pin-btn" onclick="pinKey('8')">8</button>
+        <button class="pin-btn" onclick="pinKey('9')">9</button>
+        <button class="pin-btn" onclick="pinKey('del')" style="font-size:14px">⌫</button>
+        <button class="pin-btn" onclick="pinKey('0')">0</button>
+        <button class="pin-btn" onclick="pinCancel()" style="font-size:11px;color:#a09c95">✕</button>
+      </div>
+      <div class="pin-error" id="pinError"></div>
+      <div style="font-size:11px;color:#c8b890;margin-top:8px;font-style:italic">First time? Enter any 4 digits to set your PIN</div>
+    </div>
+  </div>
 
   <!-- ── ACCOUNTABILITY (collapsed by default) ── -->
   <div class="acct-pillar">
@@ -516,7 +564,7 @@ const PILLAR_MAP = { sleep:['s_bed','s_rise','s_cal','s_cardio'], prayer:['p_sha
 const PILLAR_TOTALS = { sleep:4, prayer:3, recovery:4, torah:5 };
 const PILLAR_COLORS = { sleep:'var(--sleep-c)', prayer:'var(--prayer-c)', recovery:'var(--recovery-c)', torah:'var(--torah-c)' };
 const PILLAR_NAMES = { sleep:'Sleep & Body', prayer:'Prayer', recovery:'Recovery', torah:'Torah & Chassidus' };
-const TOTAL = 15;
+const TOTAL = 16;
 const MSGS = ['Start your day','Keep going...','Halfway there!','Almost there!','Day complete!'];
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const DAYS_SHORT = ['S','M','T','W','T','F','S'];
@@ -572,7 +620,15 @@ function getCache(k){ return cache[k]||emptyDay(); }
 
 function countChecked(data){
   var n=CHECKBOX_IDS.filter(function(id){ return data.checks&&data.checks[id]; }).length;
-  if((data.calls||0)>=3) n++; if((data.meetings||0)>=1) n++; return n;
+  if((data.calls||0)>=3) n++; if((data.meetings||0)>=1) n++;
+  if(data.acct){
+    var TS_K=['ts_resent','ts_unappreciated','ts_entitle','ts_stress','ts_fear','ts_pity','ts_boredom','ts_dry','ts_halt','ts_conflict','ts_compare','ts_perfect','ts_procras'];
+    var RS_K=['rs_called','rs_named','rs_room','rs_prayer','rs_outside','rs_structure'];
+    var hasTrigger=TS_K.some(function(id){return data.acct[id];});
+    var hasResponse=RS_K.some(function(id){return data.acct[id];});
+    if(hasTrigger&&hasResponse) n++;
+  }
+  return n;
 }
 
 async function toggle(id){ var data=await loadDay(currentDate); data.checks[id]=!data.checks[id]; renderUI(data); saveDay(currentDate,data); }
@@ -615,7 +671,7 @@ function renderWeekStrip(){
 
 function renderStreaks(){ var today=todayKey(),streak=0,d=new Date(today+'T12:00:00'); for(var i=0;i<365;i++){ var key=keyFromDate(d); if(countChecked(getCache(key))===0) break; streak++; d.setDate(d.getDate()-1); } document.getElementById('streakNum').textContent=streak; document.getElementById('totalNum').textContent=Object.values(cache).filter(function(d){ return countChecked(d)>0; }).length; }
 
-async function changeDay(n){ var d=dateFromKey(currentDate); d.setDate(d.getDate()+n); currentDate=keyFromDate(d); await renderToday(); }
+async function changeDay(n){ pinUnlocked=false; var body=document.getElementById("acct-body"); var chev=document.getElementById("acct-chevron"); if(body){body.classList.remove("open");} if(chev){chev.classList.remove("open");} var d=dateFromKey(currentDate); d.setDate(d.getDate()+n); currentDate=keyFromDate(d); await renderToday(); }
 async function goToday(){ currentDate=todayKey(); await renderToday(); }
 
 document.getElementById('noteArea').addEventListener('input',async function(){ var data=await loadDay(currentDate); data.note=this.value; var ind=document.getElementById('saveIndicator'); ind.style.opacity='1'; ind.textContent='Saving...'; clearTimeout(noteTimer); noteTimer=setTimeout(async function(){ await saveDay(currentDate,data); ind.textContent='Saved'; setTimeout(function(){ ind.style.opacity='0'; },1500); },800); });
@@ -651,6 +707,80 @@ function updateSobriety(){ var val=document.getElementById('sobDate').value; try
 function renderSobriety(val){ if(!val) return; var start=new Date(val+'T00:00:00'); var days=Math.max(0,Math.floor((new Date()-start)/86400000)); document.getElementById('sobDays').textContent=days; var next=SOB_MILESTONES.find(function(m){ return m>days; })||SOB_MILESTONES[SOB_MILESTONES.length-1]; var pct=Math.min(days/next,1); document.getElementById('sobCircle').style.strokeDashoffset=213.6-(213.6*pct); var ti=days>=365?5:days>=180?4:days>=90?3:days>=60?2:days>=30?1:0; document.getElementById('sobTitle').textContent=SOB_TITLES[ti]; var rem=next-days; document.getElementById('sobSub').textContent=days>=365?'Beyond one year':rem+' day'+(rem===1?'':'s')+' to '+(next>=365?'1 year':next>=180?'6 months':next+' days'); var mRow=document.getElementById('sobMilestones'); mRow.innerHTML=''; SOB_MILESTONES.forEach(function(m,i){ var reached=days>=m, isNext=m===next&&days<m; var div=document.createElement('div'); div.style.cssText='display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;border:0.5px solid;'+(reached?'background:#e1f5ee;border-color:#5DCAA5;color:#085041':isNext?'background:#fff;border-color:#1D9E75;color:#0F6E56':'background:#f1efe8;border-color:#d3d1c7;color:#a09c95'); var dot=document.createElement('div'); dot.style.cssText='width:7px;height:7px;border-radius:50%;flex-shrink:0;'+(reached?'background:#5DCAA5':isNext?'border:1.5px solid #1D9E75':'background:#d3d1c7'); div.appendChild(dot); div.appendChild(document.createTextNode(SOB_LABELS[i])); mRow.appendChild(div); }); }
 function initSobriety(){ var saved=''; try{ saved=localStorage.getItem('r_sobdate')||''; }catch(e){} if(saved){ document.getElementById('sobDate').value=saved; renderSobriety(saved); } }
 
+
+// ── PIN ──
+var pinBuffer = '';
+var pinUnlocked = false;
+
+function toggleAcct(){
+  if(pinUnlocked){
+    var body=document.getElementById('acct-body');
+    var chev=document.getElementById('acct-chevron');
+    body.classList.toggle('open');
+    chev.classList.toggle('open');
+    return;
+  }
+  // Show PIN dialog
+  pinBuffer='';
+  updatePinDots();
+  document.getElementById('pinError').textContent='';
+  document.getElementById('pinDialog').classList.add('open');
+}
+
+function pinKey(k){
+  if(k==='del'){
+    pinBuffer=pinBuffer.slice(0,-1);
+    updatePinDots();
+    return;
+  }
+  if(pinBuffer.length>=4) return;
+  pinBuffer+=k;
+  updatePinDots();
+  if(pinBuffer.length===4) setTimeout(checkPin,120);
+}
+
+function updatePinDots(){
+  for(var i=0;i<4;i++){
+    var dot=document.getElementById('pd'+i);
+    if(dot) dot.className='pin-dot'+(i<pinBuffer.length?' filled':'');
+  }
+}
+
+function checkPin(){
+  var stored='';
+  try{stored=localStorage.getItem('acct_pin')||'';}catch(e){}
+  if(!stored){
+    // First time — set the PIN
+    try{localStorage.setItem('acct_pin',pinBuffer);}catch(e){}
+    openAcct();
+    return;
+  }
+  if(pinBuffer===stored){
+    openAcct();
+  } else {
+    document.getElementById('pinError').textContent='Incorrect PIN';
+    pinBuffer='';
+    updatePinDots();
+  }
+}
+
+function openAcct(){
+  document.getElementById('pinDialog').classList.remove('open');
+  pinUnlocked=true;
+  pinBuffer='';
+  var body=document.getElementById('acct-body');
+  var chev=document.getElementById('acct-chevron');
+  body.classList.add('open');
+  chev.classList.add('open');
+}
+
+function pinCancel(){
+  document.getElementById('pinDialog').classList.remove('open');
+  pinBuffer='';
+}
+
+// Lock again when navigating days
+var _origShowDay=null;
 
 // ── ACCOUNTABILITY ──
 const BL_KEYS = ['bl_search','bl_view','bl_m','bl_sites'];
@@ -732,7 +862,7 @@ function updateAcctBadge(data){
   if(!badge) return;
   if(bl>0){badge.textContent=bl+' BL';badge.style.color='#b02020';}
   else if(ts>0||ga){badge.textContent=ts+(ga?'+GA':'')+' flagged';badge.style.color='#9a6200';}
-  else{badge.textContent='clean';badge.style.color='var(--green)';}
+  else{badge.textContent='';badge.style.color='var(--green)';}
 }
 
 function renderAcct(data){
