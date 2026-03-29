@@ -17,7 +17,7 @@
   --radius: 12px; --radius-sm: 8px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Georgia, 'Times New Roman', serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 60px; -webkit-font-smoothing: antialiased; }
+body { font-family: Georgia, 'Times New Roman', serif; background: #faf9f7 !important; color: var(--text); min-height: 100vh; padding-bottom: 60px; -webkit-font-smoothing: antialiased; }
 
 /* ── HEADER (matches unified) ── */
 .site-header {
@@ -595,43 +595,43 @@ function getCache(k){ return cache[k]||emptyDay(); }
 
 // ── LOAD: always fetch from Supabase, use localStorage only if offline ──
 async function loadDay(key){
-  // Return cache if already loaded this session
+  // Always return from cache if we have it — only hit Supabase once per session per key
   if(cache[key]) return cache[key];
-  // Try localStorage while Supabase loads
+  // Try localStorage immediately
   var local = lLoad(key);
-  if(local) cache[key] = local;
+  if(local){ cache[key] = normalizeDay(local); }
+  // Fetch from Supabase in background
   try{
     var rows = await dbGet(key);
     if(rows && rows.length && rows[0].data){
       var d = normalizeDay(rows[0].data);
       cache[key] = d;
-      lSave(key, d); // keep local in sync
-      return d;
+      lSave(key, d);
     } else {
-      var d = normalizeDay(cache[key] || null);
-      cache[key] = d;
-      return d;
+      if(!cache[key]) cache[key] = emptyDay();
     }
   } catch(e){
     setSyncStatus('error','Offline — saved locally');
-    return normalizeDay(cache[key] || lLoad(key));
+    if(!cache[key]) cache[key] = emptyDay();
   }
+  return cache[key];
 }
 
 // ── SAVE: write to Supabase immediately, no delay ──
-async function saveDay(key, data){
+function saveDay(key, data){
+  // Update cache and localStorage immediately — UI never waits for network
   cache[key] = data;
-  lSave(key, data); // always save locally as backup
+  lSave(key, data);
   setSyncStatus('syncing','Saving...');
-  try{
-    await dbUpsert(key, data);
+  // Fire Supabase write in background — don't await
+  dbUpsert(key, data).then(function(){
     setSyncStatus('synced','All changes saved');
-  } catch(e){
+    delete saveQueue[key];
+  }).catch(function(){
     setSyncStatus('error','Offline — saved locally');
-    // Queue for retry
     saveQueue[key] = data;
     setTimeout(function(){ retrySave(key); }, 5000);
-  }
+  });
 }
 
 // ── RETRY failed saves ──
@@ -677,12 +677,13 @@ window.addEventListener('beforeunload', function(){
   });
 });
 
-async function loadBulk(keys){
-  var missing=keys.filter(function(k){ return !cache[k]; }); missing.forEach(function(k){ var l=lLoad(k); if(l) cache[k]=l; }); var still=missing.filter(function(k){ return !cache[k]; }); if(!still.length) return;
+async // loadBulk defined above
+); missing.forEach(function(k){ var l=lLoad(k); if(l) cache[k]=l; }); var still=missing.filter(function(k){ return !cache[k]; }); if(!still.length) return;
   try { var rows=await dbGetMany(still); if(rows) rows.forEach(function(row){ cache[row.id]=normalizeDay(row.data); lSave(row.id,cache[row.id]); }); still.forEach(function(k){ if(!cache[k]) cache[k]=emptyDay(); }); }
   catch(e){ still.forEach(function(k){ if(!cache[k]) cache[k]=emptyDay(); }); }
 }
-function getCache(k){ return cache[k]||emptyDay(); }
+// getCache defined above
+
 
 function countChecked(data){
   var n=CHECKBOX_IDS.filter(function(id){ return data.checks&&data.checks[id]; }).length;
