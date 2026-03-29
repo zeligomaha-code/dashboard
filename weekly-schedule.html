@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/webp" href="data:image/webp;base64,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">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf9f7; --bg2: #f5f0e8; --bg3: #ede8de; --bg4: #e4ddd0;
+  --border: #e8e4dc; --border2: #d4cfc5;
+  --text: #1a1916; --text-2: #6b6760; --text-3: #a09c95;
+  --accent: #1D9E75;
+  --gold: #c9963a; --gold-light: #f5e9d0;
+
+  --c-recovery:    #7c3aed;
+  --c-davening:    #059669;
+  --c-torah:       #1a5fa0;
+  --c-torah-alt:   #0891b2;
+  --c-work:        #b45309;
+  --c-family:      #c9963a;
+  --c-sleep:       #6366f1;
+  --c-optional:    #0891b2;
+  --c-transition:  #a09c95;
+
+  --c-recovery-bg:   rgba(124,58,237,.07);
+  --c-davening-bg:   rgba(5,150,105,.07);
+  --c-torah-bg:      rgba(26,95,160,.07);
+  --c-torah-alt-bg:  rgba(8,145,178,.07);
+  --c-work-bg:       rgba(180,83,9,.06);
+  --c-family-bg:     rgba(201,150,58,.07);
+  --c-sleep-bg:      rgba(99,102,241,.07);
+  --c-optional-bg:   rgba(8,145,178,.05);
+  --c-transition-bg: rgba(160,156,149,.06);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* ── HEADER ── */
+.site-header {
+  position:relative;overflow:hidden;
+  background: linear-gradient(175deg, #e8dcc8 0%, #d4c4a0 30%, #c8b488 55%, #d8c8a8 80%, #e4d8bc 100%);
+  padding: 24px 44px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom:2px solid #c8b890;
+}
+.site-header::before {
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80'%3E%3Crect x='2' y='2' width='54' height='36' rx='1' fill='none' stroke='%238B7040' stroke-width='0.6' opacity='0.3'/%3E%3Crect x='62' y='2' width='54' height='36' rx='1' fill='none' stroke='%238B7040' stroke-width='0.6' opacity='0.3'/%3E%3Crect x='2' y='42' width='36' height='34' rx='1' fill='none' stroke='%238B7040' stroke-width='0.6' opacity='0.3'/%3E%3Crect x='42' y='42' width='54' height='34' rx='1' fill='none' stroke='%238B7040' stroke-width='0.6' opacity='0.3'/%3E%3C/svg%3E");
+  background-size:120px 80px;pointer-events:none;
+}
+.site-header::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent 0%, #b8832a 30%, #d4a844 50%, #b8832a 70%, transparent 100%); }
+.header-left { position:relative; }
+.header-back { display:inline-flex; align-items:center; gap:6px; color:#6b5c40; font-size:12px; letter-spacing:.08em; text-decoration:none; border:1px solid #c8b890; padding:4px 10px; border-radius:6px; transition:all .15s; margin-bottom:10px; background:rgba(255,255,255,0.4); }
+.header-back:hover { color:#2a1a08; border-color:#b8832a; }
+.header-h1 { font-family:Georgia,serif; font-size:20px; font-weight:700; color:#2a1a08; }
+.header-sub { font-size:12px; color:#6b5c40; margin-top:3px; font-style:italic; }
+.header-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; position:relative; }
+.live-clock { font-family:'DM Mono',monospace; font-size:18px; font-weight:400; color:#2a1a08; letter-spacing:.02em; }
+.live-date { font-family:'DM Mono',monospace; font-size:10.5px; color:#6b5c40; letter-spacing:.06em; text-transform:uppercase; }
+
+/* ── INNER CHROME ── */
+.inner { padding: 0 44px; }
+
+/* ── DAY NAV ── */
+.day-nav { display:flex; gap:3px; padding:16px 0 0; overflow-x:auto; scrollbar-width:none; }
+.day-nav::-webkit-scrollbar { display:none; }
+.day-pill { padding:6px 16px; border-radius:6px; font-size:12.5px; font-weight:700; color:var(--text-3); cursor:pointer; white-space:nowrap; transition:all .15s; background:var(--bg); border:1px solid var(--border); user-select:none; position:relative; font-family:Georgia,serif; }
+.day-pill:hover { color:var(--text-2); background:var(--bg2); border-color:var(--border2); }
+.day-pill.active { background:var(--accent); color:white; border-color:var(--accent); }
+.day-pill.today-pill::after { content:''; position:absolute; bottom:3px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--gold); }
+.day-pill.active.today-pill::after { background:white; }
+
+/* ── LEGEND ── */
+.legend { display:flex; flex-wrap:wrap; gap:6px 16px; padding:12px 0; border-bottom:1px solid var(--border); }
+.legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-3); }
+.legend-pip { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+
+/* ── STATS BAR ── */
+.stats-bar { display:flex; gap:20px; padding:10px 0; border-bottom:1px solid var(--border); background:var(--bg2); margin:0 -44px; padding:10px 44px; }
+.stat { display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--text-3); }
+.stat-val { font-family:'DM Mono',monospace; font-size:12px; color:var(--text-2); }
+.stat-bar { width:60px; height:3px; background:var(--border2); border-radius:99px; overflow:hidden; }
+.stat-fill { height:100%; border-radius:99px; background:var(--accent); transition:width .5s; }
+
+/* ── SCHEDULE ── */
+.schedule { padding-top: 0; }
+.day-section { display:none; padding-top:18px; }
+.day-section.active { display:block; animation:fadeUp .25s ease both; }
+.day-meta { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+.day-title { font-size:15px; font-weight:700; }
+.day-tag { font-size:12px; color:var(--text-3); font-style:italic; }
+.day-rule { height:1px; background:var(--border); margin-bottom:10px; }
+
+/* ── TIMELINE ── */
+.timeline { position:relative; display:flex; flex-direction:column; gap:0; }
+.now-line { position:absolute; left:0; right:0; display:flex; align-items:center; gap:6px; z-index:10; pointer-events:none; }
+.now-line-dot { width:7px; height:7px; border-radius:50%; background:#b45309; flex-shrink:0; margin-left:110px; box-shadow:0 0 6px rgba(180,83,9,.6); }
+.now-line-rule { flex:1; height:1px; background:rgba(180,83,9,.4); }
+.now-line-label { font-family:'DM Mono',monospace; font-size:9.5px; color:#b45309; white-space:nowrap; padding-right:2px; }
+
+.block { display:grid; grid-template-columns:112px 1fr auto; align-items:center; gap:0; min-height:36px; position:relative; cursor:default; border-radius:6px; transition:background .12s; }
+.block:hover { background:rgba(0,0,0,.02); }
+.block.done .block-body { opacity:.45; }
+.block.done .block-body .label { text-decoration:line-through; }
+.block.now-block .block-body { outline:1px solid rgba(180,83,9,.25); outline-offset:-1px; border-radius:5px; }
+
+.block-time { font-family:'DM Mono',monospace; font-size:10px; color:var(--text-3); text-align:right; padding-right:12px; white-space:nowrap; align-self:flex-start; padding-top:10px; user-select:none; }
+.block-body { border-radius:6px; padding:8px 12px; border-left:3px solid transparent; transition:opacity .2s; }
+.block-body .label { font-size:12.5px; font-weight:600; line-height:1.3; }
+.block-body .note { font-size:11px; color:var(--text-3); font-style:italic; margin-top:2px; line-height:1.35; }
+
+.block-check { width:28px; height:28px; flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-left:6px; margin-right:2px; border-radius:6px; cursor:pointer; opacity:0; transition:opacity .15s,background .12s; background:none; border:none; color:var(--text-3); }
+.block:hover .block-check, .block.done .block-check { opacity:1; }
+.block.done .block-check { color:var(--c-davening); }
+.block-check:hover { background:var(--bg2); color:var(--text-2); }
+.block-check svg { width:14px; height:14px; }
+
+/* category colors — same keys as original, cream palette */
+.cat-recovery   .block-body { background:var(--c-recovery-bg);   border-color:var(--c-recovery);  }
+.cat-recovery   .block-body .label { color:var(--c-recovery); }
+.cat-davening   .block-body { background:var(--c-davening-bg);   border-color:var(--c-davening);  }
+.cat-davening   .block-body .label { color:var(--c-davening); }
+.cat-torah      .block-body { background:var(--c-torah-bg);      border-color:var(--c-torah);     }
+.cat-torah      .block-body .label { color:var(--c-torah); }
+.cat-torah-alt  .block-body { background:var(--c-torah-alt-bg);  border-color:var(--c-torah-alt); }
+.cat-torah-alt  .block-body .label { color:var(--c-torah-alt); }
+.cat-work       .block-body { background:var(--c-work-bg);       border-color:var(--c-work);      }
+.cat-work       .block-body .label { color:var(--c-work); }
+.cat-family     .block-body { background:var(--c-family-bg);     border-color:var(--c-family);    }
+.cat-family     .block-body .label { color:var(--c-family); }
+.cat-sleep      .block-body { background:var(--c-sleep-bg);      border-color:var(--c-sleep);     }
+.cat-sleep      .block-body .label { color:var(--c-sleep); }
+.cat-optional   .block-body { background:var(--c-optional-bg);   border-color:var(--c-optional);  border-style:dashed; }
+.cat-optional   .block-body .label { color:var(--c-optional); }
+.cat-transition .block-body { background:var(--c-transition-bg); border-color:transparent; }
+.cat-transition .block-body .label { color:var(--text-3); font-weight:400; }
+
+footer { margin:32px 44px 0; padding-top:14px; border-top:1px solid var(--border); font-size:11px; color:var(--text-3); font-style:italic; font-family:'Noto Serif Hebrew',serif; direction:rtl; text-align:center; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+@media (max-width:600px) {
+  .inner, .stats-bar, footer { padding-left:16px; padding-right:16px; }
+  .site-header { padding:20px 16px 16px; flex-direction:column; align-items:flex-start; gap:10px; }
+  .block { grid-template-columns:90px 1fr auto; }
+  .block-time { font-size:9.5px; }
+}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="header-left">
+    <a class="header-back" href="index.html">← Hub</a>
+    <div class="header-h1">Weekly Schedule</div>
+    <div class="header-sub">Recovery · Torah · Work · Family &nbsp;·&nbsp; Wake 5:45 · Lights out 10:00</div>
+  </div>
+  <div class="header-right">
+    <div class="live-clock" id="clock">--:--</div>
+    <div class="live-date" id="datebadge">---</div>
+  </div>
+</div>
+
+<div class="inner">
+
+<div class="day-nav" id="dayNav">
+  <div class="day-pill" data-day="0" onclick="showDay(0,this)">Sunday</div>
+  <div class="day-pill" data-day="1" onclick="showDay(1,this)">Monday</div>
+  <div class="day-pill" data-day="2" onclick="showDay(2,this)">Tuesday</div>
+  <div class="day-pill" data-day="3" onclick="showDay(3,this)">Wednesday</div>
+  <div class="day-pill" data-day="4" onclick="showDay(4,this)">Thursday</div>
+  <div class="day-pill" data-day="5" onclick="showDay(5,this)">Friday</div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-pip" style="background:var(--c-recovery)"></div>Recovery</div>
+  <div class="legend-item"><div class="legend-pip" style="background:var(--c-davening)"></div>Davening</div>
+  <div class="legend-item"><div class="legend-pip" style="background:var(--c-torah)"></div>Torah</div>
+  <div class="legend-item"><div class="legend-pip" style="background:var(--c-torah-alt)"></div>Chitas/Rambam</div>
+  <div class="legend-item"><div class="legend-pip" style="background:var(--c-work)"></div>Work/Teaching</div>
+  <div class="legend-item"><div class="legend-pip" style="background:var(--c-family)"></div>Family</div>
+  <div class="legend-item"><div class="legend-pip" style="background:var(--c-sleep)"></div>Sleep</div>
+  <div class="legend-item"><div class="legend-pip" style="background:var(--c-optional);border-radius:0"></div>Optional</div>
+  <div class="legend-item" style="margin-left:auto">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="margin-right:3px"><circle cx="5" cy="5" r="4" stroke="#b45309" stroke-width="1.5"/></svg>
+    <span>Now</span>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat">
+    <span>Done today</span>
+    <span class="stat-val" id="statDone">0/0</span>
+    <div class="stat-bar"><div class="stat-fill" id="statFill" style="width:0%"></div></div>
+  </div>
+  <div class="stat" style="margin-left:auto">
+    <span style="font-size:10.5px;font-style:italic">Tap ✓ to mark complete</span>
+  </div>
+</div>
+
+<div class="schedule" id="scheduleWrap">
+
+<!-- ═══ SUNDAY ═══ -->
+<div class="day-section" id="day-0">
+  <div class="day-meta"><div class="day-title">Sunday</div><div class="day-tag">Zoom only · No cheder · No library obligation</div></div>
+  <div class="day-rule"></div>
+  <div class="timeline" id="tl-0">
+    <div class="block cat-sleep"      data-start="5:45" data-end="6:00"><div class="block-time">5:45–6:00</div><div class="block-body"><div class="label">Wake &amp; Morning Prep</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="5:55" data-end="6:30"><div class="block-time">5:55–6:30</div><div class="block-body"><div class="label">SA Zoom Meeting</div><div class="note">Join when ready — late arrival fine</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="6:30" data-end="6:50"><div class="block-time">6:30–6:50</div><div class="block-body"><div class="label">Chassidus</div><div class="note">Pre-davening — sets the tone</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="6:50" data-end="8:15"><div class="block-time">6:50–8:15</div><div class="block-body"><div class="label">Shul — Shacharis</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah-alt"  data-start="8:15" data-end="8:35"><div class="block-time">8:15–8:35</div><div class="block-body"><div class="label">Chitas &amp; Rambam</div><div class="note">~20 min · finish later if needed</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-transition" data-start="8:35" data-end="9:00"><div class="block-time">8:35–9:00</div><div class="block-body"><div class="label">Home — Breakfast &amp; Prep</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="9:00" data-end="11:00"><div class="block-time">9:00–11:00</div><div class="block-body"><div class="label">Gemara / BM Tutoring</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-transition" data-start="11:00" data-end="11:30"><div class="block-time">11:00–11:30</div><div class="block-body"><div class="label">Home — Decompress &amp; Lunch</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-optional"   data-start="11:30" data-end="14:00"><div class="block-time">11:30–2:00</div><div class="block-body"><div class="label">Freelance Work (optional)</div><div class="note">Only if deadline pressure warrants it</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-family"     data-start="14:00" data-end="16:00"><div class="block-time">2:00–4:00</div><div class="block-body"><div class="label">Family Time</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="16:00" data-end="16:45"><div class="block-time">4:00–4:45</div><div class="block-body"><div class="label">Gemara</div><div class="note">45 min primary seder</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="16:45" data-end="17:15"><div class="block-time">4:45–5:15</div><div class="block-body"><div class="label">Mishnayos</div><div class="note">15–30 min</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-family"     data-start="17:15" data-end="19:00"><div class="block-time">5:15–7:00</div><div class="block-body"><div class="label">Family Time · Supper</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="19:00" data-end="19:30"><div class="block-time">7:00–7:30</div><div class="block-body"><div class="label">Maariv / Minyan</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-sleep"      data-start="19:30" data-end="22:00"><div class="block-time">7:30–10:00</div><div class="block-body"><div class="label">Wind Down → Bed</div><div class="note">Lights out 10:00</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+  </div>
+</div>
+
+<!-- ═══ MONDAY ═══ -->
+<div class="day-section" id="day-1">
+  <div class="day-meta"><div class="day-title">Monday</div><div class="day-tag">In-person meeting · BPL / café · Cheder 3:30–6</div></div>
+  <div class="day-rule"></div>
+  <div class="timeline" id="tl-1">
+    <div class="block cat-sleep"      data-start="5:45" data-end="6:00"><div class="block-time">5:45–6:00</div><div class="block-body"><div class="label">Wake &amp; Morning Prep</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="5:55" data-end="6:30"><div class="block-time">5:55–6:30</div><div class="block-body"><div class="label">SA Zoom Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="6:30" data-end="6:45"><div class="block-time">6:30–6:45</div><div class="block-body"><div class="label">Chassidus</div><div class="note">Pre-davening</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="6:45" data-end="7:30"><div class="block-time">6:45–7:30</div><div class="block-body"><div class="label">In-Person Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="7:30" data-end="8:30"><div class="block-time">7:30–8:30</div><div class="block-body"><div class="label">Shul — Shacharis</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah-alt"  data-start="8:30" data-end="8:55"><div class="block-time">8:30–8:55</div><div class="block-body"><div class="label">Chitas &amp; Rambam</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="9:00" data-end="11:00"><div class="block-time">9:00–11:00</div><div class="block-body"><div class="label">Gemara / BM Tutoring</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-transition" data-start="11:00" data-end="12:00"><div class="block-time">11:00–12:00</div><div class="block-body"><div class="label">Home — Lunch &amp; Regroup</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="12:20" data-end="15:10"><div class="block-time">12:20–3:10</div><div class="block-body"><div class="label">Freelance — BPL / Coffee Shop</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="15:30" data-end="18:00"><div class="block-time">3:30–6:00</div><div class="block-body"><div class="label">Cheder — Secular Studies</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-family"     data-start="18:25" data-end="19:15"><div class="block-time">6:25–7:15</div><div class="block-body"><div class="label">Home · Family Time · Supper</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="19:15" data-end="20:00"><div class="block-time">7:15–8:00</div><div class="block-body"><div class="label">Gemara</div><div class="note">45 min</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="20:00" data-end="20:20"><div class="block-time">8:00–8:20</div><div class="block-body"><div class="label">Mishnayos</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="20:20" data-end="20:45"><div class="block-time">8:20–8:45</div><div class="block-body"><div class="label">Maariv / Minyan</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-sleep"      data-start="20:45" data-end="22:00"><div class="block-time">8:45–10:00</div><div class="block-body"><div class="label">Wind Down → Bed</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+  </div>
+</div>
+
+<!-- ═══ TUESDAY ═══ (same structure as Monday) -->
+<div class="day-section" id="day-2">
+  <div class="day-meta"><div class="day-title">Tuesday</div><div class="day-tag">In-person meeting · BPL / café · Cheder 3:30–6</div></div>
+  <div class="day-rule"></div>
+  <div class="timeline" id="tl-2">
+    <div class="block cat-sleep"      data-start="5:45" data-end="6:00"><div class="block-time">5:45–6:00</div><div class="block-body"><div class="label">Wake &amp; Morning Prep</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="5:55" data-end="6:30"><div class="block-time">5:55–6:30</div><div class="block-body"><div class="label">SA Zoom Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="6:30" data-end="6:45"><div class="block-time">6:30–6:45</div><div class="block-body"><div class="label">Chassidus</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="6:45" data-end="7:30"><div class="block-time">6:45–7:30</div><div class="block-body"><div class="label">In-Person Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="7:30" data-end="8:30"><div class="block-time">7:30–8:30</div><div class="block-body"><div class="label">Shul — Shacharis</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah-alt"  data-start="8:30" data-end="8:55"><div class="block-time">8:30–8:55</div><div class="block-body"><div class="label">Chitas &amp; Rambam</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="9:00" data-end="11:00"><div class="block-time">9:00–11:00</div><div class="block-body"><div class="label">Gemara / BM Tutoring</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-transition" data-start="11:00" data-end="12:00"><div class="block-time">11:00–12:00</div><div class="block-body"><div class="label">Home — Lunch &amp; Regroup</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="12:20" data-end="15:10"><div class="block-time">12:20–3:10</div><div class="block-body"><div class="label">Freelance — BPL / Coffee Shop</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="15:30" data-end="18:00"><div class="block-time">3:30–6:00</div><div class="block-body"><div class="label">Cheder — Secular Studies</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-family"     data-start="18:25" data-end="19:15"><div class="block-time">6:25–7:15</div><div class="block-body"><div class="label">Home · Family Time · Supper</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="19:15" data-end="20:00"><div class="block-time">7:15–8:00</div><div class="block-body"><div class="label">Gemara</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="20:00" data-end="20:20"><div class="block-time">8:00–8:20</div><div class="block-body"><div class="label">Mishnayos</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="20:20" data-end="20:45"><div class="block-time">8:20–8:45</div><div class="block-body"><div class="label">Maariv / Minyan</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-sleep"      data-start="20:45" data-end="22:00"><div class="block-time">8:45–10:00</div><div class="block-body"><div class="label">Wind Down → Bed</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+  </div>
+</div>
+
+<!-- ═══ WEDNESDAY ═══ -->
+<div class="day-section" id="day-3">
+  <div class="day-meta"><div class="day-title">Wednesday</div><div class="day-tag">In-person meeting · BPL / café · Cheder · Midweek anchor</div></div>
+  <div class="day-rule"></div>
+  <div class="timeline" id="tl-3">
+    <div class="block cat-sleep"      data-start="5:45" data-end="6:00"><div class="block-time">5:45–6:00</div><div class="block-body"><div class="label">Wake &amp; Morning Prep</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="5:55" data-end="6:30"><div class="block-time">5:55–6:30</div><div class="block-body"><div class="label">SA Zoom Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="6:30" data-end="6:45"><div class="block-time">6:30–6:45</div><div class="block-body"><div class="label">Chassidus</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="6:45" data-end="7:30"><div class="block-time">6:45–7:30</div><div class="block-body"><div class="label">In-Person Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="7:30" data-end="8:30"><div class="block-time">7:30–8:30</div><div class="block-body"><div class="label">Shul — Shacharis</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah-alt"  data-start="8:30" data-end="8:55"><div class="block-time">8:30–8:55</div><div class="block-body"><div class="label">Chitas &amp; Rambam</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="9:00" data-end="11:00"><div class="block-time">9:00–11:00</div><div class="block-body"><div class="label">Gemara / BM Tutoring</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-transition" data-start="11:00" data-end="12:00"><div class="block-time">11:00–12:00</div><div class="block-body"><div class="label">Home — Lunch &amp; Regroup</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="12:20" data-end="15:10"><div class="block-time">12:20–3:10</div><div class="block-body"><div class="label">Freelance — BPL / Coffee Shop</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="15:30" data-end="18:00"><div class="block-time">3:30–6:00</div><div class="block-body"><div class="label">Cheder — Secular Studies</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-family"     data-start="18:25" data-end="19:15"><div class="block-time">6:25–7:15</div><div class="block-body"><div class="label">Home · Family Time · Supper</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="19:15" data-end="20:00"><div class="block-time">7:15–8:00</div><div class="block-body"><div class="label">Gemara</div><div class="note">Midweek anchor seder</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="20:00" data-end="20:30"><div class="block-time">8:00–8:30</div><div class="block-body"><div class="label">Mishnayos</div><div class="note">Full 30 min — Wednesday's longer slot</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="20:30" data-end="20:55"><div class="block-time">8:30–8:55</div><div class="block-body"><div class="label">Maariv / Minyan</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-sleep"      data-start="21:00" data-end="22:00"><div class="block-time">9:00–10:00</div><div class="block-body"><div class="label">Wind Down → Bed</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+  </div>
+</div>
+
+<!-- ═══ THURSDAY ═══ -->
+<div class="day-section" id="day-4">
+  <div class="day-meta"><div class="day-title">Thursday</div><div class="day-tag">In-person meeting · BPL / café · Last cheder day · Begin Shabbos mindset</div></div>
+  <div class="day-rule"></div>
+  <div class="timeline" id="tl-4">
+    <div class="block cat-sleep"      data-start="5:45" data-end="6:00"><div class="block-time">5:45–6:00</div><div class="block-body"><div class="label">Wake &amp; Morning Prep</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="5:55" data-end="6:30"><div class="block-time">5:55–6:30</div><div class="block-body"><div class="label">SA Zoom Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="6:30" data-end="6:45"><div class="block-time">6:30–6:45</div><div class="block-body"><div class="label">Chassidus</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="6:45" data-end="7:30"><div class="block-time">6:45–7:30</div><div class="block-body"><div class="label">In-Person Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="7:30" data-end="8:30"><div class="block-time">7:30–8:30</div><div class="block-body"><div class="label">Shul — Shacharis</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah-alt"  data-start="8:30" data-end="8:55"><div class="block-time">8:30–8:55</div><div class="block-body"><div class="label">Chitas &amp; Rambam</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="9:00" data-end="11:00"><div class="block-time">9:00–11:00</div><div class="block-body"><div class="label">Gemara / BM Tutoring</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-transition" data-start="11:00" data-end="12:00"><div class="block-time">11:00–12:00</div><div class="block-body"><div class="label">Home — Lunch &amp; Regroup</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="12:20" data-end="15:10"><div class="block-time">12:20–3:10</div><div class="block-body"><div class="label">Freelance — BPL / Coffee Shop</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="15:30" data-end="18:00"><div class="block-time">3:30–6:00</div><div class="block-body"><div class="label">Cheder — Secular Studies</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-family"     data-start="18:25" data-end="19:15"><div class="block-time">6:25–7:15</div><div class="block-body"><div class="label">Home · Family Time · Supper</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="19:15" data-end="20:00"><div class="block-time">7:15–8:00</div><div class="block-body"><div class="label">Gemara</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="20:00" data-end="20:20"><div class="block-time">8:00–8:20</div><div class="block-body"><div class="label">Mishnayos</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="20:20" data-end="20:35"><div class="block-time">8:20–8:35</div><div class="block-body"><div class="label">Chassidus / Parsha Prep</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="20:35" data-end="21:00"><div class="block-time">8:35–9:00</div><div class="block-body"><div class="label">Maariv / Minyan</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-sleep"      data-start="21:00" data-end="22:00"><div class="block-time">9:00–10:00</div><div class="block-body"><div class="label">Wind Down → Bed</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+  </div>
+</div>
+
+<!-- ═══ FRIDAY ═══ -->
+<div class="day-section" id="day-5">
+  <div class="day-meta"><div class="day-title">Friday</div><div class="day-tag">Meeting at 7:00 · No cheder · Erev Shabbos</div></div>
+  <div class="day-rule"></div>
+  <div class="timeline" id="tl-5">
+    <div class="block cat-sleep"      data-start="5:45" data-end="6:00"><div class="block-time">5:45–6:00</div><div class="block-body"><div class="label">Wake &amp; Morning Prep</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="5:55" data-end="6:30"><div class="block-time">5:55–6:30</div><div class="block-body"><div class="label">SA Zoom Meeting</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="6:30" data-end="6:55"><div class="block-time">6:30–6:55</div><div class="block-body"><div class="label">Chassidus</div><div class="note">Longer Erev Shabbos slot</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-recovery"   data-start="7:00" data-end="7:45"><div class="block-time">7:00–7:45</div><div class="block-body"><div class="label">In-Person Meeting</div><div class="note">Friday start — 7:00</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-davening"   data-start="7:45" data-end="9:00"><div class="block-time">7:45–9:00</div><div class="block-body"><div class="label">Shul — Shacharis</div><div class="note">Unhurried Erev Shabbos pace</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah-alt"  data-start="9:00" data-end="9:20"><div class="block-time">9:00–9:20</div><div class="block-body"><div class="label">Chitas &amp; Rambam</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-work"       data-start="9:25" data-end="11:00"><div class="block-time">9:25–11:00</div><div class="block-body"><div class="label">Gemara / BM Tutoring</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="11:10" data-end="11:55"><div class="block-time">11:10–11:55</div><div class="block-body"><div class="label">Gemara</div><div class="note">Last weekday seder</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-torah"      data-start="11:55" data-end="12:20"><div class="block-time">11:55–12:20</div><div class="block-body"><div class="label">Mishnayos + Parsha Chazarah</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+    <div class="block cat-family"     data-start="12:20" data-end="22:00"><div class="block-time">12:20–Shabbos</div><div class="block-body"><div class="label">Shabbos Prep · Rest · Family</div><div class="note">Full transition — no screens, no work</div></div><button class="block-check" onclick="toggleDone(this)">CHECK_SVG</button></div>
+  </div>
+</div>
+
+</div><!-- /schedule -->
+</div><!-- /inner -->
+
+<footer>עֲשֵׂה לְךָ רַב &nbsp;·&nbsp; יוֹם אֶחָד בַּזְּמַן</footer>
+
+<script>
+const checkSVG = `<svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 7l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+document.querySelectorAll('.block-check').forEach(btn => { btn.innerHTML = checkSVG; });
+
+const DAY_MAP = {0:0,1:1,2:2,3:3,4:4,5:5,6:0};
+const today = new Date();
+const todayIdx = DAY_MAP[today.getDay()];
+let currentDayIdx = todayIdx;
+
+document.querySelectorAll('.day-pill').forEach(p => { if(parseInt(p.dataset.day)===todayIdx) p.classList.add('today-pill'); });
+
+function showDay(idx, el) {
+  document.querySelectorAll('.day-section').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('day-'+idx).classList.add('active');
+  el.classList.add('active');
+  currentDayIdx = idx;
+  updateNowLine();
+  updateStats();
+}
+
+const todayPill = document.querySelector(`.day-pill[data-day="${todayIdx}"]`);
+showDay(todayIdx, todayPill);
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+function updateClock() {
+  const n = new Date();
+  const h = String(n.getHours()).padStart(2,'0'), m = String(n.getMinutes()).padStart(2,'0'), s = String(n.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+  document.getElementById('datebadge').textContent = `${DAYS[n.getDay()]} · ${MONTHS[n.getMonth()]} ${n.getDate()}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+function parseTime(str) { const [h,m] = str.split(':').map(Number); return h+m/60; }
+
+function updateNowLine() {
+  const tl = document.getElementById('tl-'+currentDayIdx);
+  if(!tl) return;
+  tl.querySelectorAll('.now-line').forEach(n => n.remove());
+  tl.querySelectorAll('.now-block').forEach(b => b.classList.remove('now-block'));
+  if(currentDayIdx !== todayIdx) return;
+  const now = new Date(), nowH = now.getHours()+now.getMinutes()/60;
+  const blocks = Array.from(tl.querySelectorAll('.block'));
+  if(!blocks.length) return;
+  let insertAfter = null, nowBlock = null;
+  for(let i=0;i<blocks.length;i++){
+    const s=parseTime(blocks[i].dataset.start), e=parseTime(blocks[i].dataset.end);
+    if(nowH>=s && nowH<e){ nowBlock=blocks[i]; break; }
+    if(nowH>=e) insertAfter=blocks[i];
+  }
+  if(nowBlock) nowBlock.classList.add('now-block');
+  const nh=String(now.getHours()).padStart(2,'0'), nm=String(now.getMinutes()).padStart(2,'0');
+  const line = document.createElement('div');
+  line.className = 'now-line';
+  line.innerHTML = `<div class="now-line-dot"></div><div class="now-line-rule"></div><div class="now-line-label">${nh}:${nm}</div>`;
+  if(nowBlock) tl.insertBefore(line, nowBlock);
+  else if(insertAfter) insertAfter.after(line);
+  else tl.prepend(line);
+}
+setInterval(updateNowLine, 60000);
+
+function doneKey(idx){ return `sched_done_${idx}_${new Date().toDateString()}`; }
+function toggleDone(btn){ btn.closest('.block').classList.toggle('done'); saveState(); updateStats(); }
+function saveState(){ const tl=document.getElementById('tl-'+currentDayIdx); if(!tl) return; const state=Array.from(tl.querySelectorAll('.block')).map(b=>b.classList.contains('done')); try{ sessionStorage.setItem(doneKey(currentDayIdx),JSON.stringify(state)); }catch(e){} }
+function loadState(idx){ try{ const r=sessionStorage.getItem(doneKey(idx)); if(!r) return; const state=JSON.parse(r); const tl=document.getElementById('tl-'+idx); if(!tl) return; tl.querySelectorAll('.block').forEach((b,i)=>{ if(state[i]) b.classList.add('done'); else b.classList.remove('done'); }); }catch(e){} }
+function updateStats(){ const tl=document.getElementById('tl-'+currentDayIdx); if(!tl) return; const all=tl.querySelectorAll('.block:not(.cat-transition)'); const done=tl.querySelectorAll('.block.done:not(.cat-transition)'); const pct=all.length?Math.round(done.length/all.length*100):0; document.getElementById('statDone').textContent=`${done.length}/${all.length}`; document.getElementById('statFill').style.width=pct+'%'; }
+
+loadState(todayIdx);
+updateStats();
+updateNowLine();
+</script>
+</body>
+</html>

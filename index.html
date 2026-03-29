@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/webp" href="data:image/webp;base64,UklGRlIeAABXRUJQVlA4IEYeAAAwvwCdASqoAVgCPikUiEMhoSERimSIGAKEtLdwuqiBtm7A+vvxCYAxXupsqvoZ/P/cv8wP97/0/8f8A/ME72b34ft/6jv2H/ar3jv9f+zPu2/s39l/YD4AP1d62X+p/6r2AP2G9Z3/z/uV8S/96yWyYt5p9yfF30O+3/b34zcEdqv2afTfmJ/Yfm7248BT2X/l/5j/ZeHKt16B3fD/ienb9Z5r/yP+d8y7+r/mX/Veji+g/th7g38j/vP98/wH5KfU7/lf9b/T+v/6+/6f+S/vHu5/8wHbm2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbRWRhJkmbS0AdBBKH1gOLINsVjSfwYfjZAkm3Arpi+kq/fQ186Xf5a8yZavbrwLbIhzdP/LlFMB12oJqxmGvrCVogHQPvF6bwHy/3CylqEgCBq/VGjl7pzf7t+7H5AGlixh7fAcBQbxqvrBm2h35eSPkJttZWe295U9XW8vIENPKmWIabYLJbtQyiMGYVTcvLZd42POBRubOM2ayigK2Vn82QulnwfR0zEZKELoHLL1byQFqaSAF6+imM5x1yF3XGx0ennY8x4cMg4k+NQk3n0AhyqmXeOuwlMSh8U3jZNS49OeMRbdzIOl5gAuwi3gBECgqOI4K/1BVDJux5cXG/+h7txoWBlwQtJGBvDNEHVDWTByajiF5CV6yTxvHNRerulNKMyDVso79yI7VPImduQl6DZxvcB17TU22hcjhkKYc54a1+b6VmfcafZWQkS8P1s6y/uEmURJDJwX5LmvB/wu5ROjG15C/r6yNGywo0+InnjWfyn62lO++f+dtC9U3O2hJh9cYt6S6Sgml+C6AdkSgfPBq4pwq+fmLzsbPEhM52d4w9kMEgEl9rFrSQmS4853Ih8dyP69pgOIHJbBKQG3vYUVhsk8Y+OlundgCETKmuPztjDCwwuAB0UcX6J5XL5j3XsU9e8cWSuNpXkEpCqcxkrJQAta/LC8BKcdDcN6cKgZAj96vtOWslWsyt3Yl0ZKLEVu5JHQiDR9CwrsSiHAX38yPAG/F12RKyp2TRxrDzbih3o+ssQdS2w7jEhOoLRoM3XFekwkyNJj9gYBCi4wD60ru7H5ab6X8P5IxQymH8YmPGQV4XwJdGg4gsSszPkxTPAH3YlsbShrcpu7yjQYQ2mrS7Zh/KSNxlSIG4o67fGck6+wSqXvI1MZ20iNzY7P6dv/Tjv/kK14Olob0JPNuakA5PSgrXzyGerb8hPQPOuSGnIB7KJJ2WSzMol7UmHiLYN9BeHf9voF+IkQ+tS5h/4uCVLOa7Lx1AdhXWRKfQVeDeNp/oTRtDvtsL9ieoQ7canMimI3uHUJNvbJiWg+qDHt32Me+Y2jUmaFsU+QqpdaIxX7jA/eU4uz5Oil56FeU6PgicKnbOjGxRJpGsduC/cWxx+g9Q3eTGsp7R8tx8ED9d7FZTpO3CkMOrn1vXw0IrM63Vx1oOCUAZfbT4+TxOAVq0HB1vQ2+JqhX+aqLFw2mdx/5l3VUkVpZw78lzZLWNcELxb8WyMnXxzItj5Ql0+omIwZIn3VpwsOvwfbo+oq7b8vAlQrzvXxS5VZgi67/9XYq+8FrMtLm82ZS6CshO16Ns7c47AkodoCb6qVN82H8lZe9DRw/8uGntBamuvANSJJGjB5KmajM5tqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVTG2ppVMbamlUxtqaVS9AAD+/+SYAAAAAAAAAAAAAAAAAAAAAAACFD3wNQsDPoZFQLz2frBVg8+HqLuHF5slxTNytXKxWMK1RYWRt6DEH9N1zAzHqXC8L51BaDgCbopclckx7He79NWSNaEcVz8mLgs1XN8djXn7dRQ1KxFKtM64epWQjbZEqx50uyuQtHHVFiExDPUxyRsgtg/EfFYzAmykyJLkIsX+JVKh6a9A3ltznOBEp8jxUWqNXE//ZpDY+aH7YHp9/k8k/bvLJrwN/bWWKvrSQQafd2Tv4rHdIzJKUDI43JgX8S0Sn4bQ5HimTV+XWuRiedBz/e4n1KS7Ts6FphEMCKtl/43cHcu7cBTb4dQoNoRllPX4U7LO6OwmSj3eqy0ZBSM9VRSXxq5gxeyj95Pd2HDg/YS+0VMOkNYBHRgV1+N5fzfFM/4g0cOHu1Bd0lh8ETnN66wobesD6ezYj8OQJq8kom/Ly5KxPFyO6yHLs41eapAQ6VUOY/fQAB7TP/4+fud7wxvW5IfAnWEKwaoAyK3QztEjQ0fNtHCZ4H0K/HRfyX3kjtc92Du0SGAhsTPJJuEZJiWjPa6tUQzUyV4zkBbN6wH/+5zMVA8K8OsUh86uPf6x8/XyHjs8RlBJc0LsOMWFdl6Pg+RFgFuZrp9ydeyjc0ju6XWKTJqpqsht9MmE9W7hHg6GHXoQgjeEdClKDq6nv0KcUHLytOojQC6HU3EdLvOYDiuDYJwOOt05bowd3S638Sr7zyjKLBmPwjiliYvsxJRBmg0ywmdvXFDPs36j1cYcKn2m2TyVx8RZG8c5fzMi7TYE0qCDa/nrUO/uIG5DbRY4AV5mE2zs2ooaGh5yhtgVZBTia0Ipe19neLmWr8kwj8NP68shojeNjiIiKCAM1gZOVsxYo2wyl0m3rOp796bsiZqL05n98xki+FaY/IF600iLBNxldi2gFrwZVa2ZAdfkrMCTp55SSHgqzMV8BX5dnBPuAMhQEaH9Umed0mMvg2olosBYO316wFT3ihjePtkg4+KPLWN+3CiKa90Nr5jBiOiqgcj1ixJgI008gH1YRr0gtu44JBM2o5/oZeRw2oJ8dRkO0pTThePzkLech21rcMX0J0KpBeD//GyHV3F6e7fBG1zibDEJN41eRWjFyEhY/RpC3RGVEw86RR4BR0wM/m9XMtf9Yrrt+Vly0Ln7Fdc1uhMyvxPb8g0MJ082L9ogUR4Lzt1r2d/Ar5+6Sssm226Aw741eJ5W324M9ptf3k/3gjiYc6h3XV1tU0gXrJKRetJZ6A6W+KT3RgbFuvZGMxbo//X8N7XVYY68I+L1nNBLpdkRwi6tHzkA4ak5htjMiq0bXBqof29hsHk/ziCwWZsLCvQeG4JNjiEdGyNEXaNnOsk4QLPTISxlEZX0DzN7WMVKcl1aZFnAXywcBKnREk2x36t9uwMdzEYfgFbkFqMcnuWOBaW0jJypOccUa7kQvrOgQwTaoY3ATos1gPfOd+YhJuZBR1PVFZhIsp7YSZo3LkT90WF4l8+AYdg7FfEf8Z261rSV2UQZzMEwDPE2LPcWyHt0SaXzlc4BCdhAhQHUDjFzYpl/5mfaqXHgnkUf4/FSHJR9QmnmDu7oddy3OSQWBZ/FuW0xJCqYHtqEy/O5KtRvvEfQJtpD1WuWL/QLti+GJADWJrVa0+YLf0rKn+ffO7q5gm1Cft/E14etNYNSsephZ/AmznJ+Y78e7iY0eDn6tCo+J65lsZxjqp93/JKqCk8V93p6dZu5PFuCT0FQST0NF+5DpxMYZJA4xpyaZHRnRw3hz8+yIW2Ml/cs+dnuftphvWoxlWi1bCjDjj2eetOl2mwQp/D9cjyx7sHgNXlDDOKXmybG61Jd6APWDSGzIa/yx1e7vCuXQA52iM4NzL+uVxllsUqz2k6hTfgzUF5m/kL0823XTcfCZaF+TQVCFAioY4XktbvKDFqP+FfSjJlagw+/4rCawS2X0wwhmTnxRO2pnDdIPF5HR+UAe/5vX5H8n/2ungVMws0RiD89aUilCw5pDp0Cm8imjPZI2gbSspcyWR1ymzb7pNlfglb1kJ46JIOAN1Fh3qgkbsbQivpyvaMkuuxT6H+UPGaAvrQewYf9RHiTJRs0GeD6teJ3aqo3MGGkuc7JDGt2aScyGTbxqmjztIlAmTHfGC8EepLXQaeM7tWR2hGRImNq9PKTiEGhZgJJX5OTJYhCYVKkouCjLfuITaF2Uviuxg6FvyXDJAfkD+QN9J47ZMgieemUDVkh5t8s0Tk5NZ/1benhSIumEcTaueey2YzSNlfZ/ajo1U76lSw2zeSTuTbmNSQQ/vK6blAlhKSSnDfpFQ2RgePl4+0ufRvf5+Jdzwnh/OzUzgr8cZJK7/rJu4RyWQSm20lSCkmQ41Guid1WnQR12JMTjBeJhWQp4IxnGLGT52NveYCmYRdL938o3qwrS6VQRpbuMNiIXCWALgNvNgAi4zI572pnyyhS2Eze+UPFfNQ261CsCRUJC68OTBWI+B35MrD7wU84CNjSE48sRCVnibEio0UPIDPpYh470D4QIAzovW4jEkcxX9UWx79foPOmDj4STS2qxixr+coLmKxhuDa+W3JjQ1VY2vXEakP1PJNUbkm6IMXxOVPXxRc/5ePfq2EHN7SyRx5HBap4xu4YgUMb+i3jH6Y/iK/OcbUt7i8TOBqoq5IyaxnpT8VY8Yfn/yGbo2+r6h4mI2Dn9PZfxVcDobXhoBnE4f1sMn7NaT/ckvfT1jL7fedjjB5Wfe0o2LlIa3xsh1oz+7mYAFR5ZVPYyro95ta+cA+1ZbxET38hKbKSm3DMG5fBscGwLzMpjKRoCMkNFn3JkY3NT6CJmr/OnYmt/NEh41xAOYx+kAyWuSmZ5HfmFEWOYt30CUm0N+MSwREczBn4IMADW1r1sJdNeNriMJeEnMAqQERbq5+tKB2eq3Z3IlDGEmD2G/meuw+oq4sUTT8478kV5wHyQF2qx9W6i4PQdbwL/OtVzaSDK8ZYu7W0fEZtirvuYsH4dM35fydPkwcWaTejQX6pLAN0EVfsLl2FzAJntXNVdMjDAXGXej/JMswYBYCVZeV8rqhwAVF1wfxrmg37KLwYYflD2NLCszV1XNnJ1sz+VRq+ZoJzOnl/mtXZHWP7Bv8D5GWi8M+oHPq7ba3qYcH/Kn5pfqD8LGe0wSCm/ulEkX9Y7CwAyM7Ww5/+mL5kY5SM9Hw/XlLLipackn0GmkjNA71Z/wdXEOYxJYMKoJ44DfIcSjjSgRMTQj1a0jPus1ghTY8G3CEtCfgc3Ur6i7J2D+ttds+5M1aPnj6KaDO48H3l6scrj66DM5t6qF24FpWEedym3RRs02BEB8n/wrVwReBuwwHo7QpvCW4d4cg7STmROWFlPRljZrU+ZgRKgz4TnA6G7jRQ6aviDu6H8ejd7NlzXsivt4RoBzWdjai446ShFc0Iz53N9q2JxHGnT12mP1jCjzTNQjspcdznqsEpiqIb1lX1+CBrY9yZfvlErZYilTrWWbHkP5Ut7xgntwNuoPBUv+EK2SjvoZIZQUit2aORHkZ02WjM0JT+xxvZ7CNE8n2bezmHwud4TYXWA4yyfMri13ldFN2UOAZ0JcpkDFz9lDtocYudEvMLhkX3DyP5h0sWNjgTG24lD6vUdSwVFmuUKvEw5SWVI35xzUVDBwj1SGPkxw838amnfNYBPpxNccZMUTDdzpEHAyL75atP6Pc6fnY8OU5A+fCgfL1cB5r/+hcZCKFrYMhod6CaatxISdXAFLn6e5OQpv5YPmVdpd7tlgd7nRQ4lebAm4wzSHPBQCGRDGj+eWLGVIlj4njpE1h4AcxNrN0/wSU6SuMLY22NE0aFnhAKytD/FyDgaV3pY9KzvoIgfSnGpJQlZXAbvEqtYsDbcpHA6OX/5NChVddvrxGMaX3ufTqRIrfWBsBjIC7dT1DxKml8IP7vd0SKJMR01Bqoz8emQbG3/bITosl0yuqM7nM0lU/VCIqTQXKGuK6kNcD9rATYDNowIY7GmRIby+pTTeRJwOmYAvis3AAM8VsxMeUWZu1PLg/mfGtw+eSYYyo4SjjkKZS+Gu6IN1rwHiVc0KU7DyDqyKstEoOaJo2O1rE6iKyWAIn08fHfST5sby/SmEzdKYrxabDp2LEOfbKJU9q6BJTrGYYCIKFBGcYRIw0l+var/BY6DKGB4pfTHsACzoZuHZFPi23dsXgjxshY8w23lADDiLdnJL1JNPhik3+KyEUgU+nt+jNPuS57qfXWS1XvccgPRYZ+2tTsXrBZ51ZiAeuGVGwNibxaMYV3WNWerGnzQNZP3owuMWZ3yzvnQVNA3ydm9z4rGXH+MWyulqAEE3Wbt/jLnz5JtF9DamHZmgeGUF19XoVsA4hsR/++hlxzaxGH7t1zKon0rBsvyqmDIFm9OEs0+2x1Iy7/hCZ21dDlwDq2IdMeiNokUx6u/cLwg1Vxzw7eaAbNzpeCcxKWFbVVlfH2/83nw4HFj45e9z29rcFBwMCzaUA2gWeAxg/rJbh0d7Sd2Feh8xzymnzVYHQ1pol69/GYmCBXEsN7c/WaZVvNyDJZ4gqP5nareiAiSnVBJQBOy5ctBsy7lRPTvziuct6UgX2QHqy/kNsjr+NTVkJp5rt3ezHaDz3TnrdBk0svnY2m6UPKcFav+77w5tFYHgv+5t2/L7oqEfc7aMJW3bVCK+VETAuYMZTRk3/5sLLizXQ11Nnduyu3736jnvymKZI7tYEgBmT3OAJl33rLKTJinuj1bf/+j9h9B3kogTiKkIsOsA7tiCPcfxzjbzKDbVCw38j9qo8ShulwPucyr+XarZPR86gk3guKamxVmgaVI66j68Qu/wMUi5tambuPy75jKZW5IATS+Z91ae1UYPKzXDSyx0cZj1jgz9X6ApCMYK3viiIi2vMZo1SOf+rDLIxsqN/dkDGIrQoh/qUn2LKWA53mp5RM/n+9oZvjH3Du6+wrw3611VLtTaVlZfygVKH3LL8G/z5i7mEJAAEGCsFSfca1ycJvhUryGIuaYkqhP8Kh0vcaHhmAfohumvLqIafeuVhXxG3kEsOaiaSX9dIMRfAyE9umF8bf5w6y7HIW+vw34hpaxPRVsc7ZZKtcEh79xlThb+yz9jCNcXxuy3wG3J7LPkuvi1M2mwb/llSmXyOcXAA+IfkmqQWaE+FuAOCWwWzXNL3FsW1dDCEQjYGPBzFHzJuudBEUa12w4Y7mAbGUd4yrVopr2KgLxCL7VVLVR2bZFm9rOwSqVlt1qpH2Ow+Z4PU6wY7+8lYMvO48g624nAckfqzpdgVvWCsdKYUZQqxe6sfb6zxZlq4xRr++hmAwH+J1NoD49aLArF9rIZW7+sQfIzIbG+Ri/OjWCyOAn6tK15UZPoM8X/W/nAB88HVoo/0DPvFPV3g7Gr+SMvHtqDdc8dXrEFT0C13bvaMMK9uLB+jKHOv9xKSK5CRrpCl18Tp6p28qu3liU6vKMSGQGn2WuW+bf3n+OS3fC/XkjL+nSqTF6fdUxEZq1YmsvyXNSrepTY/BK522WTsKNSLO26j6A9i0trj195J95XiBq0lOz8ewUhTM0ItR5dP+L9tD9JvrMnwB4GdnbAY+EZn3q5fDrwy1l5uT+DkMKJRWvSOvf5F3p/bna5OTSUTc5f4W814TX8T97qhTx/4icQPkwq198wY14Su2DPjH6pwSsyGCFSYrTWqn1v+rEw1e2zmSR8GPfYFAeKshfHSOHd1QHMtKfUcpOcSKrTvkFc9O7pA6XbYoKNtVEeSdYRlfPLB96/KZklgYW0DPnKoPDCwUQ+SC/qy8Sng5dFpV+olYFW0ZXdAEa/4E7xekQil4I/gsqvtshVLthk6U/w4HCE4PwCC9K6WoWhnngVmriVBfuWbMZ+Q8t/uC/6+lWa8pUbqdQ9Q8ogwBlt9F5hg61nQoG5yvjW993u3Aex/JM3l2D5nhvd8ADrDsVS/6qWQCghp7OlFR0O4MLGgBl9XrswUdQbrOA9EZsHYbgxansZZE+/z5T69MZCwmd3iUKMmaVkwcnhGrqrSrzjjd/0XbGnoBnQK9WavQYEsTC5kETId+JA90dykD91//ibDqNNgxLctOamzzgZOnr6A/UFFnPdHKyLhmXF3L6zeiOFEb/4v57zPB9NJZXmCECn0ElX9lrxr0w8M7iUDMJ9X7IAhm616XoUIcwSwbrTm1e2QOb1aUib0U4v6icvHe/28bn+3ulWckB6cwewBV7yVN9Lax+a85oEGxQ5btp8YZne8JPdKy6uNINCDwRALJV+RNciLxHTX4loxG68d1/g1lCF8t6hfTU+qxaBQkrGfesEqDcdLCiJS7XNdozSdgz3MnFB0d4fGxbo3IvpQBvIJKxNOC9mDZWgqIXaJ1VDrZYq5w5UEUQx/u080apnRMkLpqmR7smDSLRhd6dv/pbr3HUN2K3m1bXbhpWrox3eEow6raD+wiFuMGm40tjM8oLBZcMWA1Ekvaw1a8Uqy6Nu9HJ/BIcHBmxPsGe+WhWbTqua5Xx01ngL8MT3SvVXBln4PM945qk8PCDQMfEXkze60kLEGTfOlYMKwEbx7dYL+RScG9kq0pB/OZo1hDMHYbv8wreEn6j/1TKhdzdBn2wqZyYdrRgPu7Lc9wb51fb+Z91KGxJ3ykJqeDYzM/Cn2OznQJ14/Ywp706MDr4zBp7J2CQ5SN1wzwjUI/67m9exmyKQPLwhhoYI5len4XohmkRgXJdarpjN1fhU67ZjDW0jgj+d+l/UIl381DCpKLhSl3OVu+VgLMoogAdaP8nk5eE4RNkOye54jHotxXgx+UsThKO1JBT/Und1zQ4xHKC2wSTyYgDddb/IeVC1gV0Jxj2y7SqIf91IyefBel1dCB7t+d7Mx9/NEjLQvVt9CQKCmwGBO8rpA/JLnDf9Krl8B4/lxwta1coYPL0T6I1/tsN1K50rHS1hXbKXmtxvhDVd46lcqgES6OhpbVzgaLXTaekvWm9siSUgllBKTvAWqZ8KMrFEfnKfo6AFmeodTpEsxSarircnDhFnPW3RrjSj9ZuqAQ3kfR8wYPwMYcotcD1cvVh+YuA9H4zX3a1Jy8k3/6ch8ZDM7jJHt4rGUtLSkJPjj5kHqALAIfwMTPBrj2ItHuhwt5bBYYb3dc2lkLB+SFR39LtWt6AP3d2Jq+QsrD7SiVFEfwET2LUKOUkT3ag2fUk9bKxb4KmTcJ+jpolnqClm7g52cIOIoMXhP3kXPPe+zJd5tSOGZ/sf9gKjLrd63jb7y/1v5omopZtdUs7YW18PuLhNPZcLRFMQ4MxSj4pkBl+YydNmiSu3BfW+MhIMSC4zs2ETeqgKAPSYSuZi6qtfKndOryWkRtZMKl/zrpzPCcRssUf+c/gqhuVrAfKI9mLI4lQGz8Sv4DGB/14blqEHL+n+dz5Q1nrql0t6sJdpgVcNR6w5hdXedQ7DkvUrObN4c/Shfi5wJVDFeOWNtEQUM9hrWsS7dX5rlRNRaV0GwYFQO8GPFBudkQFyZ5xEvnvW6U9iZLiv3vk47xb34qpW1i0g3HLALjAV2xi224TUB79KRXxqGsIookMpR0B4ZcITxzYAzcSRkXiMwJg+PRhzgEPnRrNj6cjy+gf1KKmon5wB3cakwuEUScjqEVdWo1M5g8w6OHLilBLT4mtBj4kUpo8+8WBHvsrBhwNj6fLAnJb92YdJiIKGzDvteKsLkVARQ8AN4YfSX0LLZ4ZnJJf5aMjCCjhptXt4MFQowoJOvz6Fxsq/pk9ZyYld/ZPhcVjRudU18dZUDY5NZsyE3yBHxK5JERa141BZVJq2xWQmYa8w3THfCqFO4Fb80Oy9AupqYv0l3tCMASzWquTDinsKEMu0iz2SoQr8PFRX/X1x2+zLdLqgvVASzhJQHvUQvQr99EDm4WMRfZKWkIPSxayJDeJD3vbSLEP4cVsqxMEW2kahedQq/B9/fZeS4P7JqYefDzEUOISEV+Qjz1uSU0Y+GkiTJfv4J1YLaYcv/GdDB/93MZ42N4hdp8AXMli/JtWqvIZOfH8HMQRA/h5mvyH/fvCIUPpfbcD81WosjgrHw8yOTS59z38+rLRLfUxlegBGR6XARBvppZpsAk9eDRN+liu2MOQY/aBMn3r5EzigrcWtOkSEMOXEaCYD/lIZYVM8xNA4qH7fU2YbCFfiaPAgRIsbrHjTzrNUmkPJUYfOBAAAADYlo8EAAJNJAHtRwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zelig's Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f7f2e8;--surface:#fdfaf4;--border:#ddd0b4;--border-mid:#c8b890;
+  --text:#2a2018;--text-mid:#6b5c40;--text-soft:#a08c68;
+  --gold:#b8832a;--gold-light:#f0e4c0;--gold-bright:#d4a844;
+  --green:#2a7a56;--green-light:#e4f2ea;
+  --stone-1:#f5f0e8;--stone-2:#ede5d4;--stone-3:#e0d4bc;
+  --radius:14px;--radius-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{background:#f7f2e8 !important;color-scheme:light !important;}
+html{scroll-behavior:smooth;}
+body{background:#faf9f7 !important;font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;-webkit-font-smoothing:antialiased;}
+
+/* ══ HEADER ══ */
+.site-header{position:relative;overflow:hidden;background:linear-gradient(175deg,#ede3cc 0%,#d9c89e 35%,#c9b47e 60%,#d9c8a0 80%,#ede3cc 100%);border-bottom:3px solid var(--border-mid);}
+.site-header::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='100'%3E%3Crect x='2' y='2' width='74' height='46' rx='1' fill='none' stroke='%237a6030' stroke-width='0.7' opacity='0.28'/%3E%3Crect x='82' y='2' width='74' height='46' rx='1' fill='none' stroke='%237a6030' stroke-width='0.7' opacity='0.28'/%3E%3Crect x='2' y='54' width='50' height='42' rx='1' fill='none' stroke='%237a6030' stroke-width='0.7' opacity='0.28'/%3E%3Crect x='58' y='54' width='70' height='42' rx='1' fill='none' stroke='%237a6030' stroke-width='0.7' opacity='0.28'/%3E%3Crect x='134' y='54' width='24' height='42' rx='1' fill='none' stroke='%237a6030' stroke-width='0.7' opacity='0.28'/%3E%3C/svg%3E");background-size:160px 100px;pointer-events:none;}
+.site-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold-bright) 50%,var(--gold) 80%,transparent);}
+
+.header-inner{position:relative;z-index:2;padding:28px 44px 24px;display:flex;flex-direction:column;align-items:center;}
+
+/* Sefer illustration SVG */
+.header-illustration{margin-bottom:14px;opacity:0.72;}
+
+.header-title{font-family:'Cormorant SC',serif;font-size:12px;letter-spacing:0.42em;color:var(--text-mid);text-transform:uppercase;margin-bottom:16px;}
+
+.date-stack{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.heb-date{font-family:'Noto Serif Hebrew',serif;font-size:22px;font-weight:500;color:var(--text);direction:rtl;line-height:1.3;letter-spacing:0.03em;}
+
+
+
+.greg-day{font-family:'Cormorant SC',serif;font-size:26px;font-weight:600;color:var(--text);letter-spacing:0.06em;}
+.greg-date{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--text-mid);letter-spacing:0.1em;margin-top:1px;}
+.time-badge{margin-top:11px;font-family:'Cormorant SC',serif;font-size:11px;letter-spacing:0.2em;color:var(--text-soft);border:1px solid var(--border-mid);padding:3px 14px;border-radius:20px;background:rgba(255,255,255,0.45);}
+
+/* ══ QUOTE ══ */
+.quote-strip{background:linear-gradient(135deg,#faf5e8,#f2e8d0);border-bottom:1px solid var(--border);padding:15px 44px;text-align:center;display:flex;align-items:center;justify-content:center;gap:10px;}
+.q-mark{font-size:28px;color:var(--gold);opacity:.35;font-family:'Cormorant Garamond',serif;line-height:1;}
+.q-text{font-style:italic;font-size:16px;color:var(--text-mid);line-height:1.45;}
+.q-source{font-family:'Cormorant SC',serif;font-size:11px;color:var(--gold);letter-spacing:.14em;margin-top:4px;}
+
+/* ══ SYNC ══ */
+.sync-bar{display:flex;align-items:center;gap:8px;padding:7px 44px;background:var(--surface);border-bottom:1px solid var(--border);font-size:12px;color:var(--text-soft);}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s;}
+.sync-dot.synced{background:var(--green);}
+.sync-dot.syncing{background:#9a6200;animation:pulse 1s infinite;}
+.sync-dot.error{background:#b02020;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ══ PAGE ══ */
+.page{max-width:920px;margin:0 auto;padding:0 44px;}
+.page-section{padding-top:22px;}
+.section-label{font-family:'Cormorant SC',serif;font-size:11px;font-weight:500;color:var(--text-soft);letter-spacing:.25em;text-transform:uppercase;margin-bottom:12px;}
+
+/* ══ DECORATIVE DIVIDER ══ */
+.ornament-divider{display:flex;align-items:center;gap:10px;margin:2px 0 14px;}
+.ornament-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border));}
+.ornament-line.r{background:linear-gradient(90deg,var(--border),transparent);}
+.ornament-center{display:flex;align-items:center;gap:6px;}
+.ornament-quill{font-size:13px;opacity:.5;}
+
+
+/* ══ LAUNCH ══ */
+.launch-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.launch-btn{display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 18px;cursor:pointer;text-decoration:none;color:var(--text);transition:all .18s;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.launch-btn:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(180,130,40,.12);transform:translateY(-1px);}
+.launch-icon{font-size:22px;flex-shrink:0;}
+.launch-en{font-family:'Cormorant SC',serif;font-size:13px;font-weight:500;letter-spacing:.06em;}
+.launch-sub{font-size:12px;color:var(--text-soft);margin-top:2px;font-style:italic;}
+.launch-arrow{margin-left:auto;font-size:14px;color:var(--text-soft);}
+
+/* ══ PANEL CARDS ══ */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.panel-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:box-shadow .2s,border-color .2s;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.panel-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);}
+.panel-card.open{border-color:var(--border-mid);}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;cursor:pointer;background:linear-gradient(135deg,var(--surface),rgba(237,229,212,.4));}
+.panel-head-left{display:flex;align-items:center;gap:10px;}
+.panel-icon-wrap{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1px solid var(--border);}
+.panel-en{font-family:'Cormorant SC',serif;font-size:13px;font-weight:500;letter-spacing:.08em;color:var(--text);line-height:1.2;}
+.panel-heb{font-family:'Noto Serif Hebrew',serif;font-size:12px;color:var(--text-soft);direction:rtl;line-height:1.2;margin-top:1px;}
+.panel-chevron{width:22px;height:22px;border-radius:50%;background:var(--stone-2);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--text-soft);transition:transform .22s,background .15s;flex-shrink:0;}
+.panel-card.open .panel-chevron{transform:rotate(90deg);background:var(--gold-light);color:var(--gold);}
+
+.panel-body{padding:14px 18px 16px;animation:fadeIn .2s ease;border-top:1px solid var(--border);}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* Panel SVG accent bar */
+.panel-accent-bar{height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light),transparent);margin:-1px -18px 12px;opacity:0.6;}
+
+.placeholder-body{padding:24px 18px;text-align:center;}
+.placeholder-svg{margin:0 auto 10px;display:block;opacity:.3;}
+.placeholder-text{font-size:13px;color:var(--text-soft);font-style:italic;line-height:1.6;}
+
+/* inner work */
+.iw-section-label{font-family:'Cormorant SC',serif;font-size:10px;letter-spacing:.15em;color:var(--text-soft);text-transform:uppercase;margin:10px 0 5px;}
+.iw-section-label:first-child{margin-top:0;}
+.iw-habit{display:flex;align-items:center;gap:9px;padding:4px 0;cursor:pointer;user-select:none;}
+.iw-check{width:16px;height:16px;border:1.5px solid var(--border-mid);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.iw-check.done{background:var(--green);border-color:var(--green);}
+.iw-check.done::after{content:'';display:block;width:4px;height:7px;border:1.5px solid white;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px);}
+.iw-habit:hover .iw-check:not(.done){border-color:var(--green);}
+.iw-label{font-size:13px;}
+.iw-habit.done .iw-label{color:var(--text-soft);text-decoration:line-through;}
+.sober-subtle{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);}
+.sober-num{font-family:'Cormorant SC',serif;font-size:22px;font-weight:500;color:var(--green);}
+.sober-lbl{font-size:12px;color:var(--text-soft);font-style:italic;}
+
+/* qlinks */
+.qlinks{display:flex;gap:6px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap;margin-top:8px;}
+.qlink{font-family:'Cormorant SC',serif;font-size:11px;letter-spacing:.08em;color:var(--text-mid);text-decoration:none;padding:4px 10px;border:1px solid var(--border);border-radius:5px;background:var(--bg);transition:all .15s;cursor:pointer;}
+.qlink:hover{border-color:var(--gold);color:var(--text);}
+
+/* schedule preview */
+.sched-block{display:flex;gap:10px;align-items:center;padding:3px 0;font-size:13px;}
+.sched-time{font-family:'Cormorant SC',serif;font-size:11px;color:var(--text-soft);min-width:40px;}
+.sched-now{font-size:10px;color:var(--green);margin-left:auto;font-style:italic;}
+
+/* ══ COMMITMENTS ══ */
+.commit-section{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.commit-top-bar{height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-bright),var(--gold-light),transparent);}
+.commit-inner{padding:18px 22px 20px;}
+.commit-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.commit-progress{display:flex;align-items:center;gap:10px;}
+.cp-bar{width:90px;height:5px;background:var(--stone-3);border-radius:5px;overflow:hidden;}
+.cp-fill{height:100%;background:linear-gradient(90deg,var(--green),#5abf8a);border-radius:5px;transition:width .4s ease;}
+.cp-count{font-family:'Cormorant SC',serif;font-size:14px;font-weight:500;color:var(--green);}
+.commit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:3px;}
+.chk-item{display:flex;align-items:center;gap:8px;padding:6px 7px;border-radius:7px;cursor:pointer;user-select:none;transition:background .12s;}
+.chk-item:hover{background:var(--gold-light);}
+.chk-box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border-mid);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.chk-item.chk-done .chk-box{background:var(--gold);border-color:var(--gold);}
+.chk-mark{color:white;font-size:10px;font-weight:700;}
+.chk-txt{font-size:13px;color:var(--text-mid);transition:all .15s;}
+.chk-item.chk-done .chk-txt{color:#b8a070;text-decoration:line-through;}
+
+/* ══ FOOTER ══ */
+.footer-ornament{text-align:center;padding:20px 44px 8px;}
+footer{margin:0 44px 0;padding-top:12px;border-top:1px solid var(--border);font-family:'Noto Serif Hebrew',serif;font-size:12px;color:var(--text-soft);text-align:center;direction:rtl;letter-spacing:.04em;padding-bottom:32px;}
+
+@media(max-width:680px){
+  .page,.sync-bar,.quote-strip,.footer-ornament,footer{padding-left:16px;padding-right:16px;}
+  .header-inner{padding:22px 16px 20px;}
+  .dash-grid,.launch-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="site-header">
+  <div class="header-inner">
+
+    <!-- Open Sefer SVG illustration -->
+    <svg class="header-illustration" width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Arch frame -->
+      <path d="M8 78 L8 38 Q8 6 110 6 Q212 6 212 38 L212 78" stroke="#7a6030" stroke-width="1.4" fill="none" opacity="0.45"/>
+      <path d="M18 78 L18 42 Q18 16 110 16 Q202 16 202 42 L202 78" stroke="#7a6030" stroke-width="0.8" fill="none" opacity="0.25"/>
+      <!-- keystone -->
+      <rect x="105" y="3" width="10" height="12" rx="1" fill="none" stroke="#9a7840" stroke-width="1" opacity="0.5"/>
+      <circle cx="110" cy="6" r="2" fill="#b8832a" opacity="0.6"/>
+      <!-- pillar bases -->
+      <rect x="4" y="72" width="10" height="6" rx="1" fill="none" stroke="#7a6030" stroke-width="0.8" opacity="0.4"/>
+      <rect x="206" y="72" width="10" height="6" rx="1" fill="none" stroke="#7a6030" stroke-width="0.8" opacity="0.4"/>
+
+      <!-- Open Sefer (book) centered -->
+      <!-- Left page -->
+      <path d="M68 28 Q72 24 110 22 L110 64 Q72 62 68 66 Z" fill="#faf5e4" stroke="#9a7840" stroke-width="0.9" opacity="0.9"/>
+      <!-- Right page -->
+      <path d="M152 28 Q148 24 110 22 L110 64 Q148 62 152 66 Z" fill="#f5f0dc" stroke="#9a7840" stroke-width="0.9" opacity="0.9"/>
+      <!-- Spine -->
+      <line x1="110" y1="22" x2="110" y2="64" stroke="#7a6030" stroke-width="1.5" opacity="0.7"/>
+      <!-- Text lines left page -->
+      <line x1="76" y1="31" x2="106" y2="30" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="76" y1="35" x2="106" y2="34" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="76" y1="39" x2="106" y2="38" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="76" y1="43" x2="106" y2="42" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="76" y1="47" x2="106" y2="46" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="76" y1="51" x2="106" y2="50" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="76" y1="55" x2="106" y2="54" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <!-- Text lines right page -->
+      <line x1="114" y1="31" x2="144" y2="30" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="114" y1="35" x2="144" y2="34" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="114" y1="39" x2="144" y2="38" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="114" y1="43" x2="144" y2="42" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="114" y1="47" x2="144" y2="46" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="114" y1="51" x2="144" y2="50" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <line x1="114" y1="55" x2="144" y2="54" stroke="#9a7840" stroke-width="0.6" opacity="0.5"/>
+      <!-- Book shadow -->
+      <path d="M68 66 Q110 68 152 66 L152 70 Q110 72 68 70 Z" fill="#9a7840" opacity="0.15"/>
+
+      <!-- Stacked books left -->
+      <rect x="32" y="58" width="28" height="8" rx="1" fill="#c4a055" opacity="0.5" stroke="#9a7040" stroke-width="0.7"/>
+      <rect x="34" y="52" width="24" height="7" rx="1" fill="#a08040" opacity="0.4" stroke="#9a7040" stroke-width="0.7"/>
+      <rect x="30" y="47" width="30" height="6" rx="1" fill="#b89050" opacity="0.45" stroke="#9a7040" stroke-width="0.7"/>
+      <!-- Stacked books right -->
+      <rect x="160" y="58" width="28" height="8" rx="1" fill="#a08040" opacity="0.45" stroke="#9a7040" stroke-width="0.7"/>
+      <rect x="162" y="52" width="24" height="7" rx="1" fill="#c4a055" opacity="0.4" stroke="#9a7040" stroke-width="0.7"/>
+      <rect x="158" y="47" width="32" height="6" rx="1" fill="#b07030" opacity="0.4" stroke="#9a7040" stroke-width="0.7"/>
+
+      <!-- Quill pen right side -->
+      <path d="M185 20 Q195 30 188 50" stroke="#7a6030" stroke-width="1" fill="none" opacity="0.5"/>
+      <path d="M185 20 Q178 28 188 50" stroke="#7a6030" stroke-width="0.7" fill="none" opacity="0.35"/>
+      <line x1="188" y1="50" x2="187" y2="56" stroke="#7a6030" stroke-width="1" opacity="0.4"/>
+
+      <!-- Candle left -->
+      <rect x="40" y="36" width="5" height="14" rx="1" fill="#e8d890" opacity="0.7" stroke="#9a8030" stroke-width="0.6"/>
+      <path d="M42.5 36 Q44 30 42.5 26 Q41 30 42.5 36" fill="#f0c040" opacity="0.7"/>
+      <ellipse cx="42.5" cy="27" rx="2" ry="3" fill="#fff0a0" opacity="0.5"/>
+    </svg>
+
+    <div class="header-title">Zelig's Command Center</div>
+
+    <div class="date-stack">
+      <div class="heb-date" id="hebDate">כ״ז אדר תשפ״ו</div>
+      <div class="greg-day" id="gregDay">Sunday</div>
+      <div class="greg-date" id="gregDate">March 29, 2026</div>
+      <div class="time-badge" id="timeBadge">--:--</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SYNC ══ -->
+<div class="sync-bar">
+  <div class="sync-dot syncing" id="syncDot"></div>
+  <span id="syncLabel">Connecting...</span>
+</div>
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-strip">
+  <div class="q-mark">"</div>
+  <div>
+    <div class="q-text" id="quoteText"></div>
+    <div class="q-source" id="quoteSource"></div>
+  </div>
+  <div class="q-mark" style="transform:scaleX(-1);display:inline-block">"</div>
+</div>
+
+<!-- ══ PAGE ══ -->
+<div class="page">
+
+  <div class="page-section">
+    <div class="section-label">Dashboards</div>
+    <div class="launch-grid">
+      <a class="launch-btn" href="recovery-dashboard.html" target="_blank">
+        <div class="launch-icon">🕯️</div>
+        <div><div class="launch-en">Daily Plan</div><div class="launch-sub">Habits · Prayer · Torah</div></div>
+        <div class="launch-arrow">↗</div>
+      </a>
+      <a class="launch-btn" href="weekly-schedule.html" target="_blank">
+        <div class="launch-icon">📅</div>
+        <div><div class="launch-en">Weekly Schedule</div><div class="launch-sub">Zmanim · Blocks · Plan</div></div>
+        <div class="launch-arrow">↗</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="page-section">
+    <div class="section-label">Areas</div>
+    <div class="dash-grid">
+
+      <!-- Torah -->
+      <div class="panel-card" id="card-torah">
+        <div class="panel-head" onclick="togglePanel('torah')">
+          <div class="panel-head-left">
+            <div class="panel-icon-wrap" style="background:#eef4e8">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="14" rx="1" fill="#5a8040" opacity="0.7"/><rect x="11" y="3" width="6" height="14" rx="1" fill="#4a7030" opacity="0.6"/><line x1="9" y1="3" x2="9" y2="17" stroke="#3a5828" stroke-width="1" opacity="0.5"/><line x1="11" y1="3" x2="11" y2="17" stroke="#3a5828" stroke-width="1" opacity="0.5"/></svg>
+            </div>
+            <div><div class="panel-en">Torah</div></div>
+          </div>
+          <div class="panel-chevron">▶</div>
+        </div>
+        <div class="placeholder-body" id="body-torah" style="display:none">
+          <svg class="placeholder-svg" width="60" height="44" viewBox="0 0 60 44" fill="none">
+            <path d="M8 42 L8 18 Q8 4 30 4 Q52 4 52 18 L52 42" stroke="#9a7840" stroke-width="1.2" fill="none" opacity="0.6"/>
+            <path d="M16 30 Q30 26 44 30 L44 40 Q30 36 16 40 Z" fill="#e8d890" opacity="0.5" stroke="#9a7840" stroke-width="0.7"/>
+            <line x1="20" y1="32" x2="40" y2="31" stroke="#7a6030" stroke-width="0.7" opacity="0.5"/>
+            <line x1="20" y1="35" x2="40" y2="34" stroke="#7a6030" stroke-width="0.7" opacity="0.5"/>
+            <line x1="20" y1="38" x2="40" y2="37" stroke="#7a6030" stroke-width="0.7" opacity="0.5"/>
+          </svg>
+          <div class="placeholder-text">Torah dashboard coming soon.<br>Will connect when ready.</div>
+        </div>
+      </div>
+
+      <!-- Inner Work -->
+      <div class="panel-card" id="card-inner">
+        <div class="panel-head" onclick="togglePanel('inner')">
+          <div class="panel-head-left">
+            <div class="panel-icon-wrap" style="background:#f0ece0">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2 Q14 6 14 10 Q14 15 10 18 Q6 15 6 10 Q6 6 10 2Z" fill="none" stroke="#8a6830" stroke-width="1.2" opacity="0.7"/><line x1="10" y1="8" x2="10" y2="16" stroke="#8a6830" stroke-width="1" opacity="0.6"/><line x1="7" y1="11" x2="13" y2="11" stroke="#8a6830" stroke-width="1" opacity="0.6"/></svg>
+            </div>
+            <div><div class="panel-en">Inner Work</div></div>
+          </div>
+          <div class="panel-chevron">▶</div>
+        </div>
+        <div class="placeholder-body" id="body-inner" style="display:none">
+          <div class="placeholder-svg" style="margin:0 auto 10px;opacity:.3">⚖️</div>
+          <div class="placeholder-text">Inner work dashboard coming soon.</div>
+        </div>
+      </div>
+
+      <!-- Writing -->
+      <div class="panel-card" id="card-writing">
+        <div class="panel-head" onclick="togglePanel('writing')">
+          <div class="panel-head-left">
+            <div class="panel-icon-wrap" style="background:#f4f0e4">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M14 3 Q17 6 14 9 L6 17 L3 17 L3 14 L11 6 Z" fill="none" stroke="#8a7030" stroke-width="1.2" opacity="0.7"/><line x1="11" y1="6" x2="14" y2="9" stroke="#8a7030" stroke-width="1" opacity="0.6"/></svg>
+            </div>
+            <div><div class="panel-en">Writing</div></div>
+          </div>
+          <div class="panel-chevron">▶</div>
+        </div>
+        <div class="placeholder-body" id="body-writing" style="display:none">
+          <svg class="placeholder-svg" width="50" height="44" viewBox="0 0 50 44" fill="none">
+            <path d="M38 4 Q44 10 38 16 L12 40 L4 40 L4 32 L30 8 Z" fill="none" stroke="#9a7840" stroke-width="1.2" opacity="0.6"/>
+            <line x1="30" y1="8" x2="38" y2="16" stroke="#9a7840" stroke-width="1" opacity="0.5"/>
+            <line x1="8" y1="36" x2="14" y2="30" stroke="#9a7840" stroke-width="1" opacity="0.4"/>
+          </svg>
+          <div class="placeholder-text">Writing tracker coming soon.</div>
+        </div>
+      </div>
+
+      <!-- Schedule -->
+      <div class="panel-card" id="card-sched">
+        <div class="panel-head" onclick="togglePanel('sched')">
+          <div class="panel-head-left">
+            <div class="panel-icon-wrap" style="background:#e8eef4">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="13" rx="2" fill="none" stroke="#3a5878" stroke-width="1.2" opacity="0.7"/><line x1="7" y1="2" x2="7" y2="6" stroke="#3a5878" stroke-width="1.2" opacity="0.6"/><line x1="13" y1="2" x2="13" y2="6" stroke="#3a5878" stroke-width="1.2" opacity="0.6"/><line x1="3" y1="9" x2="17" y2="9" stroke="#3a5878" stroke-width="0.8" opacity="0.4"/><rect x="6" y="11" width="3" height="3" rx="0.5" fill="#3a5878" opacity="0.4"/><rect x="11" y="11" width="3" height="3" rx="0.5" fill="#3a5878" opacity="0.4"/></svg>
+            </div>
+            <div><div class="panel-en">Today's Schedule</div></div>
+          </div>
+          <div class="panel-chevron">▶</div>
+        </div>
+        <div class="panel-body" id="body-sched" style="display:none">
+          <div class="panel-accent-bar"></div>
+          <div id="schedPreview"></div>
+          <div class="qlinks"><a class="qlink" href="weekly-schedule.html" target="_blank">Full Schedule →</a></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-section">
+    <div class="commit-section">
+      <div class="commit-top-bar"></div>
+      <div class="commit-inner">
+        <div class="commit-header">
+          <div class="section-label" style="margin:0">Today's Commitments</div>
+          <div class="commit-progress">
+            <div class="cp-bar"><div class="cp-fill" id="cpFill" style="width:0%"></div></div>
+            <span class="cp-count" id="cpCount">0 / 12</span>
+          </div>
+        </div>
+        <div class="commit-grid" id="commitGrid"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-ornament">
+  <svg width="200" height="16" viewBox="0 0 200 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="8" x2="80" y2="8" stroke="#c8b890" stroke-width="0.8"/>
+    <path d="M88 8 L92 4 L96 8 L92 12 Z" fill="none" stroke="#b8832a" stroke-width="0.8" opacity="0.6"/>
+    <circle cx="100" cy="8" r="2" fill="#b8832a" opacity="0.5"/>
+    <path d="M104 8 L108 4 L112 8 L108 12 Z" fill="none" stroke="#b8832a" stroke-width="0.8" opacity="0.6"/>
+    <line x1="120" y1="8" x2="200" y2="8" stroke="#c8b890" stroke-width="0.8"/>
+  </svg>
+</div>
+<footer>עֲשֵׂה לְךָ רַב · וּקְנֵה לְךָ חָבֵר · כָּל יִשְׂרָאֵל עֲרֵבִים זֶה בָּזֶה</footer>
+
+<script>
+const SB_URL='https://bhzxfljpmsvfglijanj.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJoenhmbGpwbXNvdmZnbGlqYW5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3ODg3NzAsImV4cCI6MjA4OTM2NDc3MH0.Mj3liVYR2fyA0bYkmlF8Ndn6aD_AtJxLlK60db4dgXI';
+function xhrReq(m,p,b){return new Promise((res,rej)=>{const x=new XMLHttpRequest();x.open(m,SB_URL+'/rest/v1/'+p,true);x.setRequestHeader('apikey',SB_KEY);x.setRequestHeader('Authorization','Bearer '+SB_KEY);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Prefer','resolution=merge-duplicates,return=minimal');x.timeout=15000;x.onload=()=>{try{res(x.responseText?JSON.parse(x.responseText):null);}catch(e){res(null);}};x.onerror=()=>rej(new Error('n'));x.ontimeout=()=>rej(new Error('t'));x.send(b?JSON.stringify(b):null);});}
+const dbGet=k=>xhrReq('GET','recovery_days?id=eq.'+k+'&select=data');
+const dbSet=(k,d)=>xhrReq('POST','recovery_days',{id:k,data:d,updated_at:new Date().toISOString()});
+function setSyncStatus(s,m){document.getElementById('syncDot').className='sync-dot '+s;document.getElementById('syncLabel').textContent=m;}
+function lSave(k,d){try{localStorage.setItem('r_'+k,JSON.stringify(d));}catch(e){}}
+function lLoad(k){try{return JSON.parse(localStorage.getItem('r_'+k)||'null');}catch(e){return null;}}
+function pad(n){return String(n).padStart(2,'0');}
+function todayKey(){const n=new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate());}
+let dayData={},syncTimer=null;
+
+async function loadTodayData(){
+  setSyncStatus('syncing','Loading...');
+  const key=todayKey();
+  // Show local cache immediately while Supabase loads
+  const local=lLoad(key);
+  if(local){dayData=local;if(!dayData.checks)dayData.checks={};if(!dayData.uc)dayData.uc={};renderAll();}
+  // Always fetch fresh from Supabase — this is the source of truth shared with recovery dashboard
+  try{
+    const rows=await dbGet(key);
+    if(rows&&rows.length&&rows[0].data){
+      dayData=rows[0].data;
+      if(!dayData.checks)dayData.checks={};
+      if(!dayData.uc)dayData.uc={};
+    } else {
+      if(!dayData.checks)dayData.checks={};
+      if(!dayData.uc)dayData.uc={};
+    }
+    lSave(key,dayData);
+    setSyncStatus('synced','Synced');
+  }catch(e){
+    setSyncStatus('error','Offline — saved locally');
+    if(!dayData.checks)dayData.checks={};if(!dayData.uc)dayData.uc={};
+  }
+  renderAll();
+}
+async function saveData(){
+  const key=todayKey();lSave(key,dayData);setSyncStatus('syncing','Saving...');
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(async()=>{try{await dbSet(key,dayData);setSyncStatus('synced','All changes saved');}catch(e){setSyncStatus('error','Saved locally');}},600);
+}
+
+function toHebrewDate(date){
+  const months=['ניסן','אייר','סיון','תמוז','אב','אלול','תשרי','חשון','כסלו','טבת','שבט','אדר'];
+  const num={1:'א',2:'ב',3:'ג',4:'ד',5:'ה',6:'ו',7:'ז',8:'ח',9:'ט',10:'י',11:'יא',12:'יב',13:'יג',14:'יד',15:'טו',16:'טז',17:'יז',18:'יח',19:'יט',20:'כ',21:'כא',22:'כב',23:'כג',24:'כד',25:'כה',26:'כו',27:'כז',28:'כח',29:'כט',30:'ל'};
+  const yn={5785:'תשפ״ה',5786:'תשפ״ו',5787:'תשפ״ז',5788:'תשפ״ח'};
+  const anchor=new Date('2026-03-23');const diff=Math.round((date-anchor)/86400000);
+  const ml=[30,29,30,29,30,29,30,29,30,29,30,29];const yd=ml.reduce((a,b)=>a+b,0);
+  let total=0;for(let i=0;i<11;i++)total+=ml[i];total+=23+diff;
+  let yr=5786+Math.floor((total-1)/yd);total=((total-1)%yd)+1;
+  let mi=0;while(mi<11&&total>ml[mi]){total-=ml[mi];mi++;}
+  const d=Math.max(1,Math.min(30,total));
+  return`${num[d]||d} ${months[mi]} ${yn[yr]||yr}`;
+}
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Shabbos'];
+const MONS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function updateClock(){
+  const n=new Date();
+  document.getElementById('timeBadge').textContent=pad(n.getHours())+':'+pad(n.getMinutes());
+  document.getElementById('gregDay').textContent=DAYS[n.getDay()]||'Shabbos';
+  document.getElementById('gregDate').textContent=MONS[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();
+  document.getElementById('hebDate').textContent=toHebrewDate(n);
+}
+updateClock();setInterval(updateClock,30000);
+
+const QUOTES=[
+  {text:"We are what we repeatedly do. Excellence, then, is not an act, but a habit.",source:"Aristotle"},
+  {text:"Excuses make today easy, but tomorrow harder. Discipline makes today hard, but tomorrow easier.",source:""},
+  {text:"I learned that it is foolish to scold. I have enough trouble overcoming my own limitations without fretting over the fact that God has not seen fit to distribute evenly the gift of intelligence.",source:"Dale Carnegie"},
+  {text:"I don't like that man. I must get to know him better.",source:"Abraham Lincoln"},
+  {text:"Loneliness does not come from having no people about one, but from being unable to communicate the things that seem important to oneself.",source:"Carl Jung"},
+  {text:"Sure I am that this day we are the masters of our fate. The task set before us is not above our strength. As long as we have faith in our cause and an unconquerable will-power, salvation will not be denied us.",source:"Winston Churchill"},
+  {text:"I read so I can live more than one life in more than one place.",source:"Anne Tyler"},
+  {text:"Great minds discuss ideas; average minds discuss events; small minds discuss people.",source:"Eleanor Roosevelt"},
+  {text:"We do not think ourselves into new ways of living. We live ourselves into new ways of thinking.",source:"Richard Rohr"},
+  {text:"You do not rise to the level of your goals. You fall to the level of your systems.",source:"James Clear"},
+  {text:"The main thing is to keep the main thing the main thing.",source:""},
+  {text:"If you argue for your limitations, you get to keep them. If you argue for your possibilities, you get to create them.",source:"Kelly Lee Phipps"},
+  {text:"Employ your time in improving yourself by other men's writings, so that you shall come easily by what others have labored hard for.",source:"Socrates"},
+  {text:"Watch your thoughts — they become your words; your words — your actions; your actions — your habits; your habits — your character; your character — your destiny.",source:"Lao Tzu"},
+  {text:"If you want to learn something, read about it. If you want to understand something, write about it. If you want to master something, teach it.",source:"Yogi Bhajan"},
+  {text:"Our life is frittered away by detail... simplify, simplify.",source:"Henry David Thoreau"},
+  {text:"I did try to found a little heresy of my own; and when I had put the last touches to it, I discovered that it was orthodoxy.",source:"G.K. Chesterton"},
+  {text:"אז איר וועט מאכן ליכטיק ביי אנדערע וועט זיין ליכטיק ביי אייך",source:""},
+  {text:"If I find in myself a desire which no experience in this world can satisfy, the most probable explanation is that I was made for another world.",source:"C.S. Lewis"},
+  {text:"In the place where baalei teshuva stand, the perfectly righteous cannot stand.",source:"Berachot 34b"},
+  {text:"Who is mighty? One who conquers his own inclination.",source:"Avos 4:1"},
+  {text:"The heart of man plans his way, but Hashem directs his steps.",source:"Mishlei 16:9"},
+  {text:"A person is obligated to say: the world was created for my sake.",source:"Sanhedrin 37a"},
+  {text:"Be very, very humble, for the hope of man is the worm.",source:"Avos 4:4"},
+];
+// Rotate by day of year so quote changes daily
+function dayOfYear(){const n=new Date();return Math.floor((n-new Date(n.getFullYear(),0,0))/86400000);}
+const q=QUOTES[dayOfYear()%QUOTES.length];
+document.getElementById('quoteText').textContent=q.text;
+document.getElementById('quoteSource').textContent=q.source;
+
+
+const openPanels={inner:false,sched:false,torah:false,writing:false};
+function togglePanel(id){
+  openPanels[id]=!openPanels[id];
+  const card=document.getElementById('card-'+id);const body=document.getElementById('body-'+id);
+  if(!card||!body)return;
+  if(openPanels[id]){card.classList.add('open');body.style.display='';}
+  else{card.classList.remove('open');body.style.display='none';}
+}
+
+const IW_PRAYER=['p_shach','p_talk','p_shema'];
+const IW_EXTRA=['iw_mussar','iw_spouse','iw_cheshbon'];
+function iwToggle(id){
+  if(IW_PRAYER.includes(id))dayData.checks[id]=!dayData.checks[id];
+  else{if(!dayData.uc)dayData.uc={};dayData.uc[id]=!dayData.uc[id];}
+  renderIW();saveData();
+}
+function renderIW(){
+  IW_PRAYER.forEach(id=>{const done=!!(dayData.checks&&dayData.checks[id]);document.getElementById('iwchk-'+id).className='iw-check'+(done?' done':'');document.getElementById('iw-'+id).className='iw-habit'+(done?' done':'');});
+  IW_EXTRA.forEach(id=>{const done=!!(dayData.uc&&dayData.uc[id]);document.getElementById('iwchk-'+id).className='iw-check'+(done?' done':'');document.getElementById('iw-'+id).className='iw-habit'+(done?' done':'');});
+}
+function renderSober(){
+  let s='';try{s=localStorage.getItem('r_sobdate')||'';}catch(e){}
+  if(!s){document.getElementById('soberNum').textContent='—';return;}
+  document.getElementById('soberNum').textContent=Math.max(0,Math.floor((new Date()-new Date(s+'T00:00:00'))/86400000));
+}
+
+const SCHED={
+  0:[{t:'5:45',l:'Wake & Morning Prep'},{t:'6:30',l:'Chassidus'},{t:'6:50',l:'Shacharis'},{t:'9:00',l:'Tutoring'},{t:'16:00',l:'Gemara seder'},{t:'19:00',l:'Maariv'}],
+  1:[{t:'5:45',l:'Wake'},{t:'6:30',l:'Chassidus'},{t:'7:30',l:'Shacharis'},{t:'9:00',l:'Tutoring'},{t:'12:20',l:'Freelance — BPL'},{t:'15:30',l:'Cheder'},{t:'19:15',l:'Gemara'},{t:'20:20',l:'Maariv'}],
+  2:[{t:'5:45',l:'Wake'},{t:'6:30',l:'Chassidus'},{t:'7:30',l:'Shacharis'},{t:'9:00',l:'Tutoring'},{t:'12:20',l:'Freelance — BPL'},{t:'15:30',l:'Cheder'},{t:'19:15',l:'Gemara'},{t:'20:20',l:'Maariv'}],
+  3:[{t:'5:45',l:'Wake'},{t:'6:30',l:'Chassidus'},{t:'7:30',l:'Shacharis'},{t:'9:00',l:'Tutoring'},{t:'12:20',l:'Freelance — BPL'},{t:'15:30',l:'Cheder'},{t:'19:15',l:'Gemara — midweek'},{t:'20:30',l:'Maariv'}],
+  4:[{t:'5:45',l:'Wake'},{t:'6:30',l:'Chassidus'},{t:'7:30',l:'Shacharis'},{t:'9:00',l:'Tutoring'},{t:'12:20',l:'Freelance — BPL'},{t:'15:30',l:'Cheder'},{t:'20:20',l:'Chassidus / Parsha Prep'},{t:'20:35',l:'Maariv'}],
+  5:[{t:'5:45',l:'Wake'},{t:'6:30',l:'Chassidus — Erev Shabbos'},{t:'7:45',l:'Shacharis'},{t:'9:25',l:'Tutoring'},{t:'11:10',l:'Gemara — last weekday seder'},{t:'12:20',l:'Shabbos Prep · Family'}],
+  6:[{t:'—',l:'Shabbos — no schedule'}],
+};
+function renderSchedulePreview(){
+  const day=new Date().getDay();const blocks=SCHED[day]||[];
+  const nowH=new Date().getHours()+new Date().getMinutes()/60;
+  document.getElementById('schedPreview').innerHTML=blocks.map(b=>{
+    const parts=b.t.split(':');const bH=parts[0]==='—'?999:parseInt(parts[0])+(parseInt(parts[1]||0)/60);
+    const cur=bH<=nowH&&bH+2>nowH;
+    return`<div class="sched-block" style="${cur?'font-weight:600':''}"><span class="sched-time">${b.t}</span><span>${b.l}</span>${cur?'<span class="sched-now">now</span>':''}</div>`;
+  }).join('');
+}
+
+// Full 15-habit sync — exact same keys as recovery dashboard
+// Checkboxes: s_bed, s_rise, s_cal, s_cardio, p_shach, p_talk, p_shema,
+//             r_bb, r_wb, t_chitas, t_rambam, t_gemara, t_chas, t_mishnayos
+// Counters:   calls (>=3 = done), meetings (>=1 = done)
+const COMMITS=[
+  // Sleep & Body
+  {id:'s_bed',   label:'In bed by 10 pm',        type:'check'},
+  {id:'s_rise',  label:'Out of bed by 7 am',      type:'check'},
+  {id:'s_cal',   label:'5 min calisthenics',       type:'check'},
+  {id:'s_cardio',label:'20+ min cardio',           type:'check'},
+  // Prayer
+  {id:'p_shach', label:'Shacharis',                type:'check'},
+  {id:'p_talk',  label:'Talk to G-d',              type:'check'},
+  {id:'p_shema', label:'Krias Shema al Hamitah',   type:'check'},
+  // Torah
+  {id:'t_chitas',   label:'Chitas',               type:'check'},
+  {id:'t_rambam',   label:'Rambam',               type:'check'},
+  {id:'t_gemara',   label:'Gemara',               type:'check'},
+  {id:'t_chas',     label:'1 page Chassidus',     type:'check'},
+  {id:'t_mishnayos',label:'Mishnayos',            type:'check'},
+];
+function toggleCommit(id, type){
+  if(type==='counter') return; // counters are managed in recovery dashboard
+  dayData.checks[id]=!dayData.checks[id];
+  renderCommits();saveData();
+}
+function renderCommits(){
+  const grid=document.getElementById('commitGrid');grid.innerHTML='';let done=0;
+  const total=COMMITS.length;
+  COMMITS.forEach(c=>{
+    let checked=false;
+    if(c.type==='check') checked=!!(dayData.checks&&dayData.checks[c.id]);
+    else if(c.type==='counter') checked=(dayData[c.id]||0)>=c.threshold;
+    if(checked)done++;
+    const item=document.createElement('label');
+    item.className='chk-item'+(checked?' chk-done':'')+(c.type==='counter'?' chk-readonly':'');
+    item.style.cursor=c.type==='counter'?'default':'pointer';
+    item.innerHTML=`<div class="chk-box">${checked?'<span class="chk-mark">✓</span>':''}</div><input type="checkbox" style="display:none"><span class="chk-txt">${c.label}</span>`;
+    if(c.type==='check') item.addEventListener('click',e=>{e.preventDefault();toggleCommit(c.id,c.type);});
+    grid.appendChild(item);
+  });
+  const pct=Math.round(done/total*100);
+  document.getElementById('cpFill').style.width=pct+'%';
+  document.getElementById('cpCount').textContent=done+' / '+total;
+}
+function renderAll(){renderCommits();}
+renderSchedulePreview();
+loadTodayData();
+window.addEventListener('beforeunload',()=>{if(syncTimer){const key=todayKey();const x=new XMLHttpRequest();x.open('POST',SB_URL+'/rest/v1/recovery_days',false);x.setRequestHeader('apikey',SB_KEY);x.setRequestHeader('Authorization','Bearer '+SB_KEY);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Prefer','resolution=merge-duplicates,return=minimal');try{x.send(JSON.stringify({id:key,data:dayData,updated_at:new Date().toISOString()}));}catch(err){}}});
+</script>
+</body>
+</html>
