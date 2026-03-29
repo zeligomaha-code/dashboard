@@ -788,12 +788,7 @@ const TS_KEYS = ['ts_resent','ts_unappreciated','ts_entitle','ts_stress','ts_fea
 const RS_KEYS = ['rs_called','rs_named','rs_room','rs_prayer','rs_outside','rs_structure'];
 var pendingBottomLineKey = null;
 
-function toggleAcct(){
-  var body=document.getElementById('acct-body');
-  var chev=document.getElementById('acct-chevron');
-  body.classList.toggle('open');
-  chev.classList.toggle('open');
-}
+// toggleAcct handled by PIN version above
 
 async function acctBottomLine(id){
   var data=await loadDay(currentDate);
