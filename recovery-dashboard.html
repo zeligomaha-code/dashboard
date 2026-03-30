@@ -681,7 +681,6 @@ async // loadBulk defined above
 ); missing.forEach(function(k){ var l=lLoad(k); if(l) cache[k]=l; }); var still=missing.filter(function(k){ return !cache[k]; }); if(!still.length) return;
   try { var rows=await dbGetMany(still); if(rows) rows.forEach(function(row){ cache[row.id]=normalizeDay(row.data); lSave(row.id,cache[row.id]); }); still.forEach(function(k){ if(!cache[k]) cache[k]=emptyDay(); }); }
   catch(e){ still.forEach(function(k){ if(!cache[k]) cache[k]=emptyDay(); }); }
-}
 // getCache defined above
 
 

@@ -428,7 +428,7 @@ function toHebrewDate(date){
   const months=['ניסן','אייר','סיון','תמוז','אב','אלול','תשרי','חשון','כסלו','טבת','שבט','אדר'];
   const num={1:'א',2:'ב',3:'ג',4:'ד',5:'ה',6:'ו',7:'ז',8:'ח',9:'ט',10:'י',11:'יא',12:'יב',13:'יג',14:'יד',15:'טו',16:'טז',17:'יז',18:'יח',19:'יט',20:'כ',21:'כא',22:'כב',23:'כג',24:'כד',25:'כה',26:'כו',27:'כז',28:'כח',29:'כט',30:'ל'};
   const yn={5785:'תשפ״ה',5786:'תשפ״ו',5787:'תשפ״ז',5788:'תשפ״ח'};
-  const anchor=new Date('2026-03-23');const diff=Math.round((date-anchor)/86400000);
+  const anchor=new Date(2026,2,23);const diff=Math.floor((date-anchor)/86400000);
   const ml=[30,29,30,29,30,29,30,29,30,29,30,29];const yd=ml.reduce((a,b)=>a+b,0);
   let total=0;for(let i=0;i<11;i++)total+=ml[i];total+=23+diff;
   let yr=5786+Math.floor((total-1)/yd);total=((total-1)%yd)+1;
