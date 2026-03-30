@@ -383,7 +383,7 @@ footer{margin:0 44px 0;padding-top:12px;border-top:1px solid var(--border);font-
 <script>
 const SB_URL='https://bhzxfljpmsovfglijanj.supabase.co';
 const SB_KEY='sb_publishable_ENBdiizYPtUTxclBftoJEw_SE1norDn';
-function xhrReq(m,p,b){return new Promise((res,rej)=>{const x=new XMLHttpRequest();x.open(m,SB_URL+'/rest/v1/'+p,true);x.setRequestHeader('apikey',SB_KEY);x.setRequestHeader('Authorization','Bearer '+SB_KEY);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Prefer','resolution=merge-duplicates,return=minimal');x.timeout=15000;x.onload=()=>{try{res(x.responseText?JSON.parse(x.responseText):null);}catch(e){res(null);}};x.onerror=()=>rej(new Error('n'));x.ontimeout=()=>rej(new Error('t'));x.send(b?JSON.stringify(b):null);});}
+function xhrReq(m,p,b){return new Promise((res,rej)=>{const x=new XMLHttpRequest();x.open(m,SB_URL+'/rest/v1/'+p,true);x.setRequestHeader('apikey',SB_KEY);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Prefer','resolution=merge-duplicates,return=minimal');x.timeout=15000;x.onload=()=>{try{res(x.responseText?JSON.parse(x.responseText):null);}catch(e){res(null);}};x.onerror=()=>rej(new Error('n'));x.ontimeout=()=>rej(new Error('t'));x.send(b?JSON.stringify(b):null);});}
 const dbGet=k=>xhrReq('GET','recovery_days?id=eq.'+k+'&select=data');
 const dbSet=(k,d)=>xhrReq('POST','recovery_days',{id:k,data:d,updated_at:new Date().toISOString()});
 function setSyncStatus(s,m){document.getElementById('syncDot').className='sync-dot '+s;document.getElementById('syncLabel').textContent=m;}
@@ -582,7 +582,7 @@ function renderCommits(){
 function renderAll(){renderCommits();}
 renderSchedulePreview();
 loadTodayData();
-window.addEventListener('beforeunload',()=>{if(syncTimer){const key=todayKey();const x=new XMLHttpRequest();x.open('POST',SB_URL+'/rest/v1/recovery_days',false);x.setRequestHeader('apikey',SB_KEY);x.setRequestHeader('Authorization','Bearer '+SB_KEY);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Prefer','resolution=merge-duplicates,return=minimal');try{x.send(JSON.stringify({id:key,data:dayData,updated_at:new Date().toISOString()}));}catch(err){}}});
+window.addEventListener('beforeunload',()=>{if(syncTimer){const key=todayKey();const x=new XMLHttpRequest();x.open('POST',SB_URL+'/rest/v1/recovery_days',false);x.setRequestHeader('apikey',SB_KEY);x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('Prefer','resolution=merge-duplicates,return=minimal');try{x.send(JSON.stringify({id:key,data:dayData,updated_at:new Date().toISOString()}));}catch(err){}}});
 </script>
 </body>
 </html>

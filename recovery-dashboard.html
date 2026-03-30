@@ -545,7 +545,6 @@ function xhrRequest(method, path, body) {
     var xhr = new XMLHttpRequest();
     xhr.open(method, SB_URL + '/rest/v1/' + path, true);
     xhr.setRequestHeader('apikey', SB_KEY);
-    xhr.setRequestHeader('Authorization', 'Bearer ' + SB_KEY);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Prefer', 'resolution=merge-duplicates,return=minimal');
     xhr.timeout = 30000;
@@ -670,7 +669,6 @@ window.addEventListener('beforeunload', function(){
     var xhr = new XMLHttpRequest();
     xhr.open('POST', SB_URL+'/rest/v1/recovery_days', false); // synchronous
     xhr.setRequestHeader('apikey', SB_KEY);
-    xhr.setRequestHeader('Authorization', 'Bearer '+SB_KEY);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Prefer', 'resolution=merge-duplicates,return=minimal');
     try{ xhr.send(JSON.stringify({id:key, data:saveQueue[key], updated_at:new Date().toISOString()})); }catch(err){}
