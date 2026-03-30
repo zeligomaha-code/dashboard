@@ -425,16 +425,25 @@ async function saveData(){
 }
 
 function toHebrewDate(date){
+  // Verified anchor: March 29 2026 = 11 Nissan 5786 (Chabad.org confirmed)
   const months=['ניסן','אייר','סיון','תמוז','אב','אלול','תשרי','חשון','כסלו','טבת','שבט','אדר'];
   const num={1:'א',2:'ב',3:'ג',4:'ד',5:'ה',6:'ו',7:'ז',8:'ח',9:'ט',10:'י',11:'יא',12:'יב',13:'יג',14:'יד',15:'טו',16:'טז',17:'יז',18:'יח',19:'יט',20:'כ',21:'כא',22:'כב',23:'כג',24:'כד',25:'כה',26:'כו',27:'כז',28:'כח',29:'כט',30:'ל'};
-  const yn={5785:'תשפ״ה',5786:'תשפ״ו',5787:'תשפ״ז',5788:'תשפ״ח'};
-  const anchor=new Date(2026,2,23);const diff=Math.floor((date-anchor)/86400000);
-  const ml=[30,29,30,29,30,29,30,29,30,29,30,29];const yd=ml.reduce((a,b)=>a+b,0);
-  let total=0;for(let i=0;i<11;i++)total+=ml[i];total+=23+diff;
-  let yr=5786+Math.floor((total-1)/yd);total=((total-1)%yd)+1;
-  let mi=0;while(mi<11&&total>ml[mi]){total-=ml[mi];mi++;}
-  const d=Math.max(1,Math.min(30,total));
-  return`${num[d]||d} ${months[mi]} ${yn[yr]||yr}`;
+  const yn={5784:'תשפ״ד',5785:'תשפ״ה',5786:'תשפ״ו',5787:'תשפ״ז',5788:'תשפ״ח'};
+  const ml=[30,29,30,29,30,29,30,29,30,29,30,29]; // regular year 354 days
+  const yd=354;
+  // Anchor: March 29 2026 local midnight = day 11 of Nissan (month index 0) year 5786
+  const anchor=new Date(2026,2,29); // local midnight — avoids UTC offset issues
+  const diff=Math.floor((date-anchor)/86400000);
+  // Day of year for anchor = 11 (Nissan days 1-11 = 11)
+  let doy=11+diff;
+  let year=5786;
+  // Handle year boundaries
+  while(doy>yd){doy-=yd;year++;}
+  while(doy<1){year--;doy+=yd;}
+  // Walk months
+  let mi=0,t=doy;
+  while(mi<11&&t>ml[mi]){t-=ml[mi];mi++;}
+  return`${num[t]||t} ${months[mi]} ${yn[year]||year}`;
 }
 const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Shabbos'];
 const MONS=['January','February','March','April','May','June','July','August','September','October','November','December'];
