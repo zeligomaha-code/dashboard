@@ -557,23 +557,7 @@ function dbGet(k){return sbReq('GET','recovery_days?id=eq.'+encodeURIComponent(k
 function dbSet(k,d){return sbReq('POST','recovery_days',{id:k,data:d,updated_at:new Date().toISOString()});}
 function dbGetMany(keys){if(!keys.length)return Promise.resolve([]);return sbReq('GET','recovery_days?id=in.('+keys.join(',')+')'+'&select=id,data');}
 
-// On first visit (no localStorage), silently fetch settings from DB into localStorage
-(function(){
-  var hasCore = localStorage.getItem('r_custom_habits');
-  var hasAspire = localStorage.getItem('r_custom_aspire');
-  if (!hasCore || !hasAspire) {
-    sbReq('GET','recovery_days?id=eq._settings&select=data').then(function(rows){
-      if (rows && rows.length && rows[0].data) {
-        var d = rows[0].data;
-        if (d.habits_core) localStorage.setItem('r_custom_habits', JSON.stringify(d.habits_core));
-        if (d.habits_aspire) localStorage.setItem('r_custom_aspire', JSON.stringify(d.habits_aspire));
-        if (d.chrono_order) localStorage.setItem('r_chrono_order', JSON.stringify(d.chrono_order));
-        // Reload page to apply fetched settings
-        window.location.reload();
-      }
-    }).catch(function(){});
-  }
-})();
+
 
 function setSS(state,msg){document.getElementById('syncDot').className='sync-dot '+state;document.getElementById('syncLabel').textContent=msg;}
 
