@@ -1051,14 +1051,14 @@ function archiveHabit(prefix,p,idx){
   var active=t[p].filter(function(h){return !h.archived;});
   if(active.length<=1){alert('Each pillar needs at least one active habit.');return;}
   t[p][idx].archived=true;
-  lSave(prefix==='core'?'custom_habits':'custom_aspire',JSON.stringify(t));
+  saveSettingsToDB();
   buildCorePillars();buildAspirePillars();renderSettings();renderToday();
 }
 
 function restoreHabit(prefix,p,idx){
   var t=prefix==='core'?CH:AH;
   t[p][idx].archived=false;
-  lSave(prefix==='core'?'custom_habits':'custom_aspire',JSON.stringify(t));
+  saveSettingsToDB();
   buildCorePillars();buildAspirePillars();renderSettings();renderToday();
 }
 
@@ -1394,10 +1394,57 @@ function moveReorder(id, dir) {
 }
 
 function saveChronoOrder() {
-  lSave('chrono_order', JSON.stringify(chronoOrder));
+  saveSettingsToDB();
   var conf = document.getElementById('reorderConfirm');
   conf.textContent = 'Order saved ✓';
   setTimeout(function(){conf.textContent='';}, 2000);
+}
+
+// ════════════════════
+// SETTINGS PERSISTENCE (Supabase)
+// ════════════════════
+async function loadSettingsFromDB() {
+  try {
+    var rows = await sbReq('GET', 'recovery_days?id=eq._settings&select=data');
+    if (rows && rows.length && rows[0].data) {
+      var d = rows[0].data;
+      if (d.habits_core) {
+        var validCore = CO.every(function(p){return Array.isArray(d.habits_core[p]);});
+        if (validCore) CH = d.habits_core;
+      }
+      if (d.habits_aspire) {
+        var validAspire = AO.every(function(p){return Array.isArray(d.habits_aspire[p]);});
+        if (validAspire) AH = d.habits_aspire;
+      }
+      if (d.chrono_order && Array.isArray(d.chrono_order) && d.chrono_order.length) {
+        chronoOrder = d.chrono_order;
+      }
+      // Also cache locally
+      lSave('custom_habits', JSON.stringify(CH));
+      lSave('custom_aspire', JSON.stringify(AH));
+      lSave('chrono_order', JSON.stringify(chronoOrder));
+    }
+  } catch(e) {
+    // Fall back to localStorage (already loaded at startup)
+  }
+}
+
+function saveSettingsToDB() {
+  var payload = {
+    id: '_settings',
+    data: {
+      habits_core: CH,
+      habits_aspire: AH,
+      chrono_order: chronoOrder
+    },
+    updated_at: new Date().toISOString()
+  };
+  // Save locally immediately
+  lSave('custom_habits', JSON.stringify(CH));
+  lSave('custom_aspire', JSON.stringify(AH));
+  lSave('chrono_order', JSON.stringify(chronoOrder));
+  // Save to Supabase in background
+  sbReq('POST', 'recovery_days', payload).catch(function(){});
 }
 
 // ════════════════════
@@ -1407,6 +1454,14 @@ buildCorePillars();
 buildAspirePillars();
 renderToday();
 initSobriety();
+// Load settings from Supabase and rebuild if different from localStorage
+loadSettingsFromDB().then(function(){
+  buildCorePillars();
+  buildAspirePillars();
+  if(currentView==='chrono'){
+    var d=getDay(currentDate);renderChronoList(d);
+  }
+});
 
 window.addEventListener('beforeunload',function(){
   Object.keys(saveTimers).forEach(function(key){
