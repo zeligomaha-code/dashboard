@@ -1403,7 +1403,12 @@ function saveChronoOrder() {
 // ════════════════════
 // SETTINGS PERSISTENCE (Supabase)
 // ════════════════════
+var settingsLoaded = false;
+var settingsDirty = false; // true once user saves anything
+
 async function loadSettingsFromDB() {
+  if (settingsLoaded || settingsDirty) return; // never run twice or after user edits
+  settingsLoaded = true;
   try {
     var rows = await sbReq('GET', 'recovery_days?id=eq._settings&select=data');
     if (rows && rows.length && rows[0].data) {
@@ -1419,17 +1424,15 @@ async function loadSettingsFromDB() {
       if (d.chrono_order && Array.isArray(d.chrono_order) && d.chrono_order.length) {
         chronoOrder = d.chrono_order;
       }
-      // Also cache locally
       lSave('custom_habits', JSON.stringify(CH));
       lSave('custom_aspire', JSON.stringify(AH));
       lSave('chrono_order', JSON.stringify(chronoOrder));
     }
-  } catch(e) {
-    // Fall back to localStorage (already loaded at startup)
-  }
+  } catch(e) {}
 }
 
 function saveSettingsToDB() {
+  settingsDirty = true; // prevent loadSettingsFromDB from overwriting
   var payload = {
     id: '_settings',
     data: {
@@ -1439,11 +1442,9 @@ function saveSettingsToDB() {
     },
     updated_at: new Date().toISOString()
   };
-  // Save locally immediately
   lSave('custom_habits', JSON.stringify(CH));
   lSave('custom_aspire', JSON.stringify(AH));
   lSave('chrono_order', JSON.stringify(chronoOrder));
-  // Save to Supabase in background
   sbReq('POST', 'recovery_days', payload).catch(function(){});
 }
 
