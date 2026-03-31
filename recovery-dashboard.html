@@ -1407,7 +1407,7 @@ var settingsLoaded = false;
 var settingsDirty = false; // true once user saves anything
 
 async function loadSettingsFromDB() {
-  if (settingsLoaded || settingsDirty) return; // never run twice or after user edits
+  if (settingsLoaded) return;
   settingsLoaded = true;
   try {
     var rows = await sbReq('GET', 'recovery_days?id=eq._settings&select=data');
@@ -1451,17 +1451,12 @@ function saveSettingsToDB() {
 // ════════════════════
 // INIT
 // ════════════════════
-buildCorePillars();
-buildAspirePillars();
-renderToday();
-initSobriety();
-// Load settings from Supabase and rebuild if different from localStorage
+// Load settings from Supabase FIRST, then build UI
 loadSettingsFromDB().then(function(){
   buildCorePillars();
   buildAspirePillars();
-  if(currentView==='chrono'){
-    var d=getDay(currentDate);renderChronoList(d);
-  }
+  renderToday();
+  initSobriety();
 });
 
 window.addEventListener('beforeunload',function(){
