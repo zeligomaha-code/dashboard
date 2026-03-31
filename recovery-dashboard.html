@@ -230,6 +230,46 @@ body{font-family:Georgia,'Times New Roman',serif;color:#1a1916;min-height:100vh;
 .notes-area:focus{border-color:var(--green);}
 .save-ind{font-size:11px;color:var(--text-soft);margin-top:4px;height:14px;font-style:italic;}
 
+
+/* VIEW TOGGLE */
+.view-toggle{display:flex;align-items:center;gap:6px;margin-bottom:12px;}
+.vt-btn{padding:5px 14px;border:1px solid var(--border);border-radius:99px;background:#fff;font-size:12px;font-family:Georgia,serif;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all .15s;}
+.vt-btn.active{background:var(--text);color:white;border-color:var(--text);}
+.vt-label{font-size:11px;color:var(--text-soft);margin-left:4px;}
+
+/* CHRONOLOGICAL LIST */
+.chrono-list{display:flex;flex-direction:column;gap:0;margin-bottom:12px;}
+.chrono-item{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;background:#fff;border-left:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;user-select:none;transition:background .1s;}
+.chrono-item:first-child{border-top:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0;}
+.chrono-item:last-child{border-radius:0 0 var(--radius) var(--radius);}
+.chrono-item:active{background:var(--bg);}
+.chrono-item.done{background:#fafffe;}
+
+.chrono-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.chrono-chk{width:17px;height:17px;border:1.5px solid var(--border-mid);border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.chrono-chk.done{background:var(--green);border-color:var(--green);}
+.chrono-chk.done::after{content:'';display:block;width:4px;height:8px;border:1.5px solid white;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px);}
+.chrono-info{flex:1;}
+.chrono-label{font-size:13px;line-height:1.4;}
+.chrono-note{font-size:11px;color:var(--text-soft);font-style:italic;margin-top:1px;}
+.chrono-item.done .chrono-label{color:var(--text-soft);text-decoration:line-through;}
+/* Counters in chrono view */
+.chrono-ctr-item{padding:9px 14px;background:#fff;border-left:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+
+/* SETTINGS REORDER */
+.reorder-section{margin-bottom:16px;}
+.reorder-title{font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;}
+.reorder-list{display:flex;flex-direction:column;gap:4px;}
+.reorder-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);}
+.reorder-drag{color:var(--text-soft);font-size:14px;cursor:ns-resize;flex-shrink:0;}
+
+.reorder-lbl{flex:1;font-size:12px;color:var(--text-mid);}
+.reorder-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.reorder-up{background:none;border:1px solid var(--border);border-radius:4px;width:22px;height:22px;cursor:pointer;font-size:11px;color:var(--text-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.reorder-up:hover{background:var(--bg);color:var(--text);}
+.reorder-dn{background:none;border:1px solid var(--border);border-radius:4px;width:22px;height:22px;cursor:pointer;font-size:11px;color:var(--text-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.reorder-dn:hover{background:var(--bg);color:var(--text);}
+
 footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);font-size:11px;color:var(--text-soft);font-style:italic;text-align:center;font-family:'Noto Serif Hebrew',serif;direction:rtl;padding-bottom:20px;}
 @media(max-width:600px){.pillars,.streak-row,.stat-grid{grid-template-columns:1fr 1fr;}}
 </style>
@@ -293,7 +333,12 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
       <div class="scard"><div class="scard-num" id="totalNum">0</div><div class="scard-label">days tracked</div></div>
     </div>
 
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt-pillar" onclick="setView('pillar')">By Pillar</button>
+      <button class="vt-btn" id="vt-chrono" onclick="setView('chrono')">By Time</button>
+    </div>
     <div id="corePillars" class="pillars"></div>
+    <div id="chronoList" class="chrono-list" style="display:none;"></div>
 
     <!-- PIN -->
     <div class="pin-dlg" id="pinDlg">
@@ -469,7 +514,12 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
       <button class="import-btn" onclick="importMeetings()">Import Meetings from Spreadsheet</button>
       <div class="import-result" id="importResult"></div>
     </div>
-    <div class="set-sec-title" style="margin-top:0;padding-top:0;border-top:none;">Core Habits</div>
+    <div class="set-sec-title" style="margin-top:0;padding-top:0;border-top:none;">Chronological Order</div>
+    <div style="font-size:12px;color:var(--text-soft);margin-bottom:12px;line-height:1.5;">Use arrows to set the order habits appear in the By Time view.</div>
+    <div class="reorder-list" id="reorderList"></div>
+    <button class="set-save" style="margin-bottom:14px;" onclick="saveChronoOrder()">Save Order</button>
+    <div class="set-confirm" id="reorderConfirm"></div>
+    <div class="set-sec-title">Core Habits</div>
     <div id="setCoreContainer"></div>
     <div class="set-sec-title">Aspirations</div>
     <div id="setAspireContainer"></div>
@@ -569,7 +619,14 @@ function deepCopy(o){return JSON.parse(JSON.stringify(o));}
 
 function loadCfg(key,def){
   var s=lLoad(key);
-  if(s){try{var p=JSON.parse(s);var ok=Object.keys(def).every(function(k){return Array.isArray(p[k]);});if(ok)return p;}catch(e){}}
+  if(s&&typeof s==='object'){
+    try{
+      // if stored as stringified JSON inside the value
+      var p=typeof s==='string'?JSON.parse(s):s;
+      var ok=Object.keys(def).every(function(k){return Array.isArray(p[k]);});
+      if(ok)return p;
+    }catch(e){}
+  }
   return deepCopy(def);
 }
 
@@ -729,6 +786,7 @@ function renderCoreUI(data){
   var pre=diff===0?'Today — ':diff===-1?'Yesterday — ':diff===1?'Tomorrow — ':'';
   document.getElementById('dateDisplay').textContent=pre+DAYS_FULL[d.getDay()]+', '+MONTHS[d.getMonth()]+' '+d.getDate();
   renderWeekStrip();renderStreaks();renderAcct(data);
+  if(currentView==='chrono'){renderChronoCheckboxes(data);}
 }
 
 function renderAspireUI(data){
@@ -756,18 +814,19 @@ async function renderToday(){
   var data=getDay(currentDate);renderCoreUI(data);renderAspireUI(data);
   var fresh=await fetchDay(currentDate);setSS('synced','All changes saved');
   renderCoreUI(fresh);renderAspireUI(fresh);
+  if(currentView==='chrono')renderChronoList(fresh);
 }
 
 // ════════════════════
 // TOGGLES
 // ════════════════════
-function toggleCore(id){var d=getDay(currentDate);d.checks[id]=!d.checks[id];renderCoreUI(d);saveDay(currentDate,d);}
+function toggleCore(id){var d=getDay(currentDate);d.checks[id]=!d.checks[id];renderCoreUI(d);if(currentView==='chrono')renderChronoList(d);saveDay(currentDate,d);}
 function toggleAspire(id){var d=getDay(currentDate);if(!d.aspire)d.aspire={};d.aspire[id]=!d.aspire[id];renderAspireUI(d);saveDay(currentDate,d);}
 function adjCtr(type,delta){
   var d=getDay(currentDate);
   if(type==='calls')d.calls=Math.max(0,Math.min(10,(d.calls||0)+delta));
   if(type==='meetings')d.meetings=Math.max(0,Math.min(5,(d.meetings||0)+delta));
-  renderCoreUI(d);saveDay(currentDate,d);
+  renderCoreUI(d);if(currentView==='chrono')renderChronoCheckboxes(d);saveDay(currentDate,d);
 }
 
 // ════════════════════
@@ -926,7 +985,7 @@ function showTab(name){
   document.getElementById('tab-'+name).classList.add('active');
   document.getElementById('tab-btn-'+name).classList.add('active');
   if(name==='progress')renderProgress();
-  if(name==='settings')renderSettings();
+  if(name==='settings'){renderSettings();renderReorderList();}
   if(name==='aspirations'){var d=getDay(currentDate);renderAspireUI(d);}
 }
 
@@ -1158,6 +1217,187 @@ async function renderProgress(){
     tr.innerHTML='<td>'+wl+'</td><td>'+wm+'/7</td><td><span class="pill '+ms+'">'+ml+'</span></td><td>'+wc+'</td><td>'+(wav>0?wav+'%':'—')+'</td>';
     tb.appendChild(tr);
   });
+}
+
+// ════════════════════
+// CHRONO VIEW
+// ════════════════════
+var DEFAULT_CHRONO = [
+  {id:'s_rise'},{id:'s_cal'},{id:'r_bb'},{id:'p_shach'},{id:'p_talk'},
+  {id:'t_chitas'},{id:'t_rambam'},{id:'r_wb'},{id:'s_cardio'},
+  {id:'t_gemara'},{id:'t_chas'},{id:'t_mishnayos'},{id:'p_shema'},{id:'s_bed'}
+];
+
+var PILLAR_COLOR_MAP = {
+  s_bed:'var(--sleep-c)',s_rise:'var(--sleep-c)',s_cal:'var(--sleep-c)',s_cardio:'var(--sleep-c)',
+  p_shach:'var(--prayer-c)',p_talk:'var(--prayer-c)',p_shema:'var(--prayer-c)',
+  r_bb:'var(--recovery-c)',r_wb:'var(--recovery-c)',
+  t_chitas:'var(--torah-c)',t_rambam:'var(--torah-c)',t_gemara:'var(--torah-c)',t_chas:'var(--torah-c)',t_mishnayos:'var(--torah-c)'
+};
+
+function loadChronoOrder() {
+  var saved = lLoad('chrono_order');
+  if (saved) {
+    try {
+      var parsed = Array.isArray(saved) ? saved : JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length) return parsed;
+    } catch(e) {}
+  }
+  return JSON.parse(JSON.stringify(DEFAULT_CHRONO));
+}
+
+var chronoOrder = loadChronoOrder();
+var currentView = 'pillar'; // always default to pillar
+
+function setView(view) {
+  currentView = view;
+  document.getElementById('corePillars').style.display = view === 'pillar' ? '' : 'none';
+  document.getElementById('chronoList').style.display = view === 'chrono' ? '' : 'none';
+  document.getElementById('vt-pillar').className = 'vt-btn' + (view === 'pillar' ? ' active' : '');
+  document.getElementById('vt-chrono').className = 'vt-btn' + (view === 'chrono' ? ' active' : '');
+  if (view === 'chrono') {
+    var data = getDay(currentDate);
+    renderChronoList(data);
+  }
+}
+
+function getHabitById(id) {
+  var found = null;
+  CO.forEach(function(p) { CH[p].forEach(function(h) { if (h.id === id) found = h; }); });
+  return found;
+}
+
+function renderChronoList(data) {
+  var container = document.getElementById('chronoList');
+  if (!container) return;
+  var activeIds = getCoreIds();
+  var orderedIds = chronoOrder.map(function(co) { return co.id; }).filter(function(id) { return activeIds.indexOf(id) > -1; });
+  activeIds.forEach(function(id) { if (orderedIds.indexOf(id) === -1) orderedIds.push(id); });
+
+  container.innerHTML = '';
+  orderedIds.forEach(function(id) {
+    var h = getHabitById(id);
+    if (!h) return;
+    var co = chronoOrder.find(function(x) { return x.id === id; });
+    var time = co ? co.time : '';
+    var checked = !!(data.checks && data.checks[id]);
+    var color = PILLAR_COLOR_MAP[id] || 'var(--text-soft)';
+    var item = document.createElement('div');
+    item.className = 'chrono-item' + (checked ? ' done' : '');
+    item.id = 'crow-' + id;
+    item.dataset.hid = id;
+    item.innerHTML =
+      
+      '<div class="chrono-dot" style="background:' + color + '"></div>' +
+      '<div class="chrono-chk' + (checked ? ' done' : '') + '" id="cchk-' + id + '"></div>' +
+      '<div class="chrono-info"><div class="chrono-label">' + h.label + '</div>' +
+      (h.note ? '<div class="chrono-note">' + h.note + '</div>' : '') +
+      '</div>';
+    item.addEventListener('click', function() { toggleCore(this.dataset.hid); });
+    container.appendChild(item);
+  });
+
+  // Counter row
+  var calls = data.calls || 0, meetings = data.meetings || 0;
+  var ctrDiv = document.createElement('div');
+  ctrDiv.className = 'chrono-ctr-item';
+  ctrDiv.innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">' +
+    '<div><div style="font-size:12px;font-weight:700;color:var(--recovery-c);margin-bottom:3px;">Recovery calls</div>' +
+    '<div class="ctr-row">' +
+    '<button class="cbtn" data-type="calls" data-delta="-1">&#8722;</button>' +
+    '<span class="cval" id="cval-calls">' + calls + '</span>' +
+    '<button class="cbtn" data-type="calls" data-delta="1">+</button>' +
+    '<span class="clbl">of 3 today</span></div></div>' +
+    '<div><div style="font-size:12px;font-weight:700;color:var(--recovery-c);margin-bottom:3px;">Meeting attendance</div>' +
+    '<div class="ctr-row">' +
+    '<button class="cbtn" data-type="meetings" data-delta="-1">&#8722;</button>' +
+    '<span class="cval" id="cval-meetings">' + meetings + '</span>' +
+    '<button class="cbtn" data-type="meetings" data-delta="1">+</button>' +
+    '<span class="clbl">today</span></div></div>' +
+    '</div>';
+  ctrDiv.querySelectorAll('.cbtn[data-type]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      adjCtr(this.dataset.type, parseInt(this.dataset.delta));
+    });
+  });
+  container.appendChild(ctrDiv);
+}
+
+function renderChronoCheckboxes(data) {
+  getCoreIds().forEach(function(id) {
+    var chk = document.getElementById('cchk-' + id);
+    var row = document.getElementById('crow-' + id);
+    if (!chk || !row) return;
+    var ok = !!(data.checks && data.checks[id]);
+    chk.className = 'chrono-chk' + (ok ? ' done' : '');
+    row.className = 'chrono-item' + (ok ? ' done' : '');
+  });
+  var cc = document.getElementById('cval-calls');
+  var cm = document.getElementById('cval-meetings');
+  if (cc) cc.textContent = data.calls || 0;
+  if (cm) cm.textContent = data.meetings || 0;
+}
+
+// ════════════════════
+// REORDER SETTINGS
+// ════════════════════
+function renderReorderList() {
+  var container = document.getElementById('reorderList');
+  if (!container) return;
+  var activeIds = getCoreIds();
+  var orderedIds = chronoOrder.map(function(co){return co.id;}).filter(function(id){return activeIds.indexOf(id)>-1;});
+  activeIds.forEach(function(id){if(orderedIds.indexOf(id)===-1)orderedIds.push(id);});
+
+  container.innerHTML = '';
+  orderedIds.forEach(function(id, i) {
+    var h = getHabitById(id);
+    if (!h) return;
+    var co = chronoOrder.find(function(x){return x.id===id;});
+    var time = co ? co.time : '';
+    var color = PILLAR_COLOR_MAP[id] || 'var(--text-soft)';
+    var item = document.createElement('div');
+    item.className = 'reorder-item';
+    item.dataset.id = id;
+    item.innerHTML =
+      '<div class="reorder-drag">⠿</div>' +
+      '<div class="reorder-dot" style="background:' + color + '"></div>' +
+      
+      '<div class="reorder-lbl">' + h.label + '</div>' +
+      '<button class="reorder-up" ' + (i===0?'style="opacity:.2;pointer-events:none;"':'') + ' data-id="' + id + '" data-dir="-1">▲</button>' +
+      '<button class="reorder-dn" ' + (i===orderedIds.length-1?'style="opacity:.2;pointer-events:none;"':'') + ' data-id="' + id + '" data-dir="1">▼</button>';
+    item.querySelectorAll('.reorder-up,.reorder-dn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        moveReorder(this.dataset.id, parseInt(this.dataset.dir));
+      });
+    });
+    container.appendChild(item);
+  });
+}
+
+function moveReorder(id, dir) {
+  var activeIds = getCoreIds();
+  var orderedIds = chronoOrder.map(function(co){return co.id;}).filter(function(i){return activeIds.indexOf(i)>-1;});
+  activeIds.forEach(function(i){if(orderedIds.indexOf(i)===-1)orderedIds.push(i);});
+  var idx = orderedIds.indexOf(id);
+  var newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= orderedIds.length) return;
+  var tmp = orderedIds[idx]; orderedIds[idx] = orderedIds[newIdx]; orderedIds[newIdx] = tmp;
+  // Rebuild chronoOrder to match new order
+  var newOrder = orderedIds.map(function(oid) {
+    var existing = chronoOrder.find(function(x){return x.id===oid;});
+    return existing || {id:oid, time:''};
+  });
+  chronoOrder = newOrder;
+  renderReorderList();
+}
+
+function saveChronoOrder() {
+  lSave('chrono_order', JSON.stringify(chronoOrder));
+  var conf = document.getElementById('reorderConfirm');
+  conf.textContent = 'Order saved ✓';
+  setTimeout(function(){conf.textContent='';}, 2000);
 }
 
 // ════════════════════
