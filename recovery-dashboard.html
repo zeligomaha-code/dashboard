@@ -1367,6 +1367,9 @@ function setView(view) {
   document.getElementById('vt-pillar').className = 'vt-btn' + (view === 'pillar' ? ' active' : '');
   document.getElementById('vt-chrono').className = 'vt-btn' + (view === 'chrono' ? ' active' : '');
   if (view === 'chrono') {
+    // Always rebuild from fresh data when switching to chrono view
+    var cl = document.getElementById('chronoList');
+    if (cl) cl.innerHTML = '';
     var data = getDay(currentDate);
     renderChronoList(data);
   }
