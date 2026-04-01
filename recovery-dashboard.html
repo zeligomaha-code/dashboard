@@ -1014,7 +1014,7 @@ function buildSetSection(container,order,habitData,prefix){
         '</div>';
     }).join('');
     habitData[p].filter(function(h){return h.archived;}).forEach(function(h){
-      archived.push({prefix:prefix,pillar:p,idx:habitData[p].indexOf(h),label:h.label});
+      archived.push({prefix:prefix,pillar:p,hid:h.id,label:h.label});
     });
     div.innerHTML=head+'<div class="set-hlist">'+rows+'<button class="set-add" onclick="addHabit(\''+prefix+'\',\''+p+'\')">+ Add habit</button></div>';
     container.appendChild(div);
@@ -1032,9 +1032,10 @@ function buildSetSection(container,order,habitData,prefix){
 function renderSettings(){
   var core = document.getElementById('setCoreContainer');
   var aspire = document.getElementById('setAspireContainer');
-  // Only build if empty — never rebuild while user is editing
-  if (!core.hasChildNodes()) buildSetSection(core,CO,CH,'core');
+  var wasEmpty = !core.hasChildNodes();
+  if (wasEmpty) buildSetSection(core,CO,CH,'core');
   if (!aspire.hasChildNodes()) buildSetSection(aspire,AO,AH,'aspire');
+  if (wasEmpty) attachSetListeners();
 }
 
 // Call this after applySettings/archiveHabit/restoreHabit to force a rebuild
@@ -1045,6 +1046,25 @@ function forceRenderSettings(){
   aspire.innerHTML = '';
   buildSetSection(core,CO,CH,'core');
   buildSetSection(aspire,AO,AH,'aspire');
+  attachSetListeners();
+}
+
+function attachSetListeners(){
+  document.querySelectorAll('.set-del[data-hid]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      delHabit(this.dataset.prefix,this.dataset.pillar,this.dataset.hid);
+    });
+  });
+  document.querySelectorAll('.set-arch-btn[data-hid]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      archiveHabit(this.dataset.prefix,this.dataset.pillar,this.dataset.hid);
+    });
+  });
+  document.querySelectorAll('.restore-btn[data-hid]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      restoreHabit(this.dataset.prefix,this.dataset.pillar,this.dataset.hid);
+    });
+  });
 }
 
 function addHabit(prefix,p){
@@ -1061,56 +1081,51 @@ function addHabit(prefix,p){
 
 function syncInputsToMemory(){
   document.querySelectorAll('.set-inp,.set-note-inp').forEach(function(input){
-    var prefix=input.dataset.prefix,p=input.dataset.pillar,i=parseInt(input.dataset.idx),field=input.dataset.field;
-    if(!prefix||!p||isNaN(i)||!field)return;
+    var prefix=input.dataset.prefix,p=input.dataset.pillar,hid=input.dataset.hid,field=input.dataset.field;
+    if(!prefix||!p||!hid||!field)return;
     var t=prefix==='core'?CH:AH;
-    if(t[p]&&t[p][i]){
-      if(field==='label')t[p][i].label=input.value.trim()||t[p][i].label;
-      if(field==='note')t[p][i].note=input.value.trim();
-    }
+    var h=t[p]?t[p].find(function(x){return x.id===hid;}):null;
+    if(!h)return;
+    if(field==='label'&&input.value.trim())h.label=input.value.trim();
+    if(field==='note')h.note=input.value.trim();
   });
 }
 
-function delHabit(prefix,p,idx){
-  syncInputsToMemory(); // save current edits before rebuilding
+function delHabit(prefix,p,hid){
+  syncInputsToMemory();
   var t=prefix==='core'?CH:AH;
   var active=t[p].filter(function(h){return !h.archived;});
   if(active.length<=1){alert('Each pillar needs at least one active habit.');return;}
-  t[p].splice(idx,1);
+  t[p]=t[p].filter(function(h){return h.id!==hid;});
   var core=document.getElementById('setCoreContainer');
   var aspire=document.getElementById('setAspireContainer');
   core.innerHTML='';aspire.innerHTML='';
   buildSetSection(core,CO,CH,'core');
   buildSetSection(aspire,AO,AH,'aspire');
+  attachSetListeners();
 }
 
-function archiveHabit(prefix,p,idx){
+function archiveHabit(prefix,p,hid){
   syncInputsToMemory();
   var t=prefix==='core'?CH:AH;
   var active=t[p].filter(function(h){return !h.archived;});
   if(active.length<=1){alert('Each pillar needs at least one active habit.');return;}
-  t[p][idx].archived=true;
+  var h=t[p].find(function(x){return x.id===hid;});
+  if(h)h.archived=true;
   saveSettingsToDB();
   buildCorePillars();buildAspirePillars();forceRenderSettings();renderToday();
 }
 
-function restoreHabit(prefix,p,idx){
+function restoreHabit(prefix,p,hid){
   var t=prefix==='core'?CH:AH;
-  t[p][idx].archived=false;
+  var h=t[p].find(function(x){return x.id===hid;});
+  if(h)h.archived=false;
   saveSettingsToDB();
   buildCorePillars();buildAspirePillars();forceRenderSettings();renderToday();
 }
 
 function applySettings(){
-  document.querySelectorAll('.set-inp,.set-note-inp').forEach(function(input){
-    var prefix=input.dataset.prefix,p=input.dataset.pillar,i=parseInt(input.dataset.idx),field=input.dataset.field;
-    if(!prefix||!p||isNaN(i)||!field)return;
-    var t=prefix==='core'?CH:AH;
-    if(t[p]&&t[p][i]){
-      if(field==='label')t[p][i].label=input.value.trim()||t[p][i].label;
-      if(field==='note')t[p][i].note=input.value.trim();
-    }
-  });
+  syncInputsToMemory();
   lSave('custom_habits',JSON.stringify(CH));
   lSave('custom_aspire',JSON.stringify(AH));
   buildCorePillars();buildAspirePillars();
