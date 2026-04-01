@@ -1030,38 +1030,75 @@ function buildSetSection(container,order,habitData,prefix){
 }
 
 function renderSettings(){
-  buildSetSection(document.getElementById('setCoreContainer'),CO,CH,'core');
-  buildSetSection(document.getElementById('setAspireContainer'),AO,AH,'aspire');
+  var core = document.getElementById('setCoreContainer');
+  var aspire = document.getElementById('setAspireContainer');
+  // Only build if empty — never rebuild while user is editing
+  if (!core.hasChildNodes()) buildSetSection(core,CO,CH,'core');
+  if (!aspire.hasChildNodes()) buildSetSection(aspire,AO,AH,'aspire');
+}
+
+// Call this after applySettings/archiveHabit/restoreHabit to force a rebuild
+function forceRenderSettings(){
+  var core = document.getElementById('setCoreContainer');
+  var aspire = document.getElementById('setAspireContainer');
+  core.innerHTML = '';
+  aspire.innerHTML = '';
+  buildSetSection(core,CO,CH,'core');
+  buildSetSection(aspire,AO,AH,'aspire');
 }
 
 function addHabit(prefix,p){
+  syncInputsToMemory();
   var t=prefix==='core'?CH:AH;
   t[p].push({id:p+'_c_'+Date.now(),label:'New habit',note:'',archived:false});
-  renderSettings();
+  var core=document.getElementById('setCoreContainer');
+  var aspire=document.getElementById('setAspireContainer');
+  core.innerHTML='';aspire.innerHTML='';
+  buildSetSection(core,CO,CH,'core');
+  buildSetSection(aspire,AO,AH,'aspire');
   setTimeout(function(){var ins=document.querySelectorAll('[data-prefix="'+prefix+'"][data-pillar="'+p+'"][data-field="label"]');if(ins.length)ins[ins.length-1].focus();},50);
 }
 
+function syncInputsToMemory(){
+  document.querySelectorAll('.set-inp,.set-note-inp').forEach(function(input){
+    var prefix=input.dataset.prefix,p=input.dataset.pillar,i=parseInt(input.dataset.idx),field=input.dataset.field;
+    if(!prefix||!p||isNaN(i)||!field)return;
+    var t=prefix==='core'?CH:AH;
+    if(t[p]&&t[p][i]){
+      if(field==='label')t[p][i].label=input.value.trim()||t[p][i].label;
+      if(field==='note')t[p][i].note=input.value.trim();
+    }
+  });
+}
+
 function delHabit(prefix,p,idx){
+  syncInputsToMemory(); // save current edits before rebuilding
   var t=prefix==='core'?CH:AH;
   var active=t[p].filter(function(h){return !h.archived;});
   if(active.length<=1){alert('Each pillar needs at least one active habit.');return;}
-  t[p].splice(idx,1);renderSettings();
+  t[p].splice(idx,1);
+  var core=document.getElementById('setCoreContainer');
+  var aspire=document.getElementById('setAspireContainer');
+  core.innerHTML='';aspire.innerHTML='';
+  buildSetSection(core,CO,CH,'core');
+  buildSetSection(aspire,AO,AH,'aspire');
 }
 
 function archiveHabit(prefix,p,idx){
+  syncInputsToMemory();
   var t=prefix==='core'?CH:AH;
   var active=t[p].filter(function(h){return !h.archived;});
   if(active.length<=1){alert('Each pillar needs at least one active habit.');return;}
   t[p][idx].archived=true;
   saveSettingsToDB();
-  buildCorePillars();buildAspirePillars();renderSettings();renderToday();
+  buildCorePillars();buildAspirePillars();forceRenderSettings();renderToday();
 }
 
 function restoreHabit(prefix,p,idx){
   var t=prefix==='core'?CH:AH;
   t[p][idx].archived=false;
   saveSettingsToDB();
-  buildCorePillars();buildAspirePillars();renderSettings();renderToday();
+  buildCorePillars();buildAspirePillars();forceRenderSettings();renderToday();
 }
 
 function applySettings(){
@@ -1348,6 +1385,7 @@ function renderChronoCheckboxes(data) {
 function renderReorderList() {
   var container = document.getElementById('reorderList');
   if (!container) return;
+  if (container.hasChildNodes()) return; // don't rebuild while user is editing
   var activeIds = getCoreIds();
   var orderedIds = chronoOrder.map(function(co){return co.id;}).filter(function(id){return activeIds.indexOf(id)>-1;});
   activeIds.forEach(function(id){if(orderedIds.indexOf(id)===-1)orderedIds.push(id);});
@@ -1397,6 +1435,10 @@ function moveReorder(id, dir) {
 
 function saveChronoOrder() {
   saveSettingsToDB();
+  // Force reorder list to rebuild with new order
+  var rl = document.getElementById('reorderList');
+  if (rl) rl.innerHTML = '';
+  renderReorderList();
   var conf = document.getElementById('reorderConfirm');
   conf.textContent = 'Order saved ✓';
   setTimeout(function(){conf.textContent='';}, 2000);
