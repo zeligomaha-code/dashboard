@@ -1104,11 +1104,10 @@ function buildSetSection(container,order,habitData,prefix){
 }
 
 function renderSettings(){
-  var core = document.getElementById('setCoreContainer');
-  var aspire = document.getElementById('setAspireContainer');
-  var wasEmpty = !core.hasChildNodes();
-  if (wasEmpty) buildSetSection(core,CO,CH,'core');
-  if (!aspire.hasChildNodes()) buildSetSection(aspire,AO,AH,'aspire');
+  var core=document.getElementById('setCoreContainer');
+  var aspire=document.getElementById('setAspireContainer');
+  if(!core.hasChildNodes()) buildSetSection(core,CO,CH,'core');
+  if(!aspire.hasChildNodes()) buildSetSection(aspire,AO,AH,'aspire');
 }
 
 // Call this after applySettings/archiveHabit/restoreHabit to force a rebuild
@@ -1183,9 +1182,13 @@ function restoreHabit(prefix,p,hid){
 
 function applySettings(){
   syncInputsToMemory();
-  lSave('custom_habits',JSON.stringify(CH));
-  lSave('custom_aspire',JSON.stringify(AH));
-  buildCorePillars();buildAspirePillars();
+  saveSettingsToDB();
+  buildCorePillars();
+  buildAspirePillars();
+  forceRenderSettings();
+  // Clear chrono and reorder lists so they rebuild with fresh data
+  var cl=document.getElementById('chronoList');if(cl)cl.innerHTML='';
+  var rl=document.getElementById('reorderList');if(rl)rl.innerHTML='';
   var conf=document.getElementById('setConfirm');conf.textContent='Changes saved ✓';
   setTimeout(function(){conf.textContent='';},2500);
   renderToday();
@@ -1460,7 +1463,6 @@ function renderChronoCheckboxes(data) {
 function renderReorderList() {
   var container = document.getElementById('reorderList');
   if (!container) return;
-  if (container.hasChildNodes()) return; // don't rebuild while user is editing
   var activeIds = getCoreIds();
   var orderedIds = chronoOrder.map(function(co){return co.id;}).filter(function(id){return activeIds.indexOf(id)>-1;});
   activeIds.forEach(function(id){if(orderedIds.indexOf(id)===-1)orderedIds.push(id);});
