@@ -1000,31 +1000,105 @@ function buildSetSection(container,order,habitData,prefix){
   order.forEach(function(p){
     var m=(prefix==='core')?CM[p]:AM[p];
     var active=habitData[p].filter(function(h){return !h.archived;});
-    var div=document.createElement('div');div.className='set-pillar';
-    var head='<div class="set-phead"><div class="pdot" style="background:'+m.color+'"></div><div style="font-size:13px;font-weight:700;color:'+m.color+'">'+m.name+'</div></div>';
-    var rows=active.map(function(h){
-      var ri=habitData[p].indexOf(h);
-      return '<div class="set-hblock">'+
-        '<div class="set-hrow1">'+
-        '<input class="set-inp" data-prefix="'+prefix+'" data-pillar="'+p+'" data-idx="'+ri+'" data-field="label" value="'+h.label.replace(/"/g,'&quot;')+'">'+
-        '<button class="set-arch-btn" onclick="archiveHabit(\''+prefix+'\',\''+p+'\','+ri+')" title="Archive">⬇</button>'+
-        '<button class="set-del" onclick="delHabit(\''+prefix+'\',\''+p+'\','+ri+')">×</button>'+
-        '</div>'+
-        '<input class="set-note-inp" data-prefix="'+prefix+'" data-pillar="'+p+'" data-idx="'+ri+'" data-field="note" placeholder="Subtitle / note (optional)" value="'+(h.note||'').replace(/"/g,'&quot;')+'">'+
-        '</div>';
-    }).join('');
+
+    var pillarDiv=document.createElement('div');
+    pillarDiv.className='set-pillar';
+
+    var head=document.createElement('div');
+    head.className='set-phead';
+    head.innerHTML='<div class="pdot" style="background:'+m.color+'"></div><div style="font-size:13px;font-weight:700;color:'+m.color+'">'+m.name+'</div>';
+    pillarDiv.appendChild(head);
+
+    var list=document.createElement('div');
+    list.className='set-hlist';
+
+    active.forEach(function(h){
+      var block=document.createElement('div');
+      block.className='set-hblock';
+
+      var row1=document.createElement('div');
+      row1.className='set-hrow1';
+
+      var labelInp=document.createElement('input');
+      labelInp.className='set-inp';
+      labelInp.dataset.prefix=prefix;
+      labelInp.dataset.pillar=p;
+      labelInp.dataset.hid=h.id;
+      labelInp.dataset.field='label';
+      labelInp.value=h.label;
+
+      var archBtn=document.createElement('button');
+      archBtn.className='set-arch-btn';
+      archBtn.title='Archive';
+      archBtn.textContent='⬇';
+      (function(pr,pl,id){
+        archBtn.addEventListener('click',function(){archiveHabit(pr,pl,id);});
+      })(prefix,p,h.id);
+
+      var delBtn=document.createElement('button');
+      delBtn.className='set-del';
+      delBtn.textContent='×';
+      (function(pr,pl,id){
+        delBtn.addEventListener('click',function(){delHabit(pr,pl,id);});
+      })(prefix,p,h.id);
+
+      row1.appendChild(labelInp);
+      row1.appendChild(archBtn);
+      row1.appendChild(delBtn);
+
+      var noteInp=document.createElement('input');
+      noteInp.className='set-note-inp';
+      noteInp.dataset.prefix=prefix;
+      noteInp.dataset.pillar=p;
+      noteInp.dataset.hid=h.id;
+      noteInp.dataset.field='note';
+      noteInp.placeholder='Subtitle / note (optional)';
+      noteInp.value=h.note||'';
+
+      block.appendChild(row1);
+      block.appendChild(noteInp);
+      list.appendChild(block);
+    });
+
+    var addBtn=document.createElement('button');
+    addBtn.className='set-add';
+    addBtn.textContent='+ Add habit';
+    (function(pr,pl){
+      addBtn.addEventListener('click',function(){addHabit(pr,pl);});
+    })(prefix,p);
+    list.appendChild(addBtn);
+
+    pillarDiv.appendChild(list);
+    container.appendChild(pillarDiv);
+
     habitData[p].filter(function(h){return h.archived;}).forEach(function(h){
       archived.push({prefix:prefix,pillar:p,hid:h.id,label:h.label});
     });
-    div.innerHTML=head+'<div class="set-hlist">'+rows+'<button class="set-add" onclick="addHabit(\''+prefix+'\',\''+p+'\')">+ Add habit</button></div>';
-    container.appendChild(div);
   });
+
   if(archived.length){
-    var ad=document.createElement('div');ad.className='arch-section';
-    ad.innerHTML='<div class="arch-title">Archived '+(prefix==='core'?'Core Habits':'Aspirations')+'</div>'+
-      archived.map(function(a){
-        return '<div class="arch-item"><span class="arch-lbl">'+a.label+'</span><button class="restore-btn" onclick="restoreHabit(\''+a.prefix+'\',\''+a.pillar+'\','+a.idx+')">Restore</button></div>';
-      }).join('');
+    var ad=document.createElement('div');
+    ad.className='arch-section';
+    var title=document.createElement('div');
+    title.className='arch-title';
+    title.textContent='Archived '+(prefix==='core'?'Core Habits':'Aspirations');
+    ad.appendChild(title);
+    archived.forEach(function(a){
+      var item=document.createElement('div');
+      item.className='arch-item';
+      var lbl=document.createElement('span');
+      lbl.className='arch-lbl';
+      lbl.textContent=a.label;
+      var btn=document.createElement('button');
+      btn.className='restore-btn';
+      btn.textContent='Restore';
+      (function(pr,pl,id){
+        btn.addEventListener('click',function(){restoreHabit(pr,pl,id);});
+      })(a.prefix,a.pillar,a.hid);
+      item.appendChild(lbl);
+      item.appendChild(btn);
+      ad.appendChild(item);
+    });
     container.appendChild(ad);
   }
 }
@@ -1035,7 +1109,6 @@ function renderSettings(){
   var wasEmpty = !core.hasChildNodes();
   if (wasEmpty) buildSetSection(core,CO,CH,'core');
   if (!aspire.hasChildNodes()) buildSetSection(aspire,AO,AH,'aspire');
-  if (wasEmpty) attachSetListeners();
 }
 
 // Call this after applySettings/archiveHabit/restoreHabit to force a rebuild
@@ -1046,26 +1119,8 @@ function forceRenderSettings(){
   aspire.innerHTML = '';
   buildSetSection(core,CO,CH,'core');
   buildSetSection(aspire,AO,AH,'aspire');
-  attachSetListeners();
 }
 
-function attachSetListeners(){
-  document.querySelectorAll('.set-del[data-hid]').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      delHabit(this.dataset.prefix,this.dataset.pillar,this.dataset.hid);
-    });
-  });
-  document.querySelectorAll('.set-arch-btn[data-hid]').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      archiveHabit(this.dataset.prefix,this.dataset.pillar,this.dataset.hid);
-    });
-  });
-  document.querySelectorAll('.restore-btn[data-hid]').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      restoreHabit(this.dataset.prefix,this.dataset.pillar,this.dataset.hid);
-    });
-  });
-}
 
 function addHabit(prefix,p){
   syncInputsToMemory();
@@ -1076,7 +1131,10 @@ function addHabit(prefix,p){
   core.innerHTML='';aspire.innerHTML='';
   buildSetSection(core,CO,CH,'core');
   buildSetSection(aspire,AO,AH,'aspire');
-  setTimeout(function(){var ins=document.querySelectorAll('[data-prefix="'+prefix+'"][data-pillar="'+p+'"][data-field="label"]');if(ins.length)ins[ins.length-1].focus();},50);
+  setTimeout(function(){
+    var ins=document.querySelectorAll('[data-prefix="'+prefix+'"][data-pillar="'+p+'"][data-field="label"]');
+    if(ins.length)ins[ins.length-1].focus();
+  },50);
 }
 
 function syncInputsToMemory(){
@@ -1102,7 +1160,6 @@ function delHabit(prefix,p,hid){
   core.innerHTML='';aspire.innerHTML='';
   buildSetSection(core,CO,CH,'core');
   buildSetSection(aspire,AO,AH,'aspire');
-  attachSetListeners();
 }
 
 function archiveHabit(prefix,p,hid){
