@@ -1544,10 +1544,45 @@ function saveSettingsToDB() {
 // ════════════════════
 // INIT
 // ════════════════════
-buildCorePillars();
-buildAspirePillars();
-renderToday();
-initSobriety();
+// Async init — fetch settings from Supabase before building UI
+(async function init() {
+  // Try to load settings from Supabase if localStorage is empty
+  var hasCore = lLoad('custom_habits');
+  var hasAspire = lLoad('custom_aspire');
+  if (!hasCore || !hasAspire) {
+    try {
+      setSS('syncing', 'Loading settings...');
+      var rows = await sbReq('GET', 'recovery_days?id=eq._settings&select=data');
+      if (rows && rows.length && rows[0].data) {
+        var d = rows[0].data;
+        if (d.habits_core) {
+          var validCore = CO.every(function(p){return Array.isArray(d.habits_core[p]);});
+          if (validCore) {
+            CH = d.habits_core;
+            lSave('custom_habits', JSON.stringify(CH));
+          }
+        }
+        if (d.habits_aspire) {
+          var validAspire = AO.every(function(p){return Array.isArray(d.habits_aspire[p]);});
+          if (validAspire) {
+            AH = d.habits_aspire;
+            lSave('custom_aspire', JSON.stringify(AH));
+          }
+        }
+        if (d.chrono_order && Array.isArray(d.chrono_order) && d.chrono_order.length) {
+          chronoOrder = d.chrono_order;
+          lSave('chrono_order', JSON.stringify(chronoOrder));
+        }
+      }
+    } catch(e) {
+      // Supabase unreachable — use defaults, that's fine
+    }
+  }
+  buildCorePillars();
+  buildAspirePillars();
+  renderToday();
+  initSobriety();
+})();
 
 window.addEventListener('beforeunload',function(){
   Object.keys(saveTimers).forEach(function(key){
