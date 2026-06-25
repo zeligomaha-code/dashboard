@@ -106,43 +106,28 @@ body{font-family:Georgia,'Times New Roman',serif;color:#1a1916;min-height:100vh;
 .dpct{font-size:9px;color:var(--text-soft);height:11px;}
 
 /* ACCOUNTABILITY */
-.acct-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;}
-.acct-head{padding:9px 14px 8px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;}
+
+
 .acct-head:hover{background:var(--bg);}
-.achev{margin-left:auto;font-size:10px;color:var(--text-soft);transition:transform .2s;}
-.achev.open{transform:rotate(90deg);}
-.acct-body{padding:10px 14px 16px;display:none;border-top:1px solid var(--border);}
+
+
+
 .acct-body.open{display:block;}
-.af{margin-bottom:14px;}
+
 .af:last-child{margin-bottom:0;}
-.afl{font-size:11px;font-weight:700;color:var(--text-soft);letter-spacing:.05em;text-transform:uppercase;margin-bottom:7px;}
-.bli{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;padding:3px 0;}
-.blchk{width:16px;height:16px;border:1.5px solid var(--border-mid);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+
+
+
 .blchk.flagged{background:#fdecea;border-color:#b02020;}
 .blchk.flagged::after{content:'✓';color:#b02020;font-size:10px;font-weight:700;}
-.bllbl{font-size:13px;color:var(--text-mid);}
-.bli.flagged .bllbl{color:#b02020;font-weight:700;}
-.asel{width:100%;font-size:13px;font-family:Georgia,serif;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);outline:none;cursor:pointer;}
+
+.bli.flagged 
+
 .asel.flagged{border-color:#d4a040;background:#fdf9f0;}
-.prow{display:flex;flex-wrap:wrap;gap:6px;}
-.apill{font-size:12px;font-family:Georgia,serif;padding:4px 11px;border-radius:99px;border:1px solid var(--border);background:var(--bg);color:var(--text-mid);cursor:pointer;user-select:none;transition:all .15s;}
+
+
 .apill.atrig{background:#fdf3e0;border-color:#d4a040;color:#9a6200;font-weight:700;}
 .apill.aresp{background:var(--green-light);border-color:var(--green-mid);color:var(--green-dark);font-weight:700;}
-
-/* PIN */
-.pin-dlg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;}
-.pin-dlg.open{display:flex;}
-.pin-box{background:white;border-radius:16px;padding:28px 24px 20px;max-width:290px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.3);}
-.pin-title{font-size:15px;font-weight:700;margin-bottom:4px;color:#1a1916;font-family:Georgia,serif;}
-.pin-sub{font-size:12px;color:#a09c95;margin-bottom:16px;font-style:italic;}
-.pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:18px;}
-.pdot{width:14px;height:14px;border-radius:50%;border:2px solid #d4cfc5;transition:all .15s;}
-.pdot.filled{background:#1a5fa0;border-color:#1a5fa0;}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
-.pin-btn{background:#f5f0e8;border:1px solid #e8e4dc;border-radius:10px;padding:13px;font-size:20px;font-weight:700;font-family:Georgia,serif;color:#1a1916;cursor:pointer;}
-.pin-btn:active{transform:scale(.95);background:#ede5d4;}
-.pin-err{font-size:12px;color:#b02020;height:16px;margin-top:4px;}
-.pin-cancel{font-size:12px;color:#a09c95;cursor:pointer;text-decoration:underline;margin-top:8px;display:inline-block;background:none;border:none;}
 
 /* RESET */
 .rst-dlg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:3000;align-items:center;justify-content:center;}
@@ -340,23 +325,6 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
     <div id="corePillars" class="pillars"></div>
     <div id="chronoList" class="chrono-list" style="display:none;"></div>
 
-    <!-- PIN -->
-    <div class="pin-dlg" id="pinDlg">
-      <div class="pin-box">
-        <div class="pin-title">Protected Section</div>
-        <div class="pin-sub">Enter your 4-digit PIN</div>
-        <div class="pin-dots"><div class="pdot" id="pd0"></div><div class="pdot" id="pd1"></div><div class="pdot" id="pd2"></div><div class="pdot" id="pd3"></div></div>
-        <div class="pin-pad">
-          <button class="pin-btn" onclick="pinKey('1')">1</button><button class="pin-btn" onclick="pinKey('2')">2</button><button class="pin-btn" onclick="pinKey('3')">3</button>
-          <button class="pin-btn" onclick="pinKey('4')">4</button><button class="pin-btn" onclick="pinKey('5')">5</button><button class="pin-btn" onclick="pinKey('6')">6</button>
-          <button class="pin-btn" onclick="pinKey('7')">7</button><button class="pin-btn" onclick="pinKey('8')">8</button><button class="pin-btn" onclick="pinKey('9')">9</button>
-          <button class="pin-btn" onclick="pinKey('del')" style="font-size:14px">⌫</button><button class="pin-btn" onclick="pinKey('0')">0</button><button class="pin-cancel" onclick="pinCancel()">✕</button>
-        </div>
-        <div class="pin-err" id="pinErr"></div>
-        <div style="font-size:11px;color:#c8b890;margin-top:8px;font-style:italic;">First time? Enter any 4 digits to set your PIN</div>
-      </div>
-    </div>
-
     <!-- RESET -->
     <div class="rst-dlg" id="rstDlg">
       <div class="rst-box">
@@ -367,62 +335,6 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
     </div>
 
     <!-- ACCOUNTABILITY -->
-    <div class="acct-wrap">
-      <div class="acct-head" onclick="toggleAcct()">
-        <div class="pdot" style="background:#6b6760;width:9px;height:9px;"></div>
-        <div style="font-size:13px;font-weight:700;color:var(--text-mid)">Accountability</div>
-        <div id="acctBadge" style="margin-left:auto;margin-right:8px;font-size:12px;font-weight:600;"></div>
-        <div class="achev" id="acctChev">▶</div>
-      </div>
-      <div class="acct-body" id="acctBody">
-        <div class="af">
-          <div class="afl" style="color:#b02020">Bottom Lines</div>
-          <div style="font-size:11px;color:var(--text-soft);font-style:italic;margin-bottom:7px;">Checking any resets sobriety date.</div>
-          <div class="bli" id="bli-bl_search" onclick="blTap('bl_search')"><div class="blchk" id="blc-bl_search"></div><span class="bllbl">Searched for pornography</span></div>
-          <div class="bli" id="bli-bl_view" onclick="blTap('bl_view')"><div class="blchk" id="blc-bl_view"></div><span class="bllbl">Viewed pornography</span></div>
-          <div class="bli" id="bli-bl_m" onclick="blTap('bl_m')"><div class="blchk" id="blc-bl_m"></div><span class="bllbl">Masturbation</span></div>
-          <div class="bli" id="bli-bl_sites" onclick="blTap('bl_sites')"><div class="blchk" id="blc-bl_sites"></div><span class="bllbl">Visited sites/apps for sexual stimulation</span></div>
-        </div>
-        <div class="af">
-          <div class="afl" style="color:#9a6200">Gray Area</div>
-          <select class="asel" id="gaSelect" onchange="gaTap(this.value)">
-            <option value="">None today</option>
-            <option value="one">One or two behaviors</option>
-            <option value="several">Several behaviors</option>
-          </select>
-        </div>
-        <div class="af">
-          <div class="afl">Active Triggers</div>
-          <div class="prow">
-            <div class="apill" id="pill-ts_resent" onclick="pillTap('ts_resent','t')">Resentment</div>
-            <div class="apill" id="pill-ts_unappreciated" onclick="pillTap('ts_unappreciated','t')">Unappreciated</div>
-            <div class="apill" id="pill-ts_entitle" onclick="pillTap('ts_entitle','t')">Entitlement</div>
-            <div class="apill" id="pill-ts_stress" onclick="pillTap('ts_stress','t')">Stress</div>
-            <div class="apill" id="pill-ts_fear" onclick="pillTap('ts_fear','t')">Fear of failure</div>
-            <div class="apill" id="pill-ts_pity" onclick="pillTap('ts_pity','t')">Self-pity</div>
-            <div class="apill" id="pill-ts_boredom" onclick="pillTap('ts_boredom','t')">Boredom</div>
-            <div class="apill" id="pill-ts_dry" onclick="pillTap('ts_dry','t')">Spiritual dryness</div>
-            <div class="apill" id="pill-ts_halt" onclick="pillTap('ts_halt','t')">HALT</div>
-            <div class="apill" id="pill-ts_conflict" onclick="pillTap('ts_conflict','t')">Conflict w/ wife</div>
-            <div class="apill" id="pill-ts_compare" onclick="pillTap('ts_compare','t')">Comparison</div>
-            <div class="apill" id="pill-ts_perfect" onclick="pillTap('ts_perfect','t')">Perfectionism</div>
-            <div class="apill" id="pill-ts_procras" onclick="pillTap('ts_procras','t')">Procrastination</div>
-          </div>
-        </div>
-        <div class="af">
-          <div class="afl" style="color:var(--green-dark)">Response Taken</div>
-          <div class="prow">
-            <div class="apill" id="pill-rs_called" onclick="pillTap('rs_called','r')">Called someone</div>
-            <div class="apill" id="pill-rs_named" onclick="pillTap('rs_named','r')">Named it</div>
-            <div class="apill" id="pill-rs_room" onclick="pillTap('rs_room','r')">Changed rooms</div>
-            <div class="apill" id="pill-rs_prayer" onclick="pillTap('rs_prayer','r')">Surrender prayer</div>
-            <div class="apill" id="pill-rs_outside" onclick="pillTap('rs_outside','r')">Went outside</div>
-            <div class="apill" id="pill-rs_structure" onclick="pillTap('rs_structure','r')">Returned to structure</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="card"><div class="sec-label">This Week</div><div class="week-strip" id="weekGrid"></div></div>
 
     <div class="card">
@@ -582,22 +494,28 @@ var DAYS_SHORT=['S','M','T','W','T','F','S'];
 // HABIT CONFIG
 // ════════════════════
 var DC={
-  sleep:[{id:'s_bed',label:'In bed by 10 pm',note:'pajamas on, teeth brushed'},
-         {id:'s_rise',label:'Out of bed by 7 am',note:''},
-         {id:'s_cal',label:'5 min calisthenics',note:'upon waking'},
-         {id:'s_cardio',label:'20+ min cardio',note:'walk / run / bike'}],
+  sleep:[{id:'s_cal',label:'5 min calisthenics',note:'upon waking'},
+         {id:'s_charity',label:'Charity',note:'in the morning'}],
   prayer:[{id:'p_shach',label:'Shacharis',note:'early, in shul — begin with surrender prayer'},
-          {id:'p_talk',label:'Talk to G-d throughout the day',note:''},
-          {id:'p_shema',label:'Krias Shema al Hamitah',note:'abridged if needed'}],
+          {id:'p_modeh',label:'Modeh Ani - English Prayer',note:'upon awaking - third step'},
+          {id:'p_shema',label:'Krias Shema - English Prayer',note:'st. francis'}],
   recovery:[{id:'r_bb',label:'1 page Big Book',note:''},
-            {id:'r_wb',label:'Workbook assignment',note:''}],
+            {id:'r_wb',label:'Workbook assignment',note:''},
+            {id:'r_review',label:'Review columns',note:''},
+            {id:'r_read',label:'Spiritual reading',note:'at bedtime'}],
   torah:[{id:'t_chitas',label:'Chitas',note:''},
          {id:'t_rambam',label:'Rambam',note:''},
-         {id:'t_gemara',label:'3 min Gemara',note:''},
          {id:'t_chas',label:'1 page Chassidus',note:''},
          {id:'t_mishnayos',label:'2 min Mishnayos',note:''}]
 };
-var CM={sleep:{name:'Sleep & Body',color:'var(--sleep-c)'},prayer:{name:'Prayer',color:'var(--prayer-c)'},recovery:{name:'Recovery',color:'var(--recovery-c)'},torah:{name:'Torah & Chassidus',color:'var(--torah-c)'}};
+var DCN={sleep:'Sleep & Body',prayer:'Prayer',recovery:'Recovery',torah:'Torah & Chassidus'};
+var CN=JSON.parse(JSON.stringify(DCN)); // current names, overridable
+var CM={
+  get sleep(){return {name:CN.sleep,color:'var(--sleep-c)'};},
+  get prayer(){return {name:CN.prayer,color:'var(--prayer-c)'};},
+  get recovery(){return {name:CN.recovery,color:'var(--recovery-c)'};},
+  get torah(){return {name:CN.torah,color:'var(--torah-c)'};}
+};
 var CO=['sleep','prayer','recovery','torah'];
 
 var DA={
@@ -706,8 +624,6 @@ async function loadBulk(keys){
 // CURRENT DATE
 // ════════════════════
 var currentDate=todayKey();
-var pinUnlocked=false;
-var pendingBLKey=null;
 
 function changeDay(n){
   pinUnlocked=false;
@@ -787,7 +703,7 @@ function renderCoreUI(data){
   var d=dateFromKey(currentDate),diff=Math.round((dateFromKey(currentDate)-dateFromKey(todayKey()))/86400000);
   var pre=diff===0?'Today — ':diff===-1?'Yesterday — ':diff===1?'Tomorrow — ':'';
   document.getElementById('dateDisplay').textContent=pre+DAYS_FULL[d.getDay()]+', '+MONTHS[d.getMonth()]+' '+d.getDate();
-  renderWeekStrip();renderStreaks();renderAcct(data);
+  renderWeekStrip();renderStreaks();
   if(currentView==='chrono'){renderChronoCheckboxes(data);}
 }
 
@@ -875,82 +791,6 @@ document.getElementById('noteArea').addEventListener('input',function(){
 });
 
 // ════════════════════
-// PIN
-// ════════════════════
-var pinBuf='';
-
-function toggleAcct(){
-  if(!pinUnlocked){pinBuf='';updatePinDots();document.getElementById('pinErr').textContent='';document.getElementById('pinDlg').classList.add('open');return;}
-  document.getElementById('acctBody').classList.toggle('open');document.getElementById('acctChev').classList.toggle('open');
-}
-function pinKey(k){
-  if(k==='del'){pinBuf=pinBuf.slice(0,-1);updatePinDots();return;}
-  if(pinBuf.length>=4)return;pinBuf+=k;updatePinDots();
-  if(pinBuf.length===4)setTimeout(checkPin,120);
-}
-function updatePinDots(){for(var i=0;i<4;i++){var d=document.getElementById('pd'+i);if(d)d.className='pdot'+(i<pinBuf.length?' filled':'');}}
-function checkPin(){
-  var stored='';try{stored=localStorage.getItem('acct_pin')||'';}catch(e){}
-  if(!stored){try{localStorage.setItem('acct_pin',pinBuf);}catch(e){}openAcct();return;}
-  if(pinBuf===stored){openAcct();}else{document.getElementById('pinErr').textContent='Incorrect PIN';pinBuf='';updatePinDots();}
-}
-function openAcct(){document.getElementById('pinDlg').classList.remove('open');pinUnlocked=true;pinBuf='';document.getElementById('acctBody').classList.add('open');document.getElementById('acctChev').classList.add('open');}
-function pinCancel(){document.getElementById('pinDlg').classList.remove('open');pinBuf='';}
-
-// ════════════════════
-// ACCOUNTABILITY
-// ════════════════════
-var BLK=['bl_search','bl_view','bl_m','bl_sites'];
-var TSK=['ts_resent','ts_unappreciated','ts_entitle','ts_stress','ts_fear','ts_pity','ts_boredom','ts_dry','ts_halt','ts_conflict','ts_compare','ts_perfect','ts_procras'];
-var RSK=['rs_called','rs_named','rs_room','rs_prayer','rs_outside','rs_structure'];
-
-function blTap(id){
-  var d=getDay(currentDate);if(!d.acct)d.acct={};
-  if(d.acct[id]){d.acct[id]=false;renderAcct(d);saveDay(currentDate,d);return;}
-  pendingBLKey=id;document.getElementById('rstDlg').classList.add('open');
-}
-function confirmReset(){
-  document.getElementById('rstDlg').classList.remove('open');
-  var d=getDay(currentDate);if(!d.acct)d.acct={};
-  if(pendingBLKey){d.acct[pendingBLKey]=true;pendingBLKey=null;}
-  var today=todayKey();try{localStorage.setItem('r_sobdate',today);}catch(e){}
-  document.getElementById('sobDate').value=today;renderSobriety(today);renderAcct(d);saveDay(currentDate,d);
-}
-function cancelReset(){document.getElementById('rstDlg').classList.remove('open');pendingBLKey=null;}
-function gaTap(val){
-  var d=getDay(currentDate);if(!d.acct)d.acct={};d.acct.ga=val;
-  var sel=document.getElementById('gaSelect');if(sel)sel.className=val?'asel flagged':'asel';
-  updateAcctBadge(d);saveDay(currentDate,d);
-}
-function pillTap(id,type){
-  var d=getDay(currentDate);if(!d.acct)d.acct={};d.acct[id]=!d.acct[id];
-  var el=document.getElementById('pill-'+id);
-  if(el){var cls=type==='r'?'aresp':'atrig';if(d.acct[id])el.classList.add(cls);else el.classList.remove(cls);}
-  updateAcctBadge(d);saveDay(currentDate,d);
-}
-function updateAcctBadge(data){
-  if(!data||!data.acct)return;
-  var bl=BLK.filter(function(id){return data.acct[id];}).length;
-  var ts=TSK.filter(function(id){return data.acct[id];}).length;
-  var ga=data.acct.ga||'';
-  var badge=document.getElementById('acctBadge');if(!badge)return;
-  if(bl>0){badge.textContent=bl+' BL';badge.style.color='#b02020';}
-  else if(ts>0||ga){badge.textContent=ts+(ga?'+GA':'')+' flagged';badge.style.color='#9a6200';}
-  else{badge.textContent='';}
-}
-function renderAcct(data){
-  if(!data)return;var acct=data.acct||{};
-  BLK.forEach(function(id){
-    var el=document.getElementById('blc-'+id),row=document.getElementById('bli-'+id);if(!el)return;
-    if(acct[id]){el.className='blchk flagged';if(row)row.className='bli flagged';}else{el.className='blchk';if(row)row.className='bli';}
-  });
-  var sel=document.getElementById('gaSelect');if(sel){sel.value=acct.ga||'';sel.className=acct.ga?'asel flagged':'asel';}
-  TSK.forEach(function(id){var el=document.getElementById('pill-'+id);if(!el)return;if(acct[id])el.classList.add('atrig');else el.classList.remove('atrig');});
-  RSK.forEach(function(id){var el=document.getElementById('pill-'+id);if(!el)return;if(acct[id])el.classList.add('aresp');else el.classList.remove('aresp');});
-  updateAcctBadge(data);
-}
-
-// ════════════════════
 // SOBRIETY
 // ════════════════════
 var SOB_M=[30,60,90,180,365];
@@ -1006,7 +846,24 @@ function buildSetSection(container,order,habitData,prefix){
 
     var head=document.createElement('div');
     head.className='set-phead';
-    head.innerHTML='<div class="pdot" style="background:'+m.color+'"></div><div style="font-size:13px;font-weight:700;color:'+m.color+'">'+m.name+'</div>';
+    head.style.flexDirection='column';
+    head.style.alignItems='flex-start';
+    head.style.gap='6px';
+    var headRow=document.createElement('div');
+    headRow.style.cssText='display:flex;align-items:center;gap:8px;width:100%';
+    headRow.innerHTML='<div class="pdot" style="background:'+m.color+'"></div>';
+    if(prefix==='core'){
+      var nameInp=document.createElement('input');
+      nameInp.className='set-inp';
+      nameInp.dataset.catname=p;
+      nameInp.value=CN[p]||m.name;
+      nameInp.style.cssText='font-weight:700;color:'+m.color+';font-size:13px;';
+      nameInp.placeholder='Category name';
+      headRow.appendChild(nameInp);
+    } else {
+      headRow.innerHTML+='<div style="font-size:13px;font-weight:700;color:'+m.color+'">'+m.name+'</div>';
+    }
+    head.appendChild(headRow);
     pillarDiv.appendChild(head);
 
     var list=document.createElement('div');
@@ -1145,6 +1002,11 @@ function syncInputsToMemory(){
     if(!h)return;
     if(field==='label'&&input.value.trim())h.label=input.value.trim();
     if(field==='note')h.note=input.value.trim();
+  });
+  // Sync category names
+  document.querySelectorAll('[data-catname]').forEach(function(input){
+    var p=input.dataset.catname;
+    if(p&&input.value.trim())CN[p]=input.value.trim();
   });
 }
 
@@ -1531,7 +1393,8 @@ function saveSettingsToDB() {
     data: {
       habits_core: CH,
       habits_aspire: AH,
-      chrono_order: chronoOrder
+      chrono_order: chronoOrder,
+      category_names: CN
     },
     updated_at: new Date().toISOString()
   };
@@ -1544,9 +1407,8 @@ function saveSettingsToDB() {
 // ════════════════════
 // INIT
 // ════════════════════
-// Async init — fetch settings from Supabase before building UI
+// Async init — always fetch settings from Supabase first
 (async function init() {
-  // Always fetch settings from Supabase first — localStorage is only a fallback
   try {
     setSS('syncing', 'Loading...');
     var rows = await sbReq('GET', 'recovery_days?id=eq._settings&select=data');
@@ -1564,10 +1426,11 @@ function saveSettingsToDB() {
         chronoOrder = d.chrono_order;
         lSave('chrono_order', JSON.stringify(chronoOrder));
       }
+      if (d.category_names && typeof d.category_names === 'object') {
+        CO.forEach(function(p){if(d.category_names[p])CN[p]=d.category_names[p];});
+      }
     }
-  } catch(e) {
-    // Supabase unreachable — use whatever is in localStorage
-  }
+  } catch(e) {}
   buildCorePillars();
   buildAspirePillars();
   renderToday();
