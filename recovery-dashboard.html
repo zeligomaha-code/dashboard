@@ -495,10 +495,14 @@ var DAYS_SHORT=['S','M','T','W','T','F','S'];
 // ════════════════════
 var DC={
   sleep:[{id:'s_cal',label:'5 min calisthenics',note:'upon waking'},
-         {id:'s_charity',label:'Charity',note:'in the morning'}],
+         {id:'s_charity',label:'Charity',note:'in the morning'},
+         {id:'s_bed',label:'In bed by 10 pm',note:'',archived:true},
+         {id:'s_rise',label:'Out of bed by 7 am',note:'',archived:true},
+         {id:'s_cardio',label:'20+ min cardio',note:'',archived:true}],
   prayer:[{id:'p_shach',label:'Shacharis',note:'early, in shul — begin with surrender prayer'},
           {id:'p_modeh',label:'Modeh Ani - English Prayer',note:'upon awaking - third step'},
-          {id:'p_shema',label:'Krias Shema - English Prayer',note:'st. francis'}],
+          {id:'p_shema',label:'Krias Shema - English Prayer',note:'st. francis'},
+          {id:'p_talk',label:'Talk to G-d throughout the day',note:'',archived:true}],
   recovery:[{id:'r_bb',label:'1 page Big Book',note:''},
             {id:'r_wb',label:'Workbook assignment',note:''},
             {id:'r_review',label:'Review columns',note:''},
@@ -506,7 +510,8 @@ var DC={
   torah:[{id:'t_chitas',label:'Chitas',note:''},
          {id:'t_rambam',label:'Rambam',note:''},
          {id:'t_chas',label:'1 page Chassidus',note:''},
-         {id:'t_mishnayos',label:'2 min Mishnayos',note:''}]
+         {id:'t_mishnayos',label:'2 min Mishnayos',note:''},
+         {id:'t_gemara',label:'3 min Gemara',note:'',archived:true}]
 };
 var DCN={sleep:'Sleep & Body',prayer:'Prayer',recovery:'Recovery',torah:'Torah & Chassidus'};
 var CN=JSON.parse(JSON.stringify(DCN)); // current names, overridable
