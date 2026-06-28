@@ -599,8 +599,8 @@ var pendingBLKey=null;
 
 function changeDay(n){
   pinUnlocked=false;
-  document.getElementById('acctBody').classList.remove('open');
-  document.getElementById('acctChev').classList.remove('open');
+  var ab=document.getElementById('acctBody');if(ab)ab.classList.remove('open');
+  var ac=document.getElementById('acctChev');if(ac)ac.classList.remove('open');
   var d=dateFromKey(currentDate);d.setDate(d.getDate()+n);currentDate=keyFromDate(d);renderToday();
 }
 function goToday(){currentDate=todayKey();renderToday();}
