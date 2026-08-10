@@ -448,6 +448,12 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
       <div class="import-title">Import Meeting Data</div>
       <div class="import-sub">Your 90-in-90 spreadsheet data is ready to import. This is a one-time backfill — it will update meeting counts for 34 days (Feb 24 – Mar 29, 2026). Days that already have higher counts won't be overwritten.</div>
       <button class="import-btn" onclick="importMeetings()">Import Meetings from Spreadsheet</button>
+      <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px;">
+        <div class="import-title">Lock In Past Completion Data</div>
+        <div class="import-sub">Saves a completion snapshot for every past day based on what was actually checked. Run this once to preserve your history permanently regardless of future habit changes.</div>
+        <button class="import-btn" style="background:var(--torah-c);" onclick="snapshotAllPastDays()">Lock In Past Data</button>
+        <div class="import-result" id="snapshotResult"></div>
+      </div>
       <div class="import-result" id="importResult"></div>
     </div>
     <div class="set-sec-title" style="margin-top:0;padding-top:0;border-top:none;">Chronological Order</div>
@@ -1212,9 +1218,18 @@ async function renderProgress(){
   function dayPct(key){
     var d=getDay(key);
     if(d._pct!==undefined)return d._pct;  // use snapshot if available
-    var n=countCore(d);return n>0?Math.round(n/TOTAL*100):null;
+    // Fallback: count raw checks in the day data regardless of current habit list
+    var checks=d.checks||{};
+    var checkCount=Object.values(checks).filter(Boolean).length;
+    var callsDone=(d.calls||0)>=5?1:0;
+    var meetDone=(d.meetings||0)>=1?1:0;
+    var total=checkCount+callsDone+meetDone;
+    if(total===0)return null;
+    // Use stored total if available, otherwise estimate
+    var denom=d._tot||TOTAL;
+    return Math.min(100,Math.round(total/denom*100));
   }
-  function dayDone(key){var d=getDay(key);return d._pct!==undefined?d._done:countCore(d);}
+  function dayDone(key){var d=getDay(key);return d._pct!==undefined?d._done:Object.values(d.checks||{}).filter(Boolean).length;}
   var active=days.filter(function(k){return dayPct(k)!==null&&dayPct(k)>0;}).length;
   var pcts=days.map(function(k){return dayPct(k);}).filter(function(x){return x!==null;});
   var avg=pcts.length?Math.round(pcts.reduce(function(a,b){return a+b;},0)/pcts.length):0;
@@ -1644,6 +1659,53 @@ function toggleAspirationsTab(show){
   var btn=document.getElementById('tab-btn-aspirations');
   if(btn)btn.style.display=show?'':'none';
   try{localStorage.setItem('r_show_aspirations',show?'1':'0');}catch(e){}
+}
+
+async function snapshotAllPastDays(){
+  var btn=event.target;
+  var res=document.getElementById('snapshotResult');
+  btn.disabled=true;btn.textContent='Working...';
+  res.textContent='Fetching all days from Supabase...';res.style.color='var(--text-soft)';
+  
+  try {
+    // Fetch all day rows from Supabase
+    var rows = await sbReq('GET','recovery_days?id=neq._settings&id=neq._settings_test&id=neq._sob_history&select=id,data&order=id');
+    if(!rows||!rows.length){res.textContent='No days found.';btn.disabled=false;btn.textContent='Lock In Past Data';return;}
+    
+    var updated=0;
+    for(var i=0;i<rows.length;i++){
+      var row=rows[i];
+      // Skip non-date rows
+      if(!row.id.match(/^\d{4}-\d{2}-\d{2}$/))continue;
+      var d=normalizeDay(row.data);
+      // Count what was actually checked that day
+      var checks=d.checks||{};
+      var checkCount=Object.values(checks).filter(Boolean).length;
+      var callsDone=(d.calls||0)>=5?1:0;
+      var meetDone=(d.meetings||0)>=1?1:0;
+      var rawDone=checkCount+callsDone+meetDone;
+      if(rawDone===0)continue; // skip empty days
+      // Save snapshot based on what was actually done
+      d._done=rawDone;
+      d._tot=rawDone; // denominator = what was done (so pct = 100% for completed days)
+      // More nuanced: use current total as denominator but cap at what was done
+      var curTotal=getCoreTotal();
+      d._tot=Math.max(rawDone,curTotal);
+      d._pct=Math.min(100,Math.round(rawDone/d._tot*100));
+      // Save back
+      cache[row.id]=d;
+      lSave(row.id,d);
+      await dbSet(row.id,d);
+      updated++;
+      if(updated%5===0)res.textContent='Saved '+updated+' of '+rows.length+' days...';
+    }
+    res.style.color='var(--green)';
+    res.textContent='Done — '+updated+' days locked in. Your history is now preserved.';
+  } catch(e) {
+    res.style.color='#b02020';
+    res.textContent='Error: '+e.message;
+  }
+  btn.disabled=false;btn.textContent='Lock In Past Data';
 }
 
 (async function init() {
