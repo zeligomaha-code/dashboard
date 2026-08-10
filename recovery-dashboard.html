@@ -108,10 +108,19 @@ body{font-family:Georgia,'Times New Roman',serif;color:#1a1916;min-height:100vh;
 /* RESET */
 .rst-dlg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:3000;align-items:center;justify-content:center;}
 .rst-dlg.open{display:flex;}
-.rst-box{background:white;border-radius:14px;padding:28px 24px;max-width:300px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.25);}
+.rst-box{background:white;border-radius:14px;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.25);}
 .rst-title{font-size:16px;font-weight:700;margin-bottom:8px;}
 .rst-sub{font-size:13px;color:#6b6760;line-height:1.5;margin-bottom:20px;}
-.rst-btns{display:flex;gap:10px;justify-content:center;}
+.rst-btns{display:flex;flex-direction:column;gap:8px;}
+.sob-hist{margin-top:14px;border-top:1px solid #e8e4dc;padding-top:12px;}
+.sob-hist-title{font-size:11px;font-weight:700;color:#a09c95;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;text-align:left;}
+.sob-hist-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:.5px solid #f0ede8;}
+.sob-hist-days{font-size:14px;font-weight:700;color:#1a5fa0;min-width:32px;}
+.sob-hist-dates{font-size:11px;color:#a09c95;flex:1;text-align:left;}
+.sob-hist-del{background:none;border:none;color:#d4cfc5;cursor:pointer;font-size:14px;padding:2px 4px;}
+.sob-hist-del:hover{color:#b02020;}
+.sob-hist-edit{background:none;border:none;color:#d4cfc5;cursor:pointer;font-size:11px;padding:2px 4px;}
+.sob-hist-edit:hover{color:#1a5fa0;}
 .rst-ok{background:#b02020;color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-family:Georgia,serif;font-weight:700;cursor:pointer;}
 .rst-no{background:var(--bg);color:var(--text-mid);border:1px solid var(--border);border-radius:8px;padding:9px 20px;font-size:13px;font-family:Georgia,serif;cursor:pointer;}
 
@@ -231,6 +240,17 @@ body{font-family:Georgia,'Times New Roman',serif;color:#1a1916;min-height:100vh;
 .reorder-dn{background:none;border:1px solid var(--border);border-radius:4px;width:22px;height:22px;cursor:pointer;font-size:11px;color:var(--text-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .reorder-dn:hover{background:var(--bg);color:var(--text);}
 
+
+/* HABIT STREAK GRID */
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.hs-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;}
+.hs-name{font-size:12px;font-weight:700;color:var(--text-mid);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hs-dots{display:flex;flex-wrap:wrap;gap:2px;margin-bottom:4px;}
+.hs-dot{width:10px;height:10px;border-radius:2px;}
+.hs-stat{font-size:10px;color:var(--text-soft);}
+.hs-section-label{font-size:11px;font-weight:700;color:var(--text-soft);letter-spacing:.5px;text-transform:uppercase;margin:12px 0 8px;padding-top:10px;border-top:1px solid var(--border);}
+.hs-section-label:first-child{margin-top:0;padding-top:0;border-top:none;}
+
 footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);font-size:11px;color:var(--text-soft);font-style:italic;text-align:center;font-family:'Noto Serif Hebrew',serif;direction:rtl;padding-bottom:20px;}
 @media(max-width:600px){.pillars,.streak-row,.stat-grid{grid-template-columns:1fr 1fr;}}
 </style>
@@ -253,7 +273,7 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
 
 <div class="tab-nav">
   <button class="tab-btn active" id="tab-btn-today" onclick="showTab('today')">Today</button>
-  <button class="tab-btn gold-btn" id="tab-btn-aspirations" onclick="showTab('aspirations')">✦ Aspirations</button>
+  <button class="tab-btn gold-btn" id="tab-btn-aspirations" onclick="showTab('aspirations')" style="display:none;">✦ Aspirations</button>
   <button class="tab-btn" id="tab-btn-progress" onclick="showTab('progress')">Progress</button>
   <button class="tab-btn" id="tab-btn-settings" onclick="showTab('settings')">⚙ Settings</button>
 </div>
@@ -267,7 +287,8 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
       <div><div style="font-size:20px;font-weight:700;">Daily Habits</div><div style="font-size:13px;color:var(--text-soft);font-style:italic;">One day at a time</div></div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
         <button style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);width:32px;height:32px;cursor:pointer;font-size:14px;color:var(--text-mid);display:flex;align-items:center;justify-content:center;" onclick="changeDay(-1)">&#8592;</button>
-        <div style="font-size:13px;font-weight:600;min-width:185px;text-align:center;" id="dateDisplay"></div>
+        <div style="font-size:13px;font-weight:600;min-width:185px;text-align:center;cursor:pointer;" id="dateDisplay" onclick="openDatePicker()"></div>
+        <input type="date" id="datePicker" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" onchange="jumpToDate(this.value)">
         <button style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);width:32px;height:32px;cursor:pointer;font-size:14px;color:var(--text-mid);display:flex;align-items:center;justify-content:center;" onclick="changeDay(1)">&#8594;</button>
         <button style="background:var(--green);border:none;border-radius:var(--radius-sm);padding:0 14px;height:32px;font-size:12px;color:white;cursor:pointer;font-weight:700;font-family:Georgia,serif;" onclick="goToday()">Today</button>
       </div>
@@ -289,8 +310,14 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
 
     <div class="streak-row">
       <div class="scard"><div class="scard-num" id="streakNum">0</div><div class="scard-label">day streak</div></div>
-      <div class="scard"><div class="scard-num" id="meetingsNum">0/7</div><div class="scard-label">meetings this week</div></div>
-      <div class="scard"><div class="scard-num" id="callsNum">0/3</div><div class="scard-label">calls today</div></div>
+      <div class="scard">
+        <div class="scard-num" id="meetingsNum">0/7</div>
+        <div style="font-size:10px;color:var(--text-soft);margin-top:2px;line-height:1.4;">
+          total mtgs this wk<br>
+          <span id="ipMeetingsNum" style="color:var(--sleep-c);font-weight:700;">0</span>/3 in-person
+        </div>
+      </div>
+      <div class="scard"><div class="scard-num" id="callsNum">0/5</div><div class="scard-label">calls today</div></div>
       <div class="scard"><div class="scard-num" id="totalNum">0</div><div class="scard-label">days tracked</div></div>
     </div>
 
@@ -305,8 +332,12 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
     <div class="rst-dlg" id="rstDlg">
       <div class="rst-box">
         <div class="rst-title">Reset sobriety date?</div>
-        <div class="rst-sub">This will reset your sobriety counter to today.</div>
-        <div class="rst-btns"><button class="rst-ok" onclick="confirmReset()">Reset to today</button><button class="rst-no" onclick="cancelReset()">Cancel</button></div>
+        <div class="rst-sub" id="rstSub">Your current streak will be saved to history.</div>
+        <div class="rst-btns">
+          <button class="rst-ok" onclick="confirmReset('save')">Save streak &amp; reset to today</button>
+          <button class="rst-ok" style="background:#9a6200;" onclick="confirmReset('discard')">Discard streak &amp; reset</button>
+          <button class="rst-no" onclick="cancelReset()">Cancel</button>
+        </div>
       </div>
     </div>
 
@@ -333,6 +364,12 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
             <div style="font-size:11px;color:#a09c95;">Sobriety date:</div>
             <input type="date" id="sobDate" onchange="updateSobriety()" style="font-size:12px;font-family:Georgia,serif;padding:3px 8px;border:.5px solid #d4cfc5;border-radius:6px;background:#faf9f7;color:#1a1916;"/>
           </div>
+          <!-- SOBRIETY HISTORY -->
+          <div class="sob-hist" id="sobHistSection" style="display:none;">
+            <div class="sob-hist-title">Streak History</div>
+            <div id="sobHistList"></div>
+          </div>
+          <button onclick="toggleSobHist()" id="sobHistBtn" style="margin-top:8px;background:none;border:none;font-size:11px;color:#a09c95;cursor:pointer;font-family:Georgia,serif;font-style:italic;">▾ Show history</button>
         </div>
       </div>
     </div>
@@ -389,6 +426,10 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
     <div class="pb-bars" id="aspirePillarBars"></div>
   </div>
 
+  <div class="card">
+    <div class="sec-label">Habit Streaks</div>
+    <div id="habitStreakGrid"></div>
+  </div>
   <div class="card"><div class="sec-label">Meetings &amp; Calls by Week</div><table class="wtbl"><thead><tr><th>Week</th><th>Meetings</th><th>Status</th><th>Calls</th><th>Avg</th></tr></thead><tbody id="meetingsTable"></tbody></table></div>
 </div>
 
@@ -396,6 +437,13 @@ footer{margin:28px 20px 0;padding-top:14px;border-top:1px solid var(--border);fo
 <div class="tab-panel" id="tab-settings">
   <div style="padding-top:14px;">
     <!-- Import -->
+    <div class="card" style="margin-bottom:12px;">
+      <div class="sec-label">Display Options</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 0;">
+        <input type="checkbox" id="showAspirationsToggle" onchange="toggleAspirationsTab(this.checked)" style="width:16px;height:16px;cursor:pointer;">
+        <label for="showAspirationsToggle" style="font-size:13px;cursor:pointer;">Show Aspirations tab</label>
+      </div>
+    </div>
     <div class="import-box">
       <div class="import-title">Import Meeting Data</div>
       <div class="import-sub">Your 90-in-90 spreadsheet data is ready to import. This is a one-time backfill — it will update meeting counts for 34 days (Feb 24 – Mar 29, 2026). Days that already have higher counts won't be overwritten.</div>
@@ -482,7 +530,7 @@ var DC={
   recovery:[{id:'r_bb',label:'1 page Big Book',note:''},
             {id:'r_wb',label:'Workbook assignment',note:''},
             {id:'r_review',label:'Review columns',note:''},
-            {id:'r_read',label:'Spiritual reading',note:'at bedtime'}],
+            {id:'r_read',label:'White book',note:'at bedtime'}],
   torah:[{id:'t_chitas',label:'Chitas',note:''},
          {id:'t_rambam',label:'Rambam',note:''},
          {id:'t_chas',label:'1 page Chassidus',note:''},
@@ -535,9 +583,9 @@ function getAspireTotal(){return getAspireIds().length;}
 function countCore(data){
   var n=0;
   getCoreIds().forEach(function(id){if(data.checks&&data.checks[id])n++;});
-  if((data.calls||0)>=3)n++;
-  if((data.meetings||0)>=1)n++;
-  
+  if((data.calls||0)>=5)n++;
+  if((data.meetings_ip||0)>=1)n++;  // at least 1 in-person today
+  if((data.meetings_on||0)>=1||(data.meetings_ip||0)>=2)n++;  // at least 1 online OR 2+ in-person
   return n;
 }
 function countAspire(data){var n=0;getAspireIds().forEach(function(id){if(data.aspire&&data.aspire[id])n++;});return n;}
@@ -548,12 +596,14 @@ function countAspire(data){var n=0;getAspireIds().forEach(function(id){if(data.a
 var cache={};
 var saveTimers={};
 
-function emptyDay(){return{checks:{},calls:0,meetings:0,note:'',acct:{},aspire:{}};}
+function emptyDay(){return{checks:{},calls:0,meetings:0,meetings_ip:0,meetings_on:0,note:'',acct:{},aspire:{}};}
 function normalizeDay(d){
   if(!d||typeof d!=='object')d={};
   if(!d.checks||typeof d.checks!=='object')d.checks={};
   if(typeof d.calls!=='number')d.calls=0;
   if(typeof d.meetings!=='number')d.meetings=0;
+  if(typeof d.meetings_ip!=='number')d.meetings_ip=0;
+  if(typeof d.meetings_on!=='number')d.meetings_on=0;
   if(typeof d.note!=='string')d.note='';
   if(!d.acct||typeof d.acct!=='object')d.acct={};
   if(!d.aspire||typeof d.aspire!=='object')d.aspire={};
@@ -571,6 +621,13 @@ async function fetchDay(key){
 }
 
 function saveDay(key,data){
+  // Store completion snapshot at time of save
+  var tot=getCoreTotal();
+  if(tot>0){
+    data._pct=Math.round(countCore(data)/tot*100);
+    data._done=countCore(data);
+    data._tot=tot;
+  }
   cache[key]=data;lSave(key,data);setSS('syncing','Saving...');
   clearTimeout(saveTimers[key]);
   saveTimers[key]=setTimeout(function(){
@@ -619,8 +676,9 @@ function buildCorePillars(){
     }).join('');
     var ctrs='';
     if(p==='recovery'){
-      ctrs='<div class="hrow" style="cursor:default;align-items:center;"><div><div class="hlabel">Recovery calls</div><div class="ctr-row"><button class="cbtn" onclick="adjCtr(\'calls\',-1)">&#8722;</button><span class="cval" id="val-calls">0</span><button class="cbtn" onclick="adjCtr(\'calls\',1)">+</button><span class="clbl">of 3 today</span></div><div class="hnote">call immediately at any urge</div></div></div>'+
-            '<div class="hrow" style="cursor:default;align-items:center;"><div><div class="hlabel">Meeting attendance</div><div class="ctr-row"><button class="cbtn" onclick="adjCtr(\'meetings\',-1)">&#8722;</button><span class="cval" id="val-meetings">0</span><button class="cbtn" onclick="adjCtr(\'meetings\',1)">+</button><span class="clbl">today &nbsp;·&nbsp; <span id="wk-meetings">0</span>/7 this week</span></div><div class="hnote">share at least twice per week</div></div></div>';
+      ctrs='<div class="hrow" style="cursor:default;align-items:center;"><div><div class="hlabel">Recovery calls</div><div class="ctr-row"><button class="cbtn" onclick="adjCtr(\'calls\',-1)">&#8722;</button><span class="cval" id="val-calls">0</span><button class="cbtn" onclick="adjCtr(\'calls\',1)">+</button><span class="clbl">of 5 today</span></div><div class="hnote">call immediately at any urge</div></div></div>'+
+            '<div class="hrow" style="cursor:default;align-items:center;"><div><div class="hlabel">In-person meetings</div><div class="ctr-row"><button class="cbtn" onclick="adjCtr(\'meetings_ip\',-1)">&#8722;</button><span class="cval" id="val-meetings_ip">0</span><button class="cbtn" onclick="adjCtr(\'meetings_ip\',1)">+</button><span class="clbl">today &nbsp;&middot;&nbsp; <span id="wk-meetings-ip">0</span>/3 this week</span></div><div class="hnote">goal: 3 in-person/week</div></div></div>'+
+            '<div class="hrow" style="cursor:default;align-items:center;"><div><div class="hlabel">Online/phone meetings</div><div class="ctr-row"><button class="cbtn" onclick="adjCtr(\'meetings_on\',-1)">&#8722;</button><span class="cval" id="val-meetings_on">0</span><button class="cbtn" onclick="adjCtr(\'meetings_on\',1)">+</button><span class="clbl">today &nbsp;&middot;&nbsp; <span id="wk-meetings-on">0</span>/4 this week</span></div><div class="hnote">goal: 7 total/week</div></div></div>';
     }
     var tp=active.length+(p==='recovery'?2:0);
     html+='<div class="pillar"><div class="pillar-head"><div class="pdot" style="background:'+m.color+'"></div><div class="ptitle" style="color:'+m.color+'">'+m.name+'</div><div class="pcnt" id="cnt-'+p+'">0/'+tp+'</div></div><div class="habits">'+rows+ctrs+'</div></div>';
@@ -662,9 +720,14 @@ function renderCoreUI(data){
     chk.className='hchk'+(ok?' done':'');row.className='hrow'+(ok?' done':'');
   });
   var calls=data.calls||0,meetings=data.meetings||0;
-  var vc=document.getElementById('val-calls'),vm=document.getElementById('val-meetings');
-  if(vc)vc.textContent=calls;if(vm)vm.textContent=meetings;
-  document.getElementById('callsNum').textContent=Math.min(calls,3)+'/3';
+  var meetings_ip=data.meetings_ip||0,meetings_on=data.meetings_on||0;
+  var vc=document.getElementById('val-calls');
+  var vm_ip=document.getElementById('val-meetings_ip');
+  var vm_on=document.getElementById('val-meetings_on');
+  if(vc)vc.textContent=calls;
+  if(vm_ip)vm_ip.textContent=meetings_ip;
+  if(vm_on)vm_on.textContent=meetings_on;
+  document.getElementById('callsNum').textContent=Math.min(calls,5)+'/5';
   CO.forEach(function(p){
     var dp=CH[p].filter(function(h){return !h.archived;}).filter(function(h){return data.checks&&data.checks[h.id];}).length;
     if(p==='recovery'){if(calls>=3)dp++;if(meetings>=1)dp++;}
@@ -714,8 +777,16 @@ function toggleCore(id){var d=getDay(currentDate);d.checks[id]=!d.checks[id];ren
 function toggleAspire(id){var d=getDay(currentDate);if(!d.aspire)d.aspire={};d.aspire[id]=!d.aspire[id];renderAspireUI(d);saveDay(currentDate,d);}
 function adjCtr(type,delta){
   var d=getDay(currentDate);
-  if(type==='calls')d.calls=Math.max(0,Math.min(10,(d.calls||0)+delta));
-  if(type==='meetings')d.meetings=Math.max(0,Math.min(5,(d.meetings||0)+delta));
+  if(type==='calls')d.calls=Math.max(0,Math.min(15,(d.calls||0)+delta));
+  if(type==='meetings')d.meetings=Math.max(0,Math.min(10,(d.meetings||0)+delta));
+  if(type==='meetings_ip'){
+    d.meetings_ip=Math.max(0,Math.min(10,(d.meetings_ip||0)+delta));
+    d.meetings=(d.meetings_ip||0)+(d.meetings_on||0);
+  }
+  if(type==='meetings_on'){
+    d.meetings_on=Math.max(0,Math.min(10,(d.meetings_on||0)+delta));
+    d.meetings=(d.meetings_ip||0)+(d.meetings_on||0);
+  }
   renderCoreUI(d);if(currentView==='chrono')renderChronoCheckboxes(d);saveDay(currentDate,d);
 }
 
@@ -743,6 +814,8 @@ function renderWeekStrip(){
   });
   var wme=document.getElementById('wk-meetings');if(wme)wme.textContent=wm;
   document.getElementById('meetingsNum').textContent=wm+'/7';
+  var wmip_el=document.getElementById('wk-meetings-ip');if(wmip_el)wmip_el.textContent=wm_ip;
+  var wmon_el=document.getElementById('wk-meetings-on');if(wmon_el)wmon_el.textContent=wm_on;
 }
 
 function renderStreaks(){
@@ -750,6 +823,9 @@ function renderStreaks(){
   for(var i=0;i<365;i++){if(countCore(getDay(keyFromDate(d)))===0)break;streak++;d.setDate(d.getDate()-1);}
   document.getElementById('streakNum').textContent=streak;
   document.getElementById('totalNum').textContent=Object.values(cache).filter(function(d){return countCore(d)>0;}).length;
+  // Update in-person meetings display  
+  var wkIp=getWeekKeys(currentDate).reduce(function(a,k){return a+(getDay(k).meetings_ip||0);},0);
+  var ipEl=document.getElementById('ipMeetingsNum');if(ipEl)ipEl.textContent=wkIp;
 }
 
 // ════════════════════
@@ -797,12 +873,16 @@ function blTap(id){
   if(d.acct[id]){d.acct[id]=false;renderAcct(d);saveDay(currentDate,d);return;}
   pendingBLKey=id;document.getElementById('rstDlg').classList.add('open');
 }
-function confirmReset(){
+function confirmReset(action){
   document.getElementById('rstDlg').classList.remove('open');
-  var d=getDay(currentDate);if(!d.acct)d.acct={};
-  if(pendingBLKey){d.acct[pendingBLKey]=true;pendingBLKey=null;}
+  var oldDate='';try{oldDate=localStorage.getItem('r_sobdate')||'';}catch(e){}
+  if(action==='save'&&oldDate){
+    var hist=loadSobHistory();
+    hist.unshift({start:oldDate,end:todayKey()});
+    saveSobHistory(hist);
+  }
   var today=todayKey();try{localStorage.setItem('r_sobdate',today);}catch(e){}
-  document.getElementById('sobDate').value=today;renderSobriety(today);renderAcct(d);saveDay(currentDate,d);
+  document.getElementById('sobDate').value=today;renderSobriety(today);saveDay(currentDate,getDay(currentDate));
 }
 function cancelReset(){document.getElementById('rstDlg').classList.remove('open');pendingBLKey=null;}
 function gaTap(val){
@@ -874,7 +954,7 @@ function showTab(name){
   document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
   document.getElementById('tab-'+name).classList.add('active');
   document.getElementById('tab-btn-'+name).classList.add('active');
-  if(name==='progress')renderProgress();
+  if(name==='progress'){renderProgress();renderHabitStreakGrid();}
   if(name==='settings'){renderSettings();renderReorderList();}
   if(name==='aspirations'){var d=getDay(currentDate);renderAspireUI(d);}
 }
@@ -1129,8 +1209,14 @@ async function renderProgress(){
   var days=getDays(rangeWeeks);await loadBulk(days);
   var weeks=getWeeks(rangeWeeks),TOTAL=getCoreTotal();
 
-  var active=days.filter(function(k){return countCore(getDay(k))>0;}).length;
-  var pcts=days.map(function(k){var n=countCore(getDay(k));return n>0?Math.round(n/TOTAL*100):null;}).filter(function(x){return x!==null;});
+  function dayPct(key){
+    var d=getDay(key);
+    if(d._pct!==undefined)return d._pct;  // use snapshot if available
+    var n=countCore(d);return n>0?Math.round(n/TOTAL*100):null;
+  }
+  function dayDone(key){var d=getDay(key);return d._pct!==undefined?d._done:countCore(d);}
+  var active=days.filter(function(k){return dayPct(k)!==null&&dayPct(k)>0;}).length;
+  var pcts=days.map(function(k){return dayPct(k);}).filter(function(x){return x!==null;});
   var avg=pcts.length?Math.round(pcts.reduce(function(a,b){return a+b;},0)/pcts.length):0;
   var tm=days.reduce(function(a,k){return a+(getDay(k).meetings||0);},0);
   var tc=days.reduce(function(a,k){return a+(getDay(k).calls||0);},0);
@@ -1143,7 +1229,7 @@ async function renderProgress(){
 
   var hg=document.getElementById('hmGrid');hg.innerHTML='';
   days.forEach(function(key){
-    var n=countCore(getDay(key)),p=n>0?n/TOTAL:0;
+    var p=(dayPct(key)||0)/100;
     var cls=p===0?'p0':p<0.35?'p1':p<0.6?'p2':p<0.9?'p3':'p4';
     var cell=document.createElement('div');cell.className='hm-cell '+cls;cell.title=key+(n>0?' — '+Math.round(p*100)+'%':' — no data');
     hg.appendChild(cell);
@@ -1210,6 +1296,8 @@ async function renderProgress(){
   weeks.forEach(function(wk){
     var sd=dateFromKey(wk[0]),ed=dateFromKey(wk[6]);
     var wm=wk.reduce(function(a,k){return a+(getDay(k).meetings||0);},0);
+  var wm_ip=wk.reduce(function(a,k){return a+(getDay(k).meetings_ip||0);},0);
+  var wm_on=wk.reduce(function(a,k){return a+(getDay(k).meetings_on||0);},0);
     var wc=wk.reduce(function(a,k){return a+(getDay(k).calls||0);},0);
     var wps=wk.map(function(k){var n=countCore(getDay(k));return n>0?n/TOTAL*100:null;}).filter(function(x){return x!==null;});
     var wav=wps.length?Math.round(wps.reduce(function(a,b){return a+b;},0)/wps.length):0;
@@ -1313,7 +1401,7 @@ function renderChronoList(data) {
     '<button class="cbtn" data-type="calls" data-delta="-1">&#8722;</button>' +
     '<span class="cval" id="cval-calls">' + calls + '</span>' +
     '<button class="cbtn" data-type="calls" data-delta="1">+</button>' +
-    '<span class="clbl">of 3 today</span></div></div>' +
+    '<span class="clbl">of 5 today</span></div></div>' +
     '<div><div style="font-size:12px;font-weight:700;color:var(--recovery-c);margin-bottom:3px;">Meeting attendance</div>' +
     '<div class="ctr-row">' +
     '<button class="cbtn" data-type="meetings" data-delta="-1">&#8722;</button>' +
@@ -1433,6 +1521,131 @@ function saveSettingsToDB() {
 // INIT
 // ════════════════════
 // Async init — fetch settings from Supabase before building UI
+
+// ════════════════════
+// SOBRIETY HISTORY
+// ════════════════════
+function loadSobHistory(){
+  try{var h=localStorage.getItem('r_sobhistory');return h?JSON.parse(h):[];}catch(e){return[];}
+}
+function saveSobHistory(hist){
+  try{localStorage.setItem('r_sobhistory',JSON.stringify(hist));}catch(e){}
+  // Also save to Supabase _settings
+  var payload={id:'_sob_history',data:{history:hist},updated_at:new Date().toISOString()};
+  sbReq('POST','recovery_days',payload).catch(function(){});
+}
+function toggleSobHist(){
+  var sec=document.getElementById('sobHistSection');
+  var btn=document.getElementById('sobHistBtn');
+  if(!sec)return;
+  var open=sec.style.display!=='none';
+  sec.style.display=open?'none':'block';
+  btn.textContent=open?'▾ Show history':'▴ Hide history';
+  if(!open)renderSobHistory();
+}
+function renderSobHistory(){
+  var list=document.getElementById('sobHistList');
+  if(!list)return;
+  var hist=loadSobHistory();
+  if(!hist.length){list.innerHTML='<div style="font-size:12px;color:#a09c95;font-style:italic;">No history yet.</div>';return;}
+  list.innerHTML='';
+  hist.forEach(function(entry,i){
+    var row=document.createElement('div');row.className='sob-hist-row';
+    var days=Math.round((new Date(entry.end)-new Date(entry.start))/86400000);
+    var startFmt=new Date(entry.start+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    var endFmt=new Date(entry.end+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    row.innerHTML='<div class="sob-hist-days">'+days+'d</div>'+
+      '<div class="sob-hist-dates">'+startFmt+' → '+endFmt+'</div>'+
+      '<button class="sob-hist-del" title="Delete" onclick="deleteSobEntry('+i+')">×</button>';
+    list.appendChild(row);
+  });
+}
+function deleteSobEntry(i){
+  var hist=loadSobHistory();hist.splice(i,1);saveSobHistory(hist);renderSobHistory();
+}
+
+// ════════════════════
+// DATE PICKER JUMP
+// ════════════════════
+function openDatePicker(){
+  var dp=document.getElementById('datePicker');
+  if(!dp)return;
+  dp.value=currentDate;
+  dp.style.position='absolute';
+  dp.style.opacity='1';
+  dp.style.pointerEvents='auto';
+  dp.style.width='auto';
+  dp.style.height='auto';
+  dp.click();
+  dp.addEventListener('blur',function(){
+    dp.style.opacity='0';dp.style.pointerEvents='none';dp.style.width='0';dp.style.height='0';
+  },{once:true});
+}
+function jumpToDate(val){
+  if(!val)return;
+  currentDate=val;
+  renderToday();
+  var dp=document.getElementById('datePicker');
+  if(dp){dp.style.opacity='0';dp.style.pointerEvents='none';dp.style.width='0';dp.style.height='0';}
+}
+
+// ════════════════════
+// INDIVIDUAL HABIT TRACKER
+// ════════════════════
+function renderHabitStreakGrid(){
+  var container=document.getElementById('habitStreakGrid');
+  if(!container)return;
+  var days=getDays(4);
+  var html='';
+  CO.forEach(function(p){
+    var m=CM[p];
+    var active=CH[p].filter(function(h){return !h.archived;});
+    if(!active.length)return;
+    html+='<div class="hs-section-label" style="color:'+m.color+'">'+m.name+'</div>';
+    html+='<div class="hs-grid">';
+    active.forEach(function(h){
+      var dots='';
+      var count=0;
+      days.forEach(function(key){
+        var d=getDay(key);
+        var checked=!!(d.checks&&d.checks[h.id]);
+        if(checked)count++;
+        dots+='<div class="hs-dot" style="background:'+(checked?m.color:'var(--border)')+'" title="'+key+'"></div>';
+      });
+      var pct=Math.round(count/days.length*100);
+      html+='<div class="hs-card">'+
+        '<div class="hs-name" title="'+h.label+'">'+h.label+'</div>'+
+        '<div class="hs-dots">'+dots+'</div>'+
+        '<div class="hs-stat">'+count+'/'+days.length+' days ('+pct+'%)</div>'+
+        '</div>';
+    });
+    // Add meetings and calls as special cards in Recovery section
+    if(p==='recovery'){
+      var callDays=days.filter(function(k){return (getDay(k).calls||0)>=5;}).length;
+      var ipDays=days.filter(function(k){return (getDay(k).meetings_ip||0)>=1;}).length;
+      var onDays=days.filter(function(k){return (getDay(k).meetings_on||0)>=1;}).length;
+      var callDots='',ipDots='',onDots='';
+      days.forEach(function(key){
+        var d=getDay(key);
+        callDots+='<div class="hs-dot" style="background:'+((d.calls||0)>=5?m.color:'var(--border)')+'" title="'+key+'"></div>';
+        ipDots+='<div class="hs-dot" style="background:'+((d.meetings_ip||0)>=1?m.color:'var(--border)')+'" title="'+key+'"></div>';
+        onDots+='<div class="hs-dot" style="background:'+((d.meetings_on||0)>=1?m.color:'var(--border)')+'" title="'+key+'"></div>';
+      });
+      html+='<div class="hs-card"><div class="hs-name">Recovery calls (≥5)</div><div class="hs-dots">'+callDots+'</div><div class="hs-stat">'+callDays+'/'+days.length+' days</div></div>';
+      html+='<div class="hs-card"><div class="hs-name">In-person meeting</div><div class="hs-dots">'+ipDots+'</div><div class="hs-stat">'+ipDays+'/'+days.length+' days</div></div>';
+      html+='<div class="hs-card"><div class="hs-name">Online meeting</div><div class="hs-dots">'+onDots+'</div><div class="hs-stat">'+onDays+'/'+days.length+' days</div></div>';
+    }
+    html+='</div>';
+  });
+  container.innerHTML=html;
+}
+
+function toggleAspirationsTab(show){
+  var btn=document.getElementById('tab-btn-aspirations');
+  if(btn)btn.style.display=show?'':'none';
+  try{localStorage.setItem('r_show_aspirations',show?'1':'0');}catch(e){}
+}
+
 (async function init() {
   try {
     setSS('syncing', 'Loading...');
@@ -1457,6 +1670,18 @@ function saveSettingsToDB() {
   buildAspirePillars();
   renderToday();
   initSobriety();
+  // Restore aspirations toggle
+  try{
+    var showAsp=localStorage.getItem('r_show_aspirations');
+    var aspToggle=document.getElementById('showAspirationsToggle');
+    if(showAsp==='1'){
+      toggleAspirationsTab(true);
+      if(aspToggle)aspToggle.checked=true;
+    } else {
+      toggleAspirationsTab(false);
+      if(aspToggle)aspToggle.checked=false;
+    }
+  }catch(e){}
 })();
 
 window.addEventListener('beforeunload',function(){
