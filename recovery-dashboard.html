@@ -820,6 +820,8 @@ function renderWeekStrip(){
   });
   var wme=document.getElementById('wk-meetings');if(wme)wme.textContent=wm;
   document.getElementById('meetingsNum').textContent=wm+'/7';
+  var wm_ip=wk.reduce(function(a,k){return a+(getDay(k).meetings_ip||0);},0);
+  var wm_on=wk.reduce(function(a,k){return a+(getDay(k).meetings_on||0);},0);
   var wmip_el=document.getElementById('wk-meetings-ip');if(wmip_el)wmip_el.textContent=wm_ip;
   var wmon_el=document.getElementById('wk-meetings-on');if(wmon_el)wmon_el.textContent=wm_on;
 }
@@ -1712,7 +1714,9 @@ async function snapshotAllPastDays(){
 (async function init() {
   try {
     setSS('syncing', 'Loading...');
-    var rows = await sbReq('GET', 'recovery_days?id=eq._settings&select=data');
+    var fetchPromise = sbReq('GET', 'recovery_days?id=eq._settings&select=data');
+    var timeoutPromise = new Promise(function(resolve){setTimeout(function(){resolve(null);},4000);});
+    var rows = await Promise.race([fetchPromise, timeoutPromise]);
     if (rows && rows.length && rows[0].data) {
       var d = rows[0].data;
       if (d.habits_core) {
